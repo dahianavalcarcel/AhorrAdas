@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="estilos.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <script src="https://kit.fontawesome.com/f00683b7b2.js" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,600;1,300&family=Prompt:ital,wght@0,500;1,600&family=Roboto:ital,wght@0,900;1,700&display=swap" rel="stylesheet">
+    <title>Ahorradas</title>
+</head>
+<body>
+    <div class="body-container">
+        <header>
+            <nav class="navbar is-pink" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    <a class="navbar-item" href="">
+                        <h2 class="title is-orange">
+                            <i class="fa-solid fa-wallet mx-3"></i>
+                            AhorrAdas
+                        </h2>
+                    </a>
+    
+                    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                        data-target="navbarBasicExample">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+    
+                <div id="navbarBasicExample" class="navbar-menu">
+    
+                    <div class="navbar-end">
+                        <div class="navbar-item">
+                            <div class="buttons">
+                                <a class="button btn-nav">
+                                    <i class="fa-solid fa-chart-line mr-2"></i>
+                                    Balance
+                                </a>
+                                <a class="button btn-nav">
+                                    <i class="fa-solid fa-tag mr-2"></i>
+                                    Categorias
+                                </a>
+                                <a class="button btn-nav">
+                                    <i class="fa-solid fa-chart-pie mr-2"></i>
+                                    Reportes
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    
+        <section class="categorias container is-center">
+            <div class="box categorias-box">
+                <h2 class="title is-orange">
+                    Categorias:
+                </h2>
+                <form id="categoriasForm">
+                    <label for="nombre-categoria">Nombre:</label>
+                    <div class="field is-grouped">
+                        <p class="control is-expanded">
+                            <input id="nombre-categoria" class="input" type="text" placeholder="Ingrese una nueva categoria">
+                        </p>
+                        <p class="control">
+                            <a id="btnCategoria" class="button is-info">
+                                Agregar
+                            </a>
+                        </p>
+                    </div>
+                    <ul id="listaCategorias"></ul>
+                </form>
+            </div>
+        </section>
+    </div>
+        
+        <script src="script.js"></script>
+        </body>
+        
+        </html>
