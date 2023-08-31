@@ -1,8 +1,6 @@
-:root{
-    --pink: #eacacb;
-    --green: #034430;
-    --orange: #f47b2a;
-    --cream:#f0ebd7;
+*{
+    margin: 0;
+    padding: 0;
 }
 
 .body-container{
@@ -10,10 +8,36 @@
     background-color:#f0ebd78e;
 }
 
+/*reutilizables*/
+:root{
+    --pink: #eacacb;
+    --green: #034430;
+    --orange: #f47b2a;
+    --cream:#f0ebd7;
+}
+
+.is-center{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .is-pink{
     background-color: var(--pink);
 }
 
+.is-orange{
+    color: var(--orange);
+}
+
+.title{
+    font-family:'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 30px;
+}
+
+/*nav*/
 .navbar{
     height: 11vh;
 }
@@ -34,31 +58,47 @@
     border: 1px solid var(--pink);
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
+    
+.navbar-burger{
+    color:var(--green);
+}
 
-.is-orange{
+.navbar-burger:hover{
+    background-color: transparent;
     color: var(--orange);
-    font-family:'Poppins', sans-serif;
-    font-weight: 300;
-    font-size: 40px;
 }
-
-.is-center{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
+/*categorias*/
 .categorias-box{
     margin-top: 10vh;
     width: 60%;
 }
 
-.list-item{
-    text-align: justify;
-    width: 90%;
-    height: 30px;
-    margin: 5px auto;
-    padding: 2px 25px;
-    display: flex;
+.btn-add-categoria{
+    background-color: var(--green);
+    color: var(--cream);
+    border-radius: 20px;
+    padding: 2px 30px;
+}
+
+.btn-add-categoria:hover{
+    background-color:var(--orange);
+    color: var(--cream);
+    border: 1px solid var(--orange);
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+
+.input:focus{
+    border: 1px solid transparent;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+
+@media (max-width: 1200px){
+    .categorias-box{
+        width: 80%;
+    }
+}
+@media (max-width: 1025px){
+    .categorias-box{
+        width: 90%;
+    }
 }

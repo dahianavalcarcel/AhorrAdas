@@ -14,7 +14,7 @@
 <body>
     <div class="body-container">
         <header>
-            <nav class="navbar is-pink" role="navigation" aria-label="main navigation">
+            <nav class="navbar is-pink pt-3" role="navigation" aria-label="main navigation">
                 <div class="navbar-brand">
                     <a class="navbar-item" href="">
                         <h2 class="title is-orange">
@@ -60,14 +60,14 @@
                 <h2 class="title is-orange">
                     Categorias:
                 </h2>
-                <form id="categoriasForm">
+                <form onsubmit="event.preventDefault()" id="categoriasForm">
                     <label for="nombre-categoria">Nombre:</label>
                     <div class="field is-grouped">
                         <p class="control is-expanded">
-                            <input id="nombre-categoria" class="input" type="text" placeholder="Ingrese una nueva categoria">
+                            <input id="nombre-categoria" class="input is-rounded" type="text" placeholder="Ingrese una nueva categoria">
                         </p>
                         <p class="control">
-                            <a id="btnCategoria" class="button is-info">
+                            <a id="btnCategoria" class="button btn-add-categoria">
                                 Agregar
                             </a>
                         </p>
