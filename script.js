@@ -18,16 +18,14 @@ const createList=(lista)=>{
     $('#listaCategorias').innerHTML=[]
     lista.forEach(item=> {
         let liItem= $('#listaCategorias');
-        liItem.innerHTML += `<li>${item}</li>`
+        liItem.innerHTML += `<div class="columns lista mt-4">
+        <li class="column is-8 elemento-lista">${item}</li>
+        <button type="button" id="btnEliminar" class="column btn-eliminar btn">Eliminar</button>
+        <button type="button" id="btnEditar" class="column btn-editar btn">Editar</button>
+    </div>`
     });
 }
 
-//FUNCION QUE ELIMINA UN ITEM DE LA CATEGORIA 
-// const deleteItem= (item)=>{
-//     const categoriaIndex= listaCategorias.indexOf(item)
-//     listaCategorias.splice(categoriaIndex, 1)
-//     return createList(listaCategorias)
-// }
-
 //EVENTO CLICK PARA AGREGAR CATEGORIA
 $('#btnCategoria').addEventListener('click', addCategoria)
+

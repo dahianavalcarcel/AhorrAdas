@@ -4,7 +4,7 @@
 }
 
 .body-container{
-    height: 100vh;
+    min-height: 100vh;
     background-color:#f0ebd78e;
 }
 
@@ -67,6 +67,7 @@
     background-color: transparent;
     color: var(--orange);
 }
+
 /*categorias*/
 .categorias-box{
     margin-top: 10vh;
@@ -101,4 +102,21 @@
     .categorias-box{
         width: 90%;
     }
+}
+.lista{
+    align-items: center;
+    justify-content: center;
+}
+
+.elemento-lista{
+    color: var(--orange);
+}
+.btn{
+    margin: 0px 10px;
+    height: 3vh;
+    padding: 0px;
+    background-color: transparent;
+    color: var(--green);
+    border: 1px solid transparent;
+    border-radius: 20px;
 }
