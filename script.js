@@ -78,3 +78,4 @@ createList(categorias)
 
 //EVENTO CLICK PARA AGREGAR CATEGORIA
 $('#btnCategoria').addEventListener('click', addCategoria)
+
