@@ -36,16 +36,16 @@
                     <div class="navbar-end">
                         <div class="navbar-item">
                             <div class="buttons">
-                                <a class="button btn-nav">
-                                    <i class="fa-solid fa-chart-line mr-2"></i>
+                                <a class="button btn-nav" id="btn-balance">
+                                    <i class="fa-solid fa-chart-line mr-2" ></i>
                                     Balance
                                 </a>
-                                <a class="button btn-nav">
-                                    <i class="fa-solid fa-tag mr-2"></i>
+                                <a class="button btn-nav" id="btn-categorias">
+                                    <i class="fa-solid fa-tag mr-2"  ></i>
                                     Categorias
                                 </a>
                                 <a class="button btn-nav">
-                                    <i class="fa-solid fa-chart-pie mr-2"></i>
+                                    <i class="fa-solid fa-chart-pie mr-2" id="aside-reportes"></i>
                                     Reportes
                                 </a>
                             </div>
@@ -77,6 +77,353 @@
                 </form>
             </div>
         </section>
+
+        <main>
+            <section class="section has-background-light mt-5" id="seccion-balance">
+                <div class="container">
+                    <div class="columns has-background-light">
+                        <div class="column is-3 is-offset-1">
+                           
+                            <!-- Balance -->
+                            <article class="box"  >
+                                <h2 class="title is-orange">Balance</h2>
+                                <div class="">
+                                    <div class="columns is-centered">
+                                        <div class="column">
+                                            <p class="is-size-5">Ganancias</p>
+                                        </div>
+                                        <div class="column">
+                                            <p class="has-text-success has-text-right" id="balance-ganancias-totales"></p>
+                                        </div>
+                                    </div>
+                                    <div class="columns is-centered">
+                                        <div class="column">
+                                            <p class="is-size-5">Gastos</p>
+                                        </div>
+                                        <div class="column">
+                                            <p class="has-text-danger has-text-right" id ="balance-gastos-totales"></p>
+                                        </div>
+                                    </div>
+                                    <div class="columns is-centered">
+                                        <div class="column">
+                                            <p class="is-size-4">Total</p>
+                                        </div>
+                                        <div class="column">
+                                            <p class="has-text-right has-text-weight-bold" id="balance-totales-operables"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                           
+                            <!-- Filtros-->
+                            <article class="box">
+                                <div class="columns">
+                                    <div class="column">
+                                        <h3 class=" is-size-4 has-text- title is-orange">Filtros</h3>
+                                    </div>
+                                    <div class="column control">
+                                        <button type="button" class="button has-text-right is-link is-inverted" id="btn-filtros">Ocultar Filtros</button>
+                                    </div>
+                                </div>
+                                <form id="formulario-filtros" >
+                                    <div id="cambiar-filtros">
+                                        <div class="field ">
+                                            <label class="label">Tipo</label>
+                                        </div>
+                                        <div class="control">
+                                            <div class="select is-fullwidth">
+                                                <select class="column input is-rounded" id="filtros-tipo">
+                                                    <option value="todos">Todos</option>
+                                                    <option value="gasto">Gasto</option>
+                                                    <option value="ganancia">Ganancia</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label mt-2">Categoría</label>
+                                        </div>
+                                        <div class="control">
+                                            <div class="select is-fullwidth">
+                                                <select id="select-categorias" class="column input is-rounded"></select>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label mt-2" for="date">Desde</label>
+                                            <div class="control">
+                                                <input class="input" id="input-date" type="date">
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Ordenar por</label>
+                                        </div>
+                                        <div class="control">
+                                            <div class="select is-fullwidth">
+                                                <select id="ordenar-por" class="input is-rounded">
+                                                    <option value="mas-reciente">Más reciente</option>
+                                                    <option value="menos-reciente">Menos reciente</option>
+                                                    <option value="mayor-monto">Mayor monto</option>
+                                                    <option value="menor-monto">Menor monto</option>
+                                                    <option value="a-z">A/Z</option>
+                                                    <option value="z-a">Z/A</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </article>
+                        </div>
+                        
+                        <!--Operaciones-->
+                        <article class="column is-7">
+                            <div class="box">
+                                <div class="columns">
+                                    <div class="column">
+                                        <h3 class="title is-orange">Operaciones</h3>
+                                    </div>
+                                    <div class="column has-text-right">
+                                        <button class="button btn-add-categoria" id="boton-operacion">+ Nueva operación</button>
+                                            <h4 class="is-size-4 has-text-centered mt-6 mb-4 has-text-weight-semibold">
+                                                     Sin resultados
+                                            </h4>
+                                    </div>
+                                </div>
+                                <div class="operaciones-sin-resultados is-hidden">
+                                    <div class="colums">
+                                        <div class="column is-offset-3 is-7 mt-5 mb-4">
+                                            <div class="image 16x16px mt-6">
+                                                <img src="./img/billetera.png">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="columns mb-6">
+                                        <div class="column mt-5">
+                                            <h3 class="is-size-4 has-text-weight-medium has-text-weight-bold has-text-centered mb-4">Sin resultados</h3>
+                                            <p class="has-text-centered mb-6">Cambia los filtros o agrega operaciones</p>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                               
+                                <!-- Listado de operaciones -->
+                                <section class="listado-operaciones is-hidden">
+                                    <div class="columns has-text-weight-medium">
+                                        <div class="column is-3 has-text-left">Descripción</div>
+                                        <div class="column is-3 pl-0 has-text-left">Categoría</div>
+                                        <div class="column is-2 has-text-right">Fecha</div>
+                                        <div class="column is-2 has-text-right">Monto</div>
+                                        <div class="column is-2 has-text-right">Acciones</div>
+                                    </div>
+                                    <div id="listado-nuevas-operaciones"></div>
+                                </section>
+                            </div>
+                        </article>
+                    </div>
+            </section>
+    
+            <!-- Nueva Operación-->
+
+            <section class="section mt-5 is-hidden" id="seccion-nueva-operacion">
+                <div class="container">
+                    <div>
+                        <div class="column is-8-widescreen is-10-desktop is-offset-2-widescreen is-offset-1-desktop">
+                            <div class="box">
+                                <h3 class="title is-size-2 has-text-weight-medium has-text-weight-bold mb-6">Nueva operación</h3>
+                                <form id="formulario-operaciones">
+                                    <div class="field">
+                                        <label class="label">Descripción</label>
+                                        <div class="control">
+                                            <input id="input-descripcion" class="input" type="text" required>
+                                        </div>
+                                           
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">Monto</label>
+                                        <div class="control">
+                                            <input id="input-monto" class="input" type="number" required>
+                                        </div>
+                                    </div>
+                                    <div class="field mb-2">
+                                        <label class="label mt-3">Tipo</label>
+                                    </div>
+                                    <div class="control">
+                                        <div class="select is-fullwidth">
+                                            <select id="select-tipo-op" class="column">
+                                                <option value="gasto">Gasto</option>
+                                                <option value="ganancia">Ganancia</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="field mb-2">
+                                        <label class="label mt-3">Categoría</label>
+                                    </div>
+                                    <div class="control">
+                                        <div class="select is-fullwidth">
+                                            <select id="select-categorias-op">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label mt-3" for="date">Fecha</label>
+                                        <div class="control">
+                                            <input id="input-fecha" class="input" type="date" required>
+                                        </div>
+                                    </div>
+                                    <div class="buttons is-right mt-6">
+                                        <button type="button" class="button is-light" id="boton-cancelar-nueva-operacion">Cancelar</button>
+                                        <input type="submit" value="Agregar" class="button is-success" id="boton-agregar-operacion"> 
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+    
+            <!-- Editar Operación-->
+    
+            <section class="section mt-5 is-hidden" id="seccion-editar-operacion">
+                <div class="container">
+                    <div>
+                        <div class="column is-8-widescreen is-10-desktop is-offset-2-widescreen is-offset-1-desktop">
+                            <div class="box">
+                                <h3 class="title is-size-2 has-text-weight-medium has-text-weight-bold mb-6">Editar operación</h3>
+                                <form id="formulario-editar-operaciones">
+                                    <div class="field">
+                                        <label class="label">Descripción</label>
+                                        <div class="control">
+                                            <input id="edit-descripcion" class="input" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">Monto</label>
+                                        <div class="control">
+                                            <input id="edit-monto" class="input" type="number" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="field mb-2">
+                                        <label class="label mt-3">Tipo</label>
+                                    </div>
+                                    <div class="control">
+                                        <div class="select is-fullwidth">
+                                            <select id="edit-tipo-op" class="column">
+                                                <option value="gasto">Gasto</option>
+                                                <option value="ganancia">Ganancia</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="field mb-2">
+                                        <label class="label mt-3">Categoría</label>
+                                    </div>
+                                    <div class="control">
+                                        <div class="select is-fullwidth">
+                                            <select id="editar-categorias-op">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label mt-3" for="date">Fecha</label>
+                                        <div class="control">
+                                            <input id="edit-fecha" class="input" type="date">
+                                        </div>
+                                    </div>
+                                    <div class="buttons is-right mt-6">
+                                        <button type="button" class="button is-light" id="boton-cancelar-editar-operacion">Cancelar</button>
+                                        <input type="submit" value="Editar" class="button is-success" id="boton-edit-op"> 
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+    
+            <!-- Sección Categorías -->
+    
+            <section class="section mt-5 is-hidden" id="seccion-categorias">
+                <div class="container">
+                    <div class="column is-8-widescreen is-10-desktop is-offset-2-widescreen is-offset-1-desktop">
+                        <div class="box"> 
+                            <h3 class="title is-size-2 has-text-weight-medium has-text-weight-bold mb-6">Categorías</h3>
+                            <form id="formulario-categorias">
+                                <label class="label">Nombre
+                                    <div class="field is-grouped">
+                                        <div class="control is-expanded">
+                                            <input id="input-categoria" class="input" type="text" required>
+                                        </div>
+                                        <div class="control">
+                                            <input type="submit" value="Agregar" class="button is-success" id="boton-agregar-categoria"> 
+                                        </div>
+                                    </div>
+                                    <div class="" id="listado-categorias"></div>
+                                </label>  
+                            </form>                       
+                        </div>
+                    </div>
+                </div>
+            </section>
+    
+            <!-- Seccion editar categorías -->
+    
+            <section class="section mt-5 is-hidden" id="seccion-editar-categorias">
+                <div class="container">
+                    <div class="column is-8-widescreen is-10-desktop is-offset-2-widescreen is-offset-1-desktop">
+                        <div class="box">
+                            <h3 class="title is-size-2 has-text-weight-medium has-text-weight-bold mb-6">Editar categoría</h3>
+                            <form id="formulario-editar-categorias">
+                                <label class="label">Nombre
+                                    <div class="field is-grouped">
+                                        <div class="control is-expanded">
+                                            <input id="input-edit-categorias" class="input mb-4" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="columns">
+                                        <div class="column is-8"></div>
+                                        <div class="column">
+                                            <button type="button" class="button is-light ml-5" id="boton-cancelar-editar-categoria">Cancelar</button>
+                                        </div>  
+                                        <div class="column">
+                                            <input type="submit" value="Confirmar" class="button is-success" id="boton-confirmar-editar-categoria"> 
+                                        </div>                  
+                                    </div>
+                                </label>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+    
+            <!-- Seccion editar categorías -->
+    
+            <section class="section mt-5 is-hidden" id="seccion-editar-categorias">
+                <div class="container">
+                    <div class="column is-8-widescreen is-10-desktop is-offset-2-widescreen is-offset-1-desktop">
+                        <div class="box">
+                            <h3 class="button btn-add-categoria">Editar categoría
+                            </h3>
+                            <form id="formulario-editar-categorias">
+                                <label class="label">Nombre
+                                    <div class="field is-grouped">
+                                        <div class="control is-expanded">
+                                            <input id="input-edit-categorias" class="input mb-4" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="columns">
+                                        <div class="column is-8"></div>
+                                        <div class="column">
+                                            <button type="button" class="button is-light ml-5"
+                                                id="boton-cancelar-editar-categoria">Cancelar</button>
+                                        </div>
+                                        <div class="column">
+                                            <button type="button" class="button is-success"
+                                                id="boton-confirmar-editar-categoria">Confirmar</button>
+                                        </div>
+                                    </div>
+                                </label>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+           
+          
     </div>
         
         <script src="script.js"></script>

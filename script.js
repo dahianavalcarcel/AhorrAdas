@@ -77,4 +77,56 @@ const createList=(lista)=>{
 createList(categorias)
 
 //EVENTO CLICK PARA AGREGAR CATEGORIA
+
 $('#btnCategoria').addEventListener('click', addCategoria)
+
+
+
+// EVENTO CAMBIAR SECCIONES- BALANCE-CATEGORIAS-REPORTES
+
+const categorias = document.getElementById("vistaCategorias")
+const balance = document.getElementById("seccion-balance")
+
+
+const btnCategorias = document.getElementById("btn-categorias")
+const btnBalance = document.getElementById("btn-balance")
+
+
+const openCategorias = () => {
+    categorias.style.display = "flex"
+    balance.style.display = "none"
+}
+
+btnCategorias.onclick = openCategorias
+
+const openBalance = () => {
+    console.log("hicimos click en balance");
+    balance.style.display = "flex"
+    categorias.style.display = "none"
+}
+
+btnBalance.onclick = openBalance
+
+//  EVENTO VISTA DE FILTROS
+
+const btnFiltros =  document.getElementById("btn-filtros");
+const filtros    = document.getElementById("formulario-filtros");
+
+const openFiltros = () => {
+    console.log("HICIMOS CLICK EN Filtros");
+    console.log( btnFiltros);
+    if(btnFiltros.innerHTML === "Ocultar Filtros"){
+        console.log("oculto los filtros");
+        filtros.style.display = "none";
+        btnFiltros.innerHTML = "Mostrar Filtros";
+    }
+    else if (btnFiltros.innerHTML === "Mostrar Filtros") {
+        console.log("mostramos los filtros");
+        filtros.style.display = "flex";
+        btnFiltros.innerHTML = "Ocultar Filtros";
+        
+    }
+}
+
+btnFiltros.onclick = openFiltros
+
