@@ -28,4 +28,3 @@ const createList=(lista)=>{
 
 //EVENTO CLICK PARA AGREGAR CATEGORIA
 $('#btnCategoria').addEventListener('click', addCategoria)
-
