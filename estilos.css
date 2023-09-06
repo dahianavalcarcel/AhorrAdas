@@ -1,0 +1,122 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.body-container{
+    min-height: 100vh;
+    background-color:#f0ebd78e;
+}
+
+/*reutilizables*/
+:root{
+    --pink: #eacacb;
+    --green: #034430;
+    --orange: #f47b2a;
+    --cream:#f0ebd7;
+}
+
+.is-center{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.is-pink{
+    background-color: var(--pink);
+}
+
+.is-orange{
+    color: var(--orange);
+}
+
+.title{
+    font-family:'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 30px;
+}
+
+/*nav*/
+.navbar{
+    height: 11vh;
+}
+
+.btn-nav{
+    background-color: var(--pink);
+    color: var(--green);
+    font-family: 'Poppins', sans-serif;
+    font-size: 17px;
+    padding: 15px 30px;
+    border: 1px solid transparent;
+    border-radius: 20px;
+}
+
+.btn-nav:hover{
+    background-color:var(--green);
+    color: var(--cream);
+    border: 1px solid var(--pink);
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+    
+.navbar-burger{
+    color:var(--green);
+}
+
+.navbar-burger:hover{
+    background-color: transparent;
+    color: var(--orange);
+}
+
+/*categorias*/
+.categorias-box{
+    margin-top: 10vh;
+    width: 60%;
+}
+
+.btn-add-categoria{
+    background-color: var(--green);
+    color: var(--cream);
+    border-radius: 20px;
+    padding: 2px 30px;
+}
+
+.btn-add-categoria:hover{
+    background-color:var(--orange);
+    color: var(--cream);
+    border: 1px solid var(--orange);
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+
+.input:focus{
+    border: 1px solid transparent;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+
+@media (max-width: 1200px){
+    .categorias-box{
+        width: 80%;
+    }
+}
+@media (max-width: 1025px){
+    .categorias-box{
+        width: 90%;
+    }
+}
+.lista{
+    align-items: center;
+    justify-content: center;
+}
+
+.elemento-lista{
+    color: var(--orange);
+}
+.btn{
+    margin: 0px 10px;
+    height: 3vh;
+    padding: 0px;
+    background-color: transparent;
+    color: var(--green);
+    border: 1px solid transparent;
+    border-radius: 20px;
+}
