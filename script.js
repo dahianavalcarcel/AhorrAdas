@@ -86,11 +86,11 @@ $('#btnCategoria').addEventListener('click', addCategoria)
 
 const categorias = document.getElementById("vistaCategorias")
 const balance = document.getElementById("seccion-balance")
-
-
+const seccionNuevaOperacion =  document.getElementById("Seccion-NuevaOperacion")
 const btnCategorias = document.getElementById("btn-categorias")
 const btnBalance = document.getElementById("btn-balance")
-
+const btnAhorradas = document.getElementById("btn-ahorradas")
+const  nuevaOperacion = document.getElementById("btn-nuevaOperacion")
 
 const openCategorias = () => {
     categorias.style.display = "flex"
@@ -100,12 +100,31 @@ const openCategorias = () => {
 btnCategorias.onclick = openCategorias
 
 const openBalance = () => {
-    console.log("hicimos click en balance");
     balance.style.display = "flex"
     categorias.style.display = "none"
+    seccionNuevaOperacion.style.display = "none";
+
 }
 
 btnBalance.onclick = openBalance
+
+
+const openAhorradas = () => {
+        categorias.style.display = "none";
+        seccionNuevaOperacion.style.display = "none";
+}
+
+btnAhorradas.onclick = openAhorradas()
+
+
+const openNuevaOperacion = () => { 
+    balance.style.display = "none";
+    seccionNuevaOperacion.style.display = "flex";
+}
+nuevaOperacion.onclick = openNuevaOperacion
+
+
+
 
 //  EVENTO VISTA DE FILTROS
 
@@ -130,3 +149,4 @@ const openFiltros = () => {
 
 btnFiltros.onclick = openFiltros
 
+// EVENTO BOTON NUEVA OPERACIÓN
