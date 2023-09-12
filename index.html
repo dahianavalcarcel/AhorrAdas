@@ -78,6 +78,30 @@
             </div>
         </section>
 
+        <section id="vista-editar-categorias" class="is-hidden container is-center">
+            <div class="box categorias-box mb-4">
+                <h2 class="title is-orange">
+                    Editar categoria:
+                </h2>
+                <form onsubmit="event.preventDefault()" id="categoriasForm">
+                    <label for="editar-categoria">Nombre:</label>
+                    <div class="field is-grouped">
+                        <p class="control is-expanded">
+                            <input id="editar-categoria-input" class="input is-rounded" type="text">
+                        </p>
+                        <p class="control">
+                            <a id="btnEditarCategoria" class="button btn-editar-categoria">
+                                Editar
+                            </a>
+                            <a id="btnCancelarEditar" class="button btn-cancelar-editar">
+                                Cancelar
+                            </a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </section>
+
         <main>
             <section class="section has-background-light mt-5" id="seccion-balance">
                 <div class="container">
@@ -144,7 +168,7 @@
                                         </div>
                                         <div class="control">
                                             <div class="select is-fullwidth">
-                                                <select id="select-categorias" class="column input is-rounded"></select>
+                                                <select id="select-categorias" class="column input is-rounded categoriasSelect"></select>
                                             </div>
                                         </div>
                                         <div class="field">

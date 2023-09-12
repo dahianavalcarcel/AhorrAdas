@@ -7,6 +7,10 @@ const traerDatos=()=>{
     return JSON.parse(localStorage.getItem("datos"))
 }
 
+const subirDatos= (datos) => {
+    localStorage.setItem("datos", JSON.stringify ({...traerDatos(), ...datos}))
+}
+
 const traerCategorias=()=>{
     if (traerDatos()){
         return traerDatos().categorias
@@ -14,7 +18,7 @@ const traerCategorias=()=>{
 }
 
 //categorias predefinidas
-let categorias= traerCategorias() || [
+const categoriasLista= traerCategorias() || [
     {
         id:randomId(), 
         nombre: 'Servicios'
@@ -38,48 +42,88 @@ let categorias= traerCategorias() || [
     {
         id:randomId(), 
         nombre: 'Trabajo'
-    },
+    }
 ]
 
 //FUNCION QUE AGREGA UNA CATEGORIA NUEVA
 const addCategoria=()=>{
-    let nuevaCategoria= {
+    const nuevaCategoria= {
         id:randomId(),
         nombre:$('#nombre-categoria').value,
     }
-    categorias.push(nuevaCategoria)
-    createList(categorias)
+    categoriasLista.push(nuevaCategoria)
+    crearLista(categoriasLista)
     $('#categoriasForm').reset()
+    subirDatos({categorias: categoriasLista})
 }
+
+//EVENTO CLICK PARA AGREGAR CATEGORIA
+$('#btnCategoria').addEventListener('click',()=> addCategoria)
+
+console.log(categoriasLista)
 
 //FUNCION PARA LLENAR EL SELECT 
 const llenarSelect = (categorias) =>{
     $$('.categoriasSelect').forEach((select)=>{
+        select.innerHTML=''
         for(let {nombre, id} of categorias){
         select.innerHTML += `<option value="${id}" aria-label="${nombre}">${nombre}</option>`}
     })
 }
-llenarSelect(categorias)
+llenarSelect(categoriasLista)
 
 //FUNCION QUE CREA LA LISTA EN EL HTML
-const createList=(lista)=>{
-    $('#listaCategorias').innerHTML=[]
-    lista.forEach(item=> {
-        console.log(item.nombre)
-        let liItem= $('#listaCategorias');
-        liItem.innerHTML += `<div class="columns lista mt-4">
-        <li class="column is-8 elemento-lista">${item.nombre}</li>
-        <button type="button" id="btnEliminar" class="column btn-eliminar btn">Eliminar</button>
-        <button type="button" id="btnEditar" class="column btn-editar btn">Editar</button>
+const crearLista=(categorias)=>{
+    $('#listaCategorias').innerHTML=[];
+    for (let {id, nombre } of categorias) {
+        $('#listaCategorias').innerHTML += `<div class="columns lista mt-4">
+        <li class="column is-8 elemento-lista"><p>${nombre}</p></li>
+        <button type="button" onclick="mostrarEdicionDeCategoria('${id}')" id="${id}" class="column btn-editar btn">Editar</button>
+        <button type="button" id="${id}" class="column btn-eliminar btn">Eliminar</button>
     </div>`
-    });
+    console.log(id)
+    };
 }
-createList(categorias)
+crearLista(categoriasLista)
 
 //EVENTO CLICK PARA AGREGAR CATEGORIA
+$('#btnCategoria').addEventListener('click', ()=> addCategoria())
 
-$('#btnCategoria').addEventListener('click', addCategoria)
+//VISTA ***EDITAR CATEGORIA***
+const mostrarVistaEditar = () => {
+    $$('.btn-editar').forEach((btn) => {
+        btn.addEventListener('click', () =>
+            $('#vista-editar-categorias').classList.remove('is-hidden') &
+            $('#vistaCategorias').classList.add('is-hidden')
+        )
+    })
+}
 
+//CANCELAR VISTA ***EDITAR CATEGORIA***
+$('#btnCancelarEditar').addEventListener('click', ()=> $('#vista-editar-categorias').classList.add('is-hidden') &
+$('#vistaCategorias').classList.remove('is-hidden')) 
+
+
+const mostrarEdicionDeCategoria=(id)=>{
+    mostrarVistaEditar()
+    const categoriaAEditar=categoriasLista.filter((categoria) => categoria.id === id)
+    $('#editar-categoria-input').value = categoriaAEditar[0].nombre
+    $('#btnEditarCategoria').addEventListener('click', ()=>edicionDeCategoria(categoriaAEditar[0].id))
+}
+
+const edicionDeCategoria=(id)=>{
+    const nombre= $('#editar-categoria-input').value
+    let nuevaCategoria= {
+        id: id,
+        nombre: nombre,
+    }
+    const categoriasActualizadas= categoriasLista.map((categoria)=> {
+        categoria.id === id ? {...nuevaCategoria} :categoria
+    })
+    crearLista(categoriasActualizadas) 
+    llenarSelect(categoriasActualizadas)
+    subirDatos({categorias: categoriasActualizadas})
+}
 
 
 // EVENTO CAMBIAR SECCIONES- BALANCE-CATEGORIAS-REPORTES
