@@ -2,6 +2,8 @@ const $= (selector)=> document.querySelector(selector)
 const $$=(selector=> document.querySelectorAll(selector))
 const randomId = ()=> self.crypto.randomUUID()
 
+//localStorage.clear()
+
 //localStorage
 const traerDatos=()=>{
     return JSON.parse(localStorage.getItem("datos"))
@@ -47,20 +49,20 @@ const categoriasLista= traerCategorias() || [
 
 //FUNCION QUE AGREGA UNA CATEGORIA NUEVA
 const addCategoria=()=>{
-    const nuevaCategoria= {
+    let nuevaCategoria= {
         id:randomId(),
         nombre:$('#nombre-categoria').value,
     }
     categoriasLista.push(nuevaCategoria)
     crearLista(categoriasLista)
-    $('#categoriasForm').reset()
+    llenarSelect(categoriasLista)
     subirDatos({categorias: categoriasLista})
+    actualizarVistas(traerDatos())
+    $('#categoriasForm').reset()
 }
 
 //EVENTO CLICK PARA AGREGAR CATEGORIA
 $('#btnCategoria').addEventListener('click',()=> addCategoria)
-
-console.log(categoriasLista)
 
 //FUNCION PARA LLENAR EL SELECT 
 const llenarSelect = (categorias) =>{
@@ -70,7 +72,6 @@ const llenarSelect = (categorias) =>{
         select.innerHTML += `<option value="${id}" aria-label="${nombre}">${nombre}</option>`}
     })
 }
-llenarSelect(categoriasLista)
 
 //FUNCION QUE CREA LA LISTA EN EL HTML
 const crearLista=(categorias)=>{
@@ -79,12 +80,10 @@ const crearLista=(categorias)=>{
         $('#listaCategorias').innerHTML += `<div class="columns lista mt-4">
         <li class="column is-8 elemento-lista"><p>${nombre}</p></li>
         <button type="button" onclick="mostrarEdicionDeCategoria('${id}')" id="${id}" class="column btn-editar btn">Editar</button>
-        <button type="button" id="${id}" class="column btn-eliminar btn">Eliminar</button>
+        <button type="button" onclick="eliminarCategoria('${id}')" id="${id}" class="column btn-eliminar btn">Eliminar</button>
     </div>`
-    console.log(id)
     };
 }
-crearLista(categoriasLista)
 
 //EVENTO CLICK PARA AGREGAR CATEGORIA
 $('#btnCategoria').addEventListener('click', ()=> addCategoria())
@@ -99,32 +98,70 @@ const mostrarVistaEditar = () => {
     })
 }
 
+//FUNCION PARA VOLVER A LA VISTA CATEGORIAS
+const mostrarVistaCategorias = () => {
+    $('#vista-editar-categorias').classList.add('is-hidden') &
+    $('#vistaCategorias').classList.remove('is-hidden')
+}
+
 //CANCELAR VISTA ***EDITAR CATEGORIA***
-$('#btnCancelarEditar').addEventListener('click', ()=> $('#vista-editar-categorias').classList.add('is-hidden') &
-$('#vistaCategorias').classList.remove('is-hidden')) 
+$('#btnCancelarEditar').addEventListener('click', () => mostrarVistaCategorias())
 
+//FUNCION ***OBTENER CATEGORIA***
+const obtenerCategoria = (idCategoria, categoria) =>{
+    return categoriasLista.find((categoria) => categoria.id == idCategoria)
+}
 
+//FUNCION PARA ***EDITAR CATEGORIAS***
 const mostrarEdicionDeCategoria=(id)=>{
     mostrarVistaEditar()
-    const categoriaAEditar=categoriasLista.filter((categoria) => categoria.id === id)
-    $('#editar-categoria-input').value = categoriaAEditar[0].nombre
-    $('#btnEditarCategoria').addEventListener('click', ()=>edicionDeCategoria(categoriaAEditar[0].id))
+    let categoriaAEditar= obtenerCategoria(id,traerCategorias())
+    $('#editar-categoria-input').value = categoriaAEditar.nombre
+    $('#btnEditarCategoria').addEventListener('click', ()=>edicionDeCategoria
+    (categoriaAEditar.id))
+    $('#btnEditarCategoria').addEventListener('click', ()=> mostrarVistaCategorias())
 }
 
 const edicionDeCategoria=(id)=>{
-    const nombre= $('#editar-categoria-input').value
     let nuevaCategoria= {
         id: id,
-        nombre: nombre,
+        nombre: $('#editar-categoria-input').value,
     }
-    const categoriasActualizadas= categoriasLista.map((categoria)=> {
+    let categoriasActualizadas= traerCategorias().map((categoria)=>
         categoria.id === id ? {...nuevaCategoria} :categoria
-    })
+    )
     crearLista(categoriasActualizadas) 
     llenarSelect(categoriasActualizadas)
     subirDatos({categorias: categoriasActualizadas})
 }
 
+//FUNCION PARA ***ELIMINAR CATEGORIA***
+const eliminarCategoria = (id) => {
+    let categoriaAEliminar = obtenerCategoria(id, traerCategorias())
+    $$('.btn-eliminar').forEach((btn) => {
+        btn.addEventListener('click', () => borrarCategoria(categoriaAEliminar.id)
+        )
+    })
+}
+
+const borrarCategoria=(idEliminar)=>{
+    let categoriasSinEliminar= traerCategorias().filter((categoria) => 
+    categoria.id != idEliminar)
+    crearLista(categoriasSinEliminar)
+    llenarSelect(categoriasSinEliminar)
+    subirDatos({categorias: categoriasSinEliminar})
+}
+
+console.log(categoriasLista)
+
+//FUNCION INICIALIZAR
+const actualizarVistas = () => {
+    crearLista(traerCategorias());
+    llenarSelect(traerCategorias());
+};
+
+actualizarVistas(traerDatos())
+window.onload= actualizarVistas()
 
 // EVENTO CAMBIAR SECCIONES- BALANCE-CATEGORIAS-REPORTES
 
@@ -173,4 +210,3 @@ const openFiltros = () => {
 }
 
 btnFiltros.onclick = openFiltros
-
