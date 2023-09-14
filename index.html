@@ -15,15 +15,15 @@
     <div class="body-container">
         <header>
             <nav class="navbar is-pink pt-3" role="navigation" aria-label="main navigation">
-                <div class="navbar-brand">
+                <div class="navbar-brand" id="btn-ahorradas">
                     <a class="navbar-item" href="">
-                        <h2 class="title is-orange">
+                        <h2 class="title is-orange" >
                             <i class="fa-solid fa-wallet mx-3"></i>
                             AhorrAdas
                         </h2>
                     </a>
     
-                    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                    <a role="button" class="navbar-burger"  id="menu-hamburguesa" aria-label="menu" aria-expanded="false"
                         data-target="navbarBasicExample">
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
@@ -205,7 +205,7 @@
                                         <h3 class="title is-orange">Operaciones</h3>
                                     </div>
                                     <div class="column has-text-right">
-                                        <button class="button btn-add-categoria" id="boton-operacion">+ Nueva operación</button>
+                                        <button class="button btn-add-categoria"  id="btn-nuevaOperacion">+ Nueva operación</button>
                                             <h4 class="is-size-4 has-text-centered mt-6 mb-4 has-text-weight-semibold">
                                                      Sin resultados
                                             </h4>
@@ -244,30 +244,30 @@
                     </div>
             </section>
     
-            <!-- Nueva Operación-->
+            <!-- Inicio Nueva Operación-->
 
-            <section class="section mt-5 is-hidden" id="seccion-nueva-operacion">
+            <section class="section mt-5 " id="Seccion-NuevaOperacion">
                 <div class="container">
                     <div>
-                        <div class="column is-8-widescreen is-10-desktop is-offset-2-widescreen is-offset-1-desktop">
+                        <div class="column is-8-widescreen is-10-desktop  is-offset-2-widescreen is-offset-1-desktop">
                             <div class="box">
-                                <h3 class="title is-size-2 has-text-weight-medium has-text-weight-bold mb-6">Nueva operación</h3>
+                                <h3 class=" title is-orange has-text-weight-medium  mb-6">Nueva operación:</h3>
                                 <form id="formulario-operaciones">
                                     <div class="field">
-                                        <label class="label">Descripción</label>
+                                        <label class=>Descripción</label>
                                         <div class="control">
-                                            <input id="input-descripcion" class="input" type="text" required>
+                                            <input id="input-descripción" class="input" type="text" required placeholder="Ingrese una descripción">
                                         </div>
-                                           
+
                                     </div>
                                     <div class="field">
-                                        <label class="label">Monto</label>
+                                        <label class=>Monto</label>
                                         <div class="control">
-                                            <input id="input-monto" class="input" type="number" required>
+                                            <input id="input-monto" class="input" type="number" required placeholder="Ingrese un monto">
                                         </div>
                                     </div>
                                     <div class="field mb-2">
-                                        <label class="label mt-3">Tipo</label>
+                                        <label class=>Tipo</label>
                                     </div>
                                     <div class="control">
                                         <div class="select is-fullwidth">
@@ -278,23 +278,23 @@
                                         </div>
                                     </div>
                                     <div class="field mb-2">
-                                        <label class="label mt-3">Categoría</label>
+                                        <label class=>Categoría</label>
                                     </div>
                                     <div class="control">
-                                        <div class="select is-fullwidth">
+                                        <div class="select is-fullwidth" >
                                             <select id="select-categorias-op">
                                             </select>
                                         </div>
                                     </div>
                                     <div class="field">
-                                        <label class="label mt-3" for="date">Fecha</label>
+                                        <label class= for="date">Fecha</label>
                                         <div class="control">
                                             <input id="input-fecha" class="input" type="date" required>
                                         </div>
                                     </div>
                                     <div class="buttons is-right mt-6">
                                         <button type="button" class="button is-light" id="boton-cancelar-nueva-operacion">Cancelar</button>
-                                        <input type="submit" value="Agregar" class="button is-success" id="boton-agregar-operacion"> 
+                                        <input type="submit" value="Agregar" class="button btn-add-categoria" id="boton-agregar-operacion"> 
                                     </div>
                                 </form>
                             </div>
@@ -302,153 +302,6 @@
                     </div>
             </section>
     
-            <!-- Editar Operación-->
-    
-            <section class="section mt-5 is-hidden" id="seccion-editar-operacion">
-                <div class="container">
-                    <div>
-                        <div class="column is-8-widescreen is-10-desktop is-offset-2-widescreen is-offset-1-desktop">
-                            <div class="box">
-                                <h3 class="title is-size-2 has-text-weight-medium has-text-weight-bold mb-6">Editar operación</h3>
-                                <form id="formulario-editar-operaciones">
-                                    <div class="field">
-                                        <label class="label">Descripción</label>
-                                        <div class="control">
-                                            <input id="edit-descripcion" class="input" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <label class="label">Monto</label>
-                                        <div class="control">
-                                            <input id="edit-monto" class="input" type="number" value="0">
-                                        </div>
-                                    </div>
-                                    <div class="field mb-2">
-                                        <label class="label mt-3">Tipo</label>
-                                    </div>
-                                    <div class="control">
-                                        <div class="select is-fullwidth">
-                                            <select id="edit-tipo-op" class="column">
-                                                <option value="gasto">Gasto</option>
-                                                <option value="ganancia">Ganancia</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="field mb-2">
-                                        <label class="label mt-3">Categoría</label>
-                                    </div>
-                                    <div class="control">
-                                        <div class="select is-fullwidth">
-                                            <select id="editar-categorias-op">
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <label class="label mt-3" for="date">Fecha</label>
-                                        <div class="control">
-                                            <input id="edit-fecha" class="input" type="date">
-                                        </div>
-                                    </div>
-                                    <div class="buttons is-right mt-6">
-                                        <button type="button" class="button is-light" id="boton-cancelar-editar-operacion">Cancelar</button>
-                                        <input type="submit" value="Editar" class="button is-success" id="boton-edit-op"> 
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-            </section>
-    
-            <!-- Sección Categorías -->
-    
-            <section class="section mt-5 is-hidden" id="seccion-categorias">
-                <div class="container">
-                    <div class="column is-8-widescreen is-10-desktop is-offset-2-widescreen is-offset-1-desktop">
-                        <div class="box"> 
-                            <h3 class="title is-size-2 has-text-weight-medium has-text-weight-bold mb-6">Categorías</h3>
-                            <form id="formulario-categorias">
-                                <label class="label">Nombre
-                                    <div class="field is-grouped">
-                                        <div class="control is-expanded">
-                                            <input id="input-categoria" class="input" type="text" required>
-                                        </div>
-                                        <div class="control">
-                                            <input type="submit" value="Agregar" class="button is-success" id="boton-agregar-categoria"> 
-                                        </div>
-                                    </div>
-                                    <div class="" id="listado-categorias"></div>
-                                </label>  
-                            </form>                       
-                        </div>
-                    </div>
-                </div>
-            </section>
-    
-            <!-- Seccion editar categorías -->
-    
-            <section class="section mt-5 is-hidden" id="seccion-editar-categorias">
-                <div class="container">
-                    <div class="column is-8-widescreen is-10-desktop is-offset-2-widescreen is-offset-1-desktop">
-                        <div class="box">
-                            <h3 class="title is-size-2 has-text-weight-medium has-text-weight-bold mb-6">Editar categoría</h3>
-                            <form id="formulario-editar-categorias">
-                                <label class="label">Nombre
-                                    <div class="field is-grouped">
-                                        <div class="control is-expanded">
-                                            <input id="input-edit-categorias" class="input mb-4" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="columns">
-                                        <div class="column is-8"></div>
-                                        <div class="column">
-                                            <button type="button" class="button is-light ml-5" id="boton-cancelar-editar-categoria">Cancelar</button>
-                                        </div>  
-                                        <div class="column">
-                                            <input type="submit" value="Confirmar" class="button is-success" id="boton-confirmar-editar-categoria"> 
-                                        </div>                  
-                                    </div>
-                                </label>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </section>
-    
-            <!-- Seccion editar categorías -->
-    
-            <section class="section mt-5 is-hidden" id="seccion-editar-categorias">
-                <div class="container">
-                    <div class="column is-8-widescreen is-10-desktop is-offset-2-widescreen is-offset-1-desktop">
-                        <div class="box">
-                            <h3 class="button btn-add-categoria">Editar categoría
-                            </h3>
-                            <form id="formulario-editar-categorias">
-                                <label class="label">Nombre
-                                    <div class="field is-grouped">
-                                        <div class="control is-expanded">
-                                            <input id="input-edit-categorias" class="input mb-4" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="columns">
-                                        <div class="column is-8"></div>
-                                        <div class="column">
-                                            <button type="button" class="button is-light ml-5"
-                                                id="boton-cancelar-editar-categoria">Cancelar</button>
-                                        </div>
-                                        <div class="column">
-                                            <button type="button" class="button is-success"
-                                                id="boton-confirmar-editar-categoria">Confirmar</button>
-                                        </div>
-                                    </div>
-                                </label>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </section>
-           
-          
-    </div>
         
         <script src="script.js"></script>
         </body>
