@@ -162,3 +162,20 @@
     border: 1px solid var(--orange);
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
+
+.reportes-box{ 
+    margin-top: 10vh;
+    width: 65%;
+    height: 80vh;
+}
+
+.reportes-insuficientes{
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+.img-reportes{
+    width: 50vh;
+    margin: 5vh;
+}

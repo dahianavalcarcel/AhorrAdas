@@ -169,15 +169,18 @@ window.onload= actualizarVistas()
 
 const categorias = document.getElementById("vistaCategorias")
 const balance = document.getElementById("seccion-balance")
+const reportes = document.getElementById("vistaReportes")
 const seccionNuevaOperacion =  document.getElementById("Seccion-NuevaOperacion")
 const btnCategorias = document.getElementById("btn-categorias")
 const btnBalance = document.getElementById("btn-balance")
+const btnReportes= document.getElementById("btn-reportes")
 const btnAhorradas = document.getElementById("btn-ahorradas")
 const  nuevaOperacion = document.getElementById("btn-nuevaOperacion")
 
 const openCategorias = () => {
     categorias.style.display = "flex"
     balance.style.display = "none"
+    reportes.style.display="none"
 }
 
 btnCategorias.onclick = openCategorias
@@ -185,17 +188,27 @@ btnCategorias.onclick = openCategorias
 const openBalance = () => {
     balance.style.display = "flex"
     categorias.style.display = "none"
+    reportes.style.display="none"
     seccionNuevaOperacion.style.display = "none";
 
 }
 
 btnBalance.onclick = openBalance
 
+const openReportes= ()=>{
+    reportes.style.display="flex"
+    balance.style.display = "none"
+    categorias.style.display = "none"
+    seccionNuevaOperacion.style.display = "none";
+}
 
 const openAhorradas = () => {
         categorias.style.display = "none";
         seccionNuevaOperacion.style.display = "none";
+        reportes.style.display="none"
 }
+
+btnReportes.onclick = openReportes
 
 btnAhorradas.onclick = openAhorradas()
 
