@@ -78,12 +78,14 @@ const crearLista=(categorias)=>{
     $('#listaCategorias').innerHTML=[];
     for (let {id, nombre } of categorias) {
         $('#listaCategorias').innerHTML += `<div class="columns lista mt-4">
-        <li class="column is-8 elemento-lista"><p>${nombre}</p></li>
+        <li class="column is-10 elemento-lista"><p>${nombre}</p></li>
         <button type="button" onclick="mostrarEdicionDeCategoria('${id}')" id="${id}" class="column btn-editar btn">Editar</button>
         <button type="button" onclick="eliminarCategoria('${id}')" id="${id}" class="column btn-eliminar btn">Eliminar</button>
     </div>`
     };
 }
+
+crearLista(categoriasLista)
 
 //EVENTO CLICK PARA AGREGAR CATEGORIA
 $('#btnCategoria').addEventListener('click', ()=> addCategoria())
@@ -232,4 +234,3 @@ const openFiltros = () => {
 btnFiltros.onclick = openFiltros
 
 // EVENTO BOTON NUEVA OPERACIÓN
-
