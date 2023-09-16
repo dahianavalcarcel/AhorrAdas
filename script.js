@@ -13,6 +13,19 @@ const subirDatos= (datos) => {
     localStorage.setItem("datos", JSON.stringify ({...traerDatos(), ...datos}))
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    const navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+navbarBurgers.forEach( el => {
+    el.addEventListener('click', () => {
+        const target = el.dataset.target;
+        const $target = document.getElementById(target);
+        el.classList.toggle('is-active');
+        $target.classList.toggle('is-active');
+    });
+    });
+});
+
 const traerCategorias=()=>{
     if (traerDatos()){
         return traerDatos().categorias
@@ -77,11 +90,13 @@ const llenarSelect = (categorias) =>{
 const crearLista=(categorias)=>{
     $('#listaCategorias').innerHTML=[];
     for (let {id, nombre } of categorias) {
-        $('#listaCategorias').innerHTML += `<div class="columns lista mt-4">
-        <li class="column is-10 elemento-lista"><p>${nombre}</p></li>
+        $('#listaCategorias').innerHTML += `<div class="columns lista is flex mt-4">
+        <li class="column is-9 elemento-lista"><p>${nombre}</p></li>
+        <div class="column">
         <button type="button" onclick="mostrarEdicionDeCategoria('${id}')" id="${id}" class="column btn-editar btn">Editar</button>
         <button type="button" onclick="eliminarCategoria('${id}')" id="${id}" class="column btn-eliminar btn">Eliminar</button>
-    </div>`
+        </div>
+        </div>`
     };
 }
 
@@ -158,8 +173,8 @@ console.log(categoriasLista)
 
 //FUNCION INICIALIZAR
 const actualizarVistas = () => {
-    crearLista(traerCategorias());
-    llenarSelect(traerCategorias());
+    crearLista(categoriasLista);
+    llenarSelect(categoriasLista);
 };
 
 actualizarVistas(traerDatos())
