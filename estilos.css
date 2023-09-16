@@ -5,7 +5,7 @@
 
 .body-container{
     min-height: 100vh;
-    background-color:#f0ebd78e;
+    background-color:var(--cream);
 }
 
 /*reutilizables*/
@@ -68,11 +68,27 @@
     color: var(--orange);
 }
 
+@media (max-width: 1022px){
+    .navbar-menu{
+        display: none;
+        width: 100%;
+        background-color:var(--pink);
+    }
+    .nav-bts{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .btn-nav:hover{
+        background-color: transparent;
+        color: var(--orange);
+        box-shadow: none;
+    }
+}
 /*categorias*/
 .categorias-box{
     margin-top: 10vh;
-    width: 60%;
-    
+    width: 65%;
 }
 
 .btn-add-categoria{
@@ -121,7 +137,62 @@
     color: var(--green);
     border: 1px solid transparent;
     border-radius: 20px;
+    font-family: 'Poppins', sans-serif;
 }
 
+.btn-editar{
+    color: var(--green);
+    font-size: 12px;
+    padding: 1px;
+}
 
+.btn-editar:hover{
+    color: var(--orange);
+}
 
+.btn-eliminar{
+    background-color: var(--pink);
+    color: var(--green);
+    padding: 0px 8px;
+    font-size: 12px;
+    border-radius: 10px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+
+.btn-eliminar:hover{
+    background-color: var(--green);
+    color: var(--cream);
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+
+.btn-vista-edit{
+    background-color: var(--green);
+    color: var(--cream);
+    border-radius: 20px;
+    padding: 0px 20px;
+    border: 1px solid transparent;
+}
+
+.btn-vista-edit:hover{
+    background-color:var(--orange);
+    color: var(--cream);
+    border: 1px solid var(--orange);
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+
+.reportes-box{ 
+    margin-top: 10vh;
+    width: 65%;
+    height: 80vh;
+}
+
+.reportes-insuficientes{
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+.img-reportes{
+    width: 50vh;
+    margin: 5vh;
+}

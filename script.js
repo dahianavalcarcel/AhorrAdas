@@ -13,6 +13,19 @@ const subirDatos= (datos) => {
     localStorage.setItem("datos", JSON.stringify ({...traerDatos(), ...datos}))
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    const navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+navbarBurgers.forEach( el => {
+    el.addEventListener('click', () => {
+        const target = el.dataset.target;
+        const $target = document.getElementById(target);
+        el.classList.toggle('is-active');
+        $target.classList.toggle('is-active');
+    });
+    });
+});
+
 const traerCategorias=()=>{
     if (traerDatos()){
         return traerDatos().categorias
@@ -77,13 +90,17 @@ const llenarSelect = (categorias) =>{
 const crearLista=(categorias)=>{
     $('#listaCategorias').innerHTML=[];
     for (let {id, nombre } of categorias) {
-        $('#listaCategorias').innerHTML += `<div class="columns lista mt-4">
-        <li class="column is-8 elemento-lista"><p>${nombre}</p></li>
+        $('#listaCategorias').innerHTML += `<div class="columns lista is flex mt-4">
+        <li class="column is-9 elemento-lista"><p>${nombre}</p></li>
+        <div class="column">
         <button type="button" onclick="mostrarEdicionDeCategoria('${id}')" id="${id}" class="column btn-editar btn">Editar</button>
         <button type="button" onclick="eliminarCategoria('${id}')" id="${id}" class="column btn-eliminar btn">Eliminar</button>
-    </div>`
+        </div>
+        </div>`
     };
 }
+
+crearLista(categoriasLista)
 
 //EVENTO CLICK PARA AGREGAR CATEGORIA
 $('#btnCategoria').addEventListener('click', ()=> addCategoria())
@@ -156,8 +173,8 @@ console.log(categoriasLista)
 
 //FUNCION INICIALIZAR
 const actualizarVistas = () => {
-    crearLista(traerCategorias());
-    llenarSelect(traerCategorias());
+    crearLista(categoriasLista);
+    llenarSelect(categoriasLista);
 };
 
 actualizarVistas(traerDatos())
@@ -167,15 +184,18 @@ window.onload= actualizarVistas()
 
 const categorias = document.getElementById("vistaCategorias")
 const balance = document.getElementById("seccion-balance")
+const reportes = document.getElementById("vistaReportes")
 const seccionNuevaOperacion =  document.getElementById("Seccion-NuevaOperacion")
 const btnCategorias = document.getElementById("btn-categorias")
 const btnBalance = document.getElementById("btn-balance")
+const btnReportes= document.getElementById("btn-reportes")
 const btnAhorradas = document.getElementById("btn-ahorradas")
 const  nuevaOperacion = document.getElementById("btn-nuevaOperacion")
 
 const openCategorias = () => {
     categorias.style.display = "flex"
     balance.style.display = "none"
+    reportes.style.display="none"
 }
 
 btnCategorias.onclick = openCategorias
@@ -183,17 +203,27 @@ btnCategorias.onclick = openCategorias
 const openBalance = () => {
     balance.style.display = "flex"
     categorias.style.display = "none"
+    reportes.style.display="none"
     seccionNuevaOperacion.style.display = "none";
 
 }
 
 btnBalance.onclick = openBalance
 
+const openReportes= ()=>{
+    reportes.style.display="flex"
+    balance.style.display = "none"
+    categorias.style.display = "none"
+    seccionNuevaOperacion.style.display = "none";
+}
 
 const openAhorradas = () => {
         categorias.style.display = "none";
         seccionNuevaOperacion.style.display = "none";
+        reportes.style.display="none"
 }
+
+btnReportes.onclick = openReportes
 
 btnAhorradas.onclick = openAhorradas()
 
@@ -224,40 +254,5 @@ const openFiltros = () => {
 
 btnFiltros.onclick = openFiltros
 
-
-
-//FORMULARIO NUEVA OPERACIÓN//
-
-const operaciones = [];
-
-// Obtener valores del formulario
-const agregarOperacion= () => 
-{
-    // parseFloat es para convertir un string en un numero
-    const descripcion = document.getElementById("input-descripción").value;
-    const monto = parseFloat(document.getElementById("input-monto").value);
-    const tipo = document.getElementById("select-tipo-op").value;
-    const categoria = document.getElementById("select-categorias-op").value;
-    const fecha = document.getElementById("input-fecha").value;
-
-    const nuevaOperacion = {
-        descripcion,
-        monto,
-        tipo,
-        categoria,
-        fecha,
-    }
-   
-    operaciones.push(nuevaOperacion);
-    
-    document.getElementById("input-descripción").value = "";
-    document.getElementById("input-monto").value = "";
-    document.getElementById("select-tipo-op").value = "gasto";
-    document.getElementById("select-categorias-op").value = "";
-    document.getElementById("input-fecha").value = "";
-
-    mostrarOperacion()
-
-
-}
+// EVENTO BOTON NUEVA OPERACIÓN
 
