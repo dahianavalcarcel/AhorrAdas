@@ -256,3 +256,37 @@ btnFiltros.onclick = openFiltros
 
 // EVENTO BOTON NUEVA OPERACIÓN
 
+//FORMULARIO NUEVA OPERACIÓN//
+
+const operaciones = [];
+
+// Obtener valores del formulario
+const agregarOperacion= () => 
+{
+    // parseFloat es para convertir un string en un numero
+    const descripcion = document.getElementById("input-descripción").value;
+    const monto = parseFloat(document.getElementById("input-monto").value);
+    const tipo = document.getElementById("select-tipo-op").value;
+    const categoria = document.getElementById("select-categorias-op").value;
+    const fecha = document.getElementById("input-fecha").value;
+
+    const nuevaOperacion = {
+        descripcion,
+        monto,
+        tipo,
+        categoria,
+        fecha,
+    }
+   
+    operaciones.push(nuevaOperacion);
+    
+    document.getElementById("input-descripción").value = "";
+    document.getElementById("input-monto").value = "";
+    document.getElementById("select-tipo-op").value = "gasto";
+    document.getElementById("select-categorias-op").value = "";
+    document.getElementById("input-fecha").value = "";
+
+    mostrarOperacion()
+
+
+}
