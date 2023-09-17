@@ -181,7 +181,6 @@ const borrarCategoria=(idEliminar)=>{
     actualizarVistas(traerDatos())
 }
 
-
 // EVENTO CAMBIAR SECCIONES- BALANCE-CATEGORIAS-REPORTES
 
 const categorias = document.getElementById("vistaCategorias")
@@ -237,34 +236,110 @@ const openNuevaOperacion = () => {
 nuevaOperacion.onclick = openNuevaOperacion
 
 
-
-
 //  EVENTO VISTA DE FILTROS
 
 const btnFiltros =  document.getElementById("btn-filtros");
 const filtros    = document.getElementById("formulario-filtros");
 
 const openFiltros = () => {
-    console.log("HICIMOS CLICK EN Filtros");
-    console.log( btnFiltros);
     if(btnFiltros.innerHTML === "Ocultar Filtros"){
-        console.log("oculto los filtros");
         filtros.style.display = "none";
         btnFiltros.innerHTML = "Mostrar Filtros";
     }
     else if (btnFiltros.innerHTML === "Mostrar Filtros") {
-        console.log("mostramos los filtros");
         filtros.style.display = "flex";
         btnFiltros.innerHTML = "Ocultar Filtros";
         
     }
 }
 
-
 btnFiltros.onclick = openFiltros
 
 // EVENTO BOTON NUEVA OPERACIÓN
 
+//FORMULARIO NUEVA OPERACIÓN//
+
+// Obtener operaciones almacenadas en localStorage o inicializar un array vacío
+const operaciones = JSON.parse(localStorage.getItem("operaciones")) || [];
+
+// Función para guardar las operaciones en localStorage
+const guardarOperacionesEnLocalStorage = () => {
+    localStorage.setItem("operaciones", JSON.stringify(operaciones));
+};
+
+const organizarLista = (elemento, propiedad) => {
+    const element = document.createElement('p');
+    element.textContent = `${propiedad}`;
+    elemento.appendChild(element);
+}
+
+// Función para mostrar las operaciones en el HTML
+const mostrarOperaciones = () => {
+    const containerDescripcion = document.getElementById("valor-descripcion");
+    const containerMonto = document.getElementById("valor-monto");
+    const containerFecha = document.getElementById("valor-fecha");
+    const containerCategoria = document.getElementById("valor-categoria");
+    
+
+    operaciones.forEach((elemento) => {
+        organizarLista(containerDescripcion, elemento.descripcion);
+        organizarLista(containerMonto, elemento.monto);
+        organizarLista(containerFecha, elemento.fecha);
+        organizarLista(containerCategoria, elemento.categoria);
+    });
+};
+
+// Llama a la función para mostrar las operaciones al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+    mostrarOperaciones();
+});
+
+// Obtener valores del formulario y agregar una nueva operación
+const agregarOperacion = () => {
+    const descripcion = document.getElementById("input-descripción").value;
+    const monto = parseFloat(document.getElementById("input-monto").value);
+    const tipo = document.getElementById("select-tipo-op").value;
+    
+    const select = document.getElementById("select-categorias-op");
+    const categoria = select.options[select.selectedIndex].text;
+    console.log("esto es select",select);
+
+    console.log("esto es categoria",categoria);
+    const fecha = document.getElementById("input-fecha").value;
+
+    const nuevaOperacion = {
+        descripcion,
+        monto,
+        tipo,
+        categoria,
+        fecha,
+    };
+
+    operaciones.push(nuevaOperacion);
+    guardarOperacionesEnLocalStorage(); // Guardar en localStorage
+
+    document.getElementById("input-descripción").value = "";
+    document.getElementById("input-monto").value = "";
+    document.getElementById("select-tipo-op").value = "gasto";
+    document.getElementById("select-categorias-op").value = "";
+    document.getElementById("input-fecha").value = "";
+
+    mostrarOperaciones();
+};
+
+const btnAgregarOperacion = document.getElementById("boton-agregar-operacion");
+btnAgregarOperacion.onclick = agregarOperacion;
+
+    
+const seccionSinOperaciones = document.getElementById("sin-operaciones");
+const listadoOperaciones = document.getElementById("listado-operaciones");
+
+if (operaciones.length > 0 ) {
+     seccionSinOperaciones.style.display = "none";
+}
+else  {
+    listadoOperaciones.style.display = "none";
+}
 
 //***MODOS****
 const cambiarModo = () =>{
@@ -280,3 +355,4 @@ const cambiarModo = () =>{
 $('#modeBtn').addEventListener('click', cambiarModo)
 
 window.onload= actualizarVistas(traerDatos())
+=======

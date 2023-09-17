@@ -228,16 +228,13 @@
                                     </div>
                                     <div class="column has-text-right">
                                         <button class="button btn-add-categoria"  id="btn-nuevaOperacion">+ Nueva operación</button>
-                                            <h4 class="is-size-4 has-text-centered mt-6 mb-4 has-text-weight-semibold">
-                                                     Sin resultados
-                                            </h4>
                                     </div>
                                 </div>
-                                <div class="operaciones-sin-resultados is-hidden">
+                                <div class="operaciones-sin-resultados" id="sin-operaciones" >
                                     <div class="colums">
                                         <div class="column is-offset-3 is-7 mt-5 mb-4">
                                             <div class="image 16x16px mt-6">
-                                                <img src="./img/billetera.png">
+                                                <img src="undraw_key_points_re_u903.svg">
                                             </div>
                                         </div>
                                     </div>
@@ -251,13 +248,13 @@
                                
                                
                                 <!-- Listado de operaciones -->
-                                <section class="listado-operaciones is-hidden">
+                                <section class="listado-operaciones" id="listado-operaciones">
                                     <div class="columns has-text-weight-medium">
-                                        <div class="column is-3 has-text-left">Descripción</div>
-                                        <div class="column is-3 pl-0 has-text-left">Categoría</div>
-                                        <div class="column is-2 has-text-right">Fecha</div>
-                                        <div class="column is-2 has-text-right">Monto</div>
-                                        <div class="column is-2 has-text-right">Acciones</div>
+                                        <div class="column is-3 has-text-left" id="valor-descripcion">Descripción</div>
+                                        <div class="column is-3 pl-0 has-text-left" id="valor-categoria">Categoría</div>
+                                        <div class="column is-2 has-text-right" id="valor-fecha">Fecha</div>
+                                        <div class="column is-2 has-text-right" id="valor-monto">Monto</div>
+                                        <div class="column is-2 has-text-right" id="valor-acciones">Acciones</div>
                                     </div>
                                     <div id="listado-nuevas-operaciones"></div>
                                 </section>
@@ -276,9 +273,9 @@
                                 <h3 class=" title is-orange has-text-weight-medium  mb-6">Nueva operación:</h3>
                                 <form id="formulario-operaciones">
                                     <div class="field">
-                                        <label class=>Descripción</label>
+                                        <label>Descripción</label>
                                         <div class="control">
-                                            <input id="input-descripción" class="input" type="text" required placeholder="Ingrese una descripción">
+                                            <input id="input-descripción" class="input"  type="text" required placeholder="Ingrese una descripción">
                                         </div>
 
                                     </div>
@@ -309,7 +306,7 @@
                                         </div>
                                     </div>
                                     <div class="field">
-                                        <label class= for="date">Fecha</label>
+                                        <label class= "" type="date">Fecha</label>
                                         <div class="control">
                                             <input id="input-fecha" class="input" type="date" required>
                                         </div>
