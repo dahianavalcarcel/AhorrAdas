@@ -169,8 +169,6 @@ const borrarCategoria=(idEliminar)=>{
     subirDatos({categorias: categoriasSinEliminar})
 }
 
-console.log(categoriasLista)
-
 //FUNCION INICIALIZAR
 const actualizarVistas = () => {
     crearLista(categoriasLista);
@@ -258,16 +256,52 @@ btnFiltros.onclick = openFiltros
 
 //FORMULARIO NUEVA OPERACIÓN//
 
-const operaciones = [];
+// Obtener operaciones almacenadas en localStorage o inicializar un array vacío
+const operaciones = JSON.parse(localStorage.getItem("operaciones")) || [];
 
-// Obtener valores del formulario
-const agregarOperacion= () => 
-{
-    // parseFloat es para convertir un string en un numero
+// Función para guardar las operaciones en localStorage
+const guardarOperacionesEnLocalStorage = () => {
+    localStorage.setItem("operaciones", JSON.stringify(operaciones));
+};
+
+const organizarLista = (elemento, propiedad) => {
+    const element = document.createElement('p');
+    element.textContent = `${propiedad}`;
+    elemento.appendChild(element);
+}
+
+// Función para mostrar las operaciones en el HTML
+const mostrarOperaciones = () => {
+    const containerDescripcion = document.getElementById("valor-descripcion");
+    const containerMonto = document.getElementById("valor-monto");
+    const containerFecha = document.getElementById("valor-fecha");
+    const containerCategoria = document.getElementById("valor-categoria");
+    
+
+    operaciones.forEach((elemento) => {
+        organizarLista(containerDescripcion, elemento.descripcion);
+        organizarLista(containerMonto, elemento.monto);
+        organizarLista(containerFecha, elemento.fecha);
+        organizarLista(containerCategoria, elemento.categoria);
+    });
+};
+
+// Llama a la función para mostrar las operaciones al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+    mostrarOperaciones();
+});
+
+// Obtener valores del formulario y agregar una nueva operación
+const agregarOperacion = () => {
     const descripcion = document.getElementById("input-descripción").value;
     const monto = parseFloat(document.getElementById("input-monto").value);
     const tipo = document.getElementById("select-tipo-op").value;
-    const categoria = document.getElementById("select-categorias-op").value;
+    
+    const select = document.getElementById("select-categorias-op");
+    const categoria = select.options[select.selectedIndex].text;
+    console.log("esto es select",select);
+
+    console.log("esto es categoria",categoria);
     const fecha = document.getElementById("input-fecha").value;
 
     const nuevaOperacion = {
@@ -276,17 +310,31 @@ const agregarOperacion= () =>
         tipo,
         categoria,
         fecha,
-    }
-   
+    };
+
     operaciones.push(nuevaOperacion);
-    
+    guardarOperacionesEnLocalStorage(); // Guardar en localStorage
+
     document.getElementById("input-descripción").value = "";
     document.getElementById("input-monto").value = "";
     document.getElementById("select-tipo-op").value = "gasto";
     document.getElementById("select-categorias-op").value = "";
     document.getElementById("input-fecha").value = "";
 
-    mostrarOperacion()
+    mostrarOperaciones();
+};
 
+const btnAgregarOperacion = document.getElementById("boton-agregar-operacion");
+btnAgregarOperacion.onclick = agregarOperacion;
 
+    
+const seccionSinOperaciones = document.getElementById("sin-operaciones");
+const listadoOperaciones = document.getElementById("listado-operaciones");
+
+if (operaciones.length > 0 ) {
+     seccionSinOperaciones.style.display = "none";
 }
+else  {
+    listadoOperaciones.style.display = "none";
+}
+
