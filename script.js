@@ -1,18 +1,4 @@
-const $= (selector)=> document.querySelector(selector)
-const $$=(selector=> document.querySelectorAll(selector))
-const randomId = ()=> self.crypto.randomUUID()
-
-//localStorage.clear()
-
-//localStorage
-const traerDatos=()=>{
-    return JSON.parse(localStorage.getItem("datos"))
-}
-
-const subirDatos= (datos) => {
-    localStorage.setItem("datos", JSON.stringify ({...traerDatos(), ...datos}))
-}
-
+//****NAVBAR BURGER*****
 document.addEventListener('DOMContentLoaded', () => {
     const navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
 
@@ -26,14 +12,32 @@ navbarBurgers.forEach( el => {
     });
 });
 
+//****SELECTORES UNIVERSALES****
+
+const $= (selector)=> document.querySelector(selector)
+const $$=(selector=> document.querySelectorAll(selector))
+const randomId = ()=> self.crypto.randomUUID()
+
+//****localStorage*****
+
+//localStorage.clear()
+
+const traerDatos=()=>{
+    return JSON.parse(localStorage.getItem("datos"))
+}
+
+const subirDatos= (datos) => {
+    localStorage.setItem("datos", JSON.stringify ({...traerDatos(), ...datos}))
+}
+
 const traerCategorias=()=>{
     if (traerDatos()){
         return traerDatos().categorias
     }
 }
 
-//categorias predefinidas
-const categoriasLista= traerCategorias() || [
+//***categorias predefinidas****
+let categoriasLista= traerCategorias() || [
     {
         id:randomId(), 
         nombre: 'Servicios'
@@ -60,22 +64,19 @@ const categoriasLista= traerCategorias() || [
     }
 ]
 
-//FUNCION QUE AGREGA UNA CATEGORIA NUEVA
-const addCategoria=()=>{
-    let nuevaCategoria= {
-        id:randomId(),
-        nombre:$('#nombre-categoria').value,
-    }
-    categoriasLista.push(nuevaCategoria)
-    crearLista(categoriasLista)
-    llenarSelect(categoriasLista)
-    subirDatos({categorias: categoriasLista})
-    actualizarVistas(traerDatos())
-    $('#categoriasForm').reset()
+//FUNCION QUE CREA LA LISTA EN EL HTML
+const crearLista=(categorias)=>{
+    $('#listaCategorias').innerHTML=[];
+    for (let {id, nombre } of categorias) {
+        $('#listaCategorias').innerHTML += `<div class="columns lista is-flex mt-4">
+        <li class="column is-9 elemento-lista"><p>${nombre}</p></li>
+        <div class="column is-flex">
+        <button type="button" onclick="mostrarEdicionDeCategoria('${id}')" id="${id}" class="column btn-editar btn">Editar</button>
+        <button type="button" onclick="eliminarCategoria('${id}')" id="${id}" class="column btn-eliminar btn">Eliminar</button>
+        </div>
+        </div>`
+    };
 }
-
-//EVENTO CLICK PARA AGREGAR CATEGORIA
-$('#btnCategoria').addEventListener('click',()=> addCategoria)
 
 //FUNCION PARA LLENAR EL SELECT 
 const llenarSelect = (categorias) =>{
@@ -86,24 +87,33 @@ const llenarSelect = (categorias) =>{
     })
 }
 
-//FUNCION QUE CREA LA LISTA EN EL HTML
-const crearLista=(categorias)=>{
-    $('#listaCategorias').innerHTML=[];
-    for (let {id, nombre } of categorias) {
-        $('#listaCategorias').innerHTML += `<div class="columns lista is flex mt-4">
-        <li class="column is-9 elemento-lista"><p>${nombre}</p></li>
-        <div class="column">
-        <button type="button" onclick="mostrarEdicionDeCategoria('${id}')" id="${id}" class="column btn-editar btn">Editar</button>
-        <button type="button" onclick="eliminarCategoria('${id}')" id="${id}" class="column btn-eliminar btn">Eliminar</button>
-        </div>
-        </div>`
-    };
-}
-
 crearLista(categoriasLista)
+llenarSelect(categoriasLista)
 
-//EVENTO CLICK PARA AGREGAR CATEGORIA
+//FUNCION INICIALIZAR
+const actualizarVistas = (datos) => {
+    crearLista(datos.categorias);
+    llenarSelect(datos.categorias);
+};
+
+//*************
+
+//FUNCION QUE AGREGA UNA CATEGORIA NUEVA
+const addCategoria=()=>{
+    let nuevaCategoria= {
+        id:randomId(),
+        nombre:$('#nombre-categoria').value,
+    }
+    let nuevaLista= [...categoriasLista, nuevaCategoria]
+    crearLista(nuevaLista)
+    llenarSelect(nuevaLista)
+    subirDatos({categorias: [...nuevaLista]})
+    actualizarVistas(traerDatos())
+    $('#categoriasForm').reset()
+}
 $('#btnCategoria').addEventListener('click', ()=> addCategoria())
+
+//*************
 
 //VISTA ***EDITAR CATEGORIA***
 const mostrarVistaEditar = () => {
@@ -150,6 +160,7 @@ const edicionDeCategoria=(id)=>{
     crearLista(categoriasActualizadas) 
     llenarSelect(categoriasActualizadas)
     subirDatos({categorias: categoriasActualizadas})
+    actualizarVistas(traerDatos())
 }
 
 //FUNCION PARA ***ELIMINAR CATEGORIA***
@@ -167,18 +178,9 @@ const borrarCategoria=(idEliminar)=>{
     crearLista(categoriasSinEliminar)
     llenarSelect(categoriasSinEliminar)
     subirDatos({categorias: categoriasSinEliminar})
+    actualizarVistas(traerDatos())
 }
 
-console.log(categoriasLista)
-
-//FUNCION INICIALIZAR
-const actualizarVistas = () => {
-    crearLista(categoriasLista);
-    llenarSelect(categoriasLista);
-};
-
-actualizarVistas(traerDatos())
-window.onload= actualizarVistas()
 
 // EVENTO CAMBIAR SECCIONES- BALANCE-CATEGORIAS-REPORTES
 
@@ -262,3 +264,19 @@ const openFiltros = () => {
 btnFiltros.onclick = openFiltros
 
 // EVENTO BOTON NUEVA OPERACIÓN
+
+
+//***MODOS****
+const cambiarModo = () =>{
+    if ($('#bodyContainer').getAttribute('data-theme') === 'light'){
+        $('#bodyContainer').setAttribute('data-theme','dark');
+        $("#modeBtn").innerHTML = '🌕'
+    }else if($('#bodyContainer').getAttribute('data-theme') === 'dark'){
+        $('#bodyContainer').setAttribute('data-theme','light')
+        $("#modeBtn").innerHTML = '🌑'
+    }
+}
+
+$('#modeBtn').addEventListener('click', cambiarModo)
+
+window.onload= actualizarVistas(traerDatos())
