@@ -38,12 +38,16 @@
     font-size: 30px;
 }
 
+.box{
+    background-color: var(--background-section)
+}
+
 /*MODOS*/
 .btn-mode {
     position: absolute;
-    top: 100px;
+    top: 90px;
     right: 2px;
-    font-size: 30px;
+    font-size: 25px;
     margin: 0px 10px;
     background-color:transparent;
     border: 0px;
@@ -59,7 +63,7 @@
     --background-nav: var(--pink);
     --hover-color: var(--green);
     --btn-color: var(--green);
-    --btn-background-eliminar: var(var(--pink))
+    --btn-background-eliminar: var(--pink)
 }
 
 [data-theme="dark"] {
@@ -103,28 +107,6 @@
     color: var(--orange);
 }
 
-@media (max-width: 1022px){
-    .navbar-menu{
-        display: none;
-        width: 100%;
-        background-color:var(--background-nav);
-    }
-    .nav-bts{
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    .btn-nav:hover{
-        background-color: transparent;
-        color: var(--orange);
-        box-shadow: none;
-    }
-}
-
-.box{
-    background-color: var(--background-section)
-}
-
 /*categorias*/
 .categorias-box{
     margin-top: 7vh;
@@ -150,16 +132,6 @@
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
 
-@media (max-width: 1200px){
-    .categorias-box{
-        width: 80%;
-    }
-}
-@media (max-width: 1025px){
-    .categorias-box{
-        width: 90%;
-    }
-}
 .lista{
     align-items: center;
     justify-content: center;
@@ -238,3 +210,45 @@
     margin: 5vh;
 }
 
+
+/*MEDIAS QUERY*/
+
+@media (max-width: 1200px){
+    .categorias-box{
+        width: 80%;
+    }
+    .reportes-box{
+        width: 80%;
+    }
+}
+
+@media (max-width: 1022px){
+    .navbar-menu{
+        display: none;
+        width: 100%;
+        background-color:var(--background-nav);
+    }
+    .nav-bts{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .btn-nav:hover{
+        background-color: transparent;
+        color: var(--orange);
+        box-shadow: none;
+    }
+    .btn-mode{
+        font-size: 20px;
+        top: 80px
+    }
+    .categorias-box{
+        width: 90%;
+    }
+    .reportes-box{
+        width: 90%;
+    }
+    .img-reportes{
+        width: 90%;
+    }
+}
