@@ -5,7 +5,7 @@
 
 .body-container{
     min-height: 100vh;
-    background-color:var(--cream);
+    background-color: var(--background-body);
 }
 
 /*reutilizables*/
@@ -14,6 +14,7 @@
     --green: #034430;
     --orange: #f47b2a;
     --cream:#f0ebd7;
+    --blue: #3b40a4;
 }
 
 .is-center{
@@ -24,7 +25,7 @@
 }
 
 .is-pink{
-    background-color: var(--pink);
+    background-color: var(--background-nav);
 }
 
 .is-orange{
@@ -37,14 +38,52 @@
     font-size: 30px;
 }
 
+.box{
+    background-color: var(--background-section)
+}
+
+/*MODOS*/
+.btn-mode {
+    position: absolute;
+    top: 90px;
+    right: 2px;
+    font-size: 25px;
+    margin: 0px 10px;
+    background-color:transparent;
+    border: 0px;
+    border-radius: 100%;
+    cursor: pointer;
+    outline: none;
+}
+
+[data-theme="light"] {
+    --background-body: var(--cream);
+    --font-color:var(--green);
+    --background-section: whitesmoke;
+    --background-nav: var(--pink);
+    --hover-color: var(--green);
+    --btn-color: var(--green);
+    --btn-background-eliminar: var(--pink)
+}
+
+[data-theme="dark"] {
+    --background-body: black;
+    --font-color:var(--pink);
+    --background-section: var(--pink);
+    --background-nav: var(--blue);
+    --hover-color: var(--orange);
+    --btn-color: var(--blue);
+    --btn-background-eliminar: var(--orange)
+}
+
 /*nav*/
 .navbar{
     height: 11vh;
 }
 
 .btn-nav{
-    background-color: var(--pink);
-    color: var(--green);
+    background-color: var(--background-nav);
+    color: var(--font-color);
     font-family: 'Poppins', sans-serif;
     font-size: 17px;
     padding: 15px 30px;
@@ -53,14 +92,14 @@
 }
 
 .btn-nav:hover{
-    background-color:var(--green);
+    background-color:var(--hover-color);
     color: var(--cream);
-    border: 1px solid var(--pink);
+    border: 1px solid transparent;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
     
 .navbar-burger{
-    color:var(--green);
+    color:var(--font-color);
 }
 
 .navbar-burger:hover{
@@ -70,12 +109,12 @@
 
 /*categorias*/
 .categorias-box{
-    margin-top: 10vh;
+    margin-top: 7vh;
     width: 65%;
 }
 
 .btn-add-categoria{
-    background-color: var(--green);
+    background-color: var(--btn-color);
     color: var(--cream);
     border-radius: 20px;
     padding: 2px 30px;
@@ -93,16 +132,6 @@
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
 
-@media (max-width: 1200px){
-    .categorias-box{
-        width: 80%;
-    }
-}
-@media (max-width: 1025px){
-    .categorias-box{
-        width: 90%;
-    }
-}
 .lista{
     align-items: center;
     justify-content: center;
@@ -124,7 +153,7 @@
 }
 
 .btn-editar{
-    color: var(--green);
+    color: var(--btn-color);
     font-size: 12px;
     padding: 1px;
 }
@@ -134,8 +163,8 @@
 }
 
 .btn-eliminar{
-    background-color: var(--pink);
-    color: var(--green);
+    background-color: var(--btn-background-eliminar);
+    color: var(--btn-color);
     padding: 0px 8px;
     font-size: 12px;
     border-radius: 10px;
@@ -143,13 +172,13 @@
 }
 
 .btn-eliminar:hover{
-    background-color: var(--green);
+    background-color: var(--btn-color);
     color: var(--cream);
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
 
 .btn-vista-edit{
-    background-color: var(--green);
+    background-color: var(--btn-color);
     color: var(--cream);
     border-radius: 20px;
     padding: 0px 20px;
@@ -163,8 +192,9 @@
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
 
+/*reportes*/
 .reportes-box{ 
-    margin-top: 10vh;
+    margin-top: 7vh;
     width: 65%;
     height: 80vh;
 }
@@ -178,4 +208,47 @@
 .img-reportes{
     width: 50vh;
     margin: 5vh;
+}
+
+
+/*MEDIAS QUERY*/
+
+@media (max-width: 1200px){
+    .categorias-box{
+        width: 80%;
+    }
+    .reportes-box{
+        width: 80%;
+    }
+}
+
+@media (max-width: 1022px){
+    .navbar-menu{
+        display: none;
+        width: 100%;
+        background-color:var(--background-nav);
+    }
+    .nav-bts{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .btn-nav:hover{
+        background-color: transparent;
+        color: var(--orange);
+        box-shadow: none;
+    }
+    .btn-mode{
+        font-size: 20px;
+        top: 80px
+    }
+    .categorias-box{
+        width: 90%;
+    }
+    .reportes-box{
+        width: 90%;
+    }
+    .img-reportes{
+        width: 90%;
+    }
 }

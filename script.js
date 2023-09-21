@@ -1,10 +1,27 @@
-const $= (selector)=> document.querySelector(selector)
+//***************NAVBAR BURGER***********************
+document.addEventListener('DOMContentLoaded', () => {
+    const navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+navbarBurgers.forEach( el => {
+    el.addEventListener('click', () => {
+        const target = el.dataset.target;
+        const $target = document.getElementById(target);
+        el.classList.toggle('is-active');
+        $target.classList.toggle('is-active');
+    });
+    });
+});
+
+//**************SELECTORES UNIVERSALES***************
+
+const $=(selector)=> document.querySelector(selector)
 const $$=(selector=> document.querySelectorAll(selector))
 const randomId = ()=> self.crypto.randomUUID()
 
+//*****************localStorage************************
+
 //localStorage.clear()
 
-//localStorage
 const traerDatos=()=>{
     return JSON.parse(localStorage.getItem("datos"))
 }
@@ -19,8 +36,79 @@ const traerCategorias=()=>{
     }
 }
 
-//categorias predefinidas
-const categoriasLista= traerCategorias() || [
+
+
+
+//******************VISTAS******************
+
+const openAhorradas = () => {
+    $("#vistaCategorias").style.display = "none";
+    $("#Seccion-NuevaOperacion").style.display = "none";
+    $("#vistaReportes").style.display="none"
+    $('#vista-editar-categorias').style.display='none'
+    $("#Seccion-EditarOperacion").style.display = "none";
+}
+const openCategorias = () => {
+    $("#seccion-balance").style.display = "none";
+    $("#vistaCategorias").style.display = "flex";
+    $("#Seccion-NuevaOperacion").style.display = "none";
+    $("#vistaReportes").style.display="none"
+    $('#vista-editar-categorias').style.display='none'
+    $("#Seccion-EditarOperacion").style.display = "none";
+}
+const openBalance = () => {
+    $("#seccion-balance").style.display = "flex";
+    $("#vistaCategorias").style.display = "none";
+    $("#Seccion-NuevaOperacion").style.display = "none";
+    $("#vistaReportes").style.display="none"
+    $('#vista-editar-categorias').style.display='none'
+    $("#Seccion-EditarOperacion").style.display = "none";
+}
+const openReportes= ()=>{
+    $("#seccion-balance").style.display = "none";
+    $("#vistaCategorias").style.display = "none";
+    $("#Seccion-NuevaOperacion").style.display = "none";
+    $("#vistaReportes").style.display="flex"
+    $('#vista-editar-categorias').style.display='none'
+    $("#Seccion-EditarOperacion").style.display = "none";
+}
+const openNuevaOperacion = () => { 
+    $("#seccion-balance").style.display = "none";
+    $("#vistaCategorias").style.display = "none";
+    $("#Seccion-NuevaOperacion").style.display = "flex";
+    $("#vistaReportes").style.display="none"
+    $('#vista-editar-categorias').style.display='none'
+    $("#Seccion-EditarOperacion").style.display = "none";
+}
+const openEditarCategoria= ()=>{
+    $("#seccion-balance").style.display = "none";
+    $("#vistaCategorias").style.display = "none";
+    $("#Seccion-NuevaOperacion").style.display = "none";
+    $("#vistaReportes").style.display="none"
+    $('#vista-editar-categorias').style.display='flex'
+    $("#Seccion-EditarOperacion").style.display = "none";
+}
+
+$("#btn-categorias").onclick = openCategorias
+$("#btn-balance").onclick = openBalance
+$("#btn-reportes").onclick = openReportes
+$("#btn-nuevaOperacion").onclick = openNuevaOperacion
+$('#btnCancelarEditar').onclick= openCategorias
+$('#boton-cancelar-nueva-operacion').onclick= openBalance
+openAhorradas()
+
+const mostrarVistaEditar = () => {
+    $$('.btn-editar').forEach((btn) => {
+        btn.addEventListener('click', () =>
+            openEditarCategoria()
+            )
+    })
+}
+
+//******************CATEGORIAS******************
+
+//***categorias predefinidas****
+let categoriasLista= traerCategorias() || [
     {
         id:randomId(), 
         nombre: 'Servicios'
@@ -47,68 +135,57 @@ const categoriasLista= traerCategorias() || [
     }
 ]
 
-//FUNCION QUE AGREGA UNA CATEGORIA NUEVA
-const addCategoria=()=>{
-    let nuevaCategoria= {
-        id:randomId(),
-        nombre:$('#nombre-categoria').value,
-    }
-    categoriasLista.push(nuevaCategoria)
-    crearLista(categoriasLista)
-    llenarSelect(categoriasLista)
-    subirDatos({categorias: categoriasLista})
-    actualizarVistas(traerDatos())
-    $('#categoriasForm').reset()
+//FUNCION QUE ***CREA LA LISTA EN EL HTML***
+const crearLista=(categorias)=>{
+    $('#listaCategorias').innerHTML='';
+    for (let {id, nombre } of categorias) {
+        $('#listaCategorias').innerHTML += `<div class="columns lista is-flex mt-4">
+        <li class="column is-9 elemento-lista"><p>${nombre}</p></li>
+        <div class="column is-flex">
+        <button type="button" onclick="mostrarEdicionDeCategoria('${id}')" id="${id}" class="column btn-editar btn">Editar</button>
+        <button type="button" onclick="eliminarCategoria('${id}')" id="${id}" class="column btn-eliminar btn">Eliminar</button>
+        </div>
+        </div>`
+        
+    };
 }
 
-//EVENTO CLICK PARA AGREGAR CATEGORIA
-$('#btnCategoria').addEventListener('click',()=> addCategoria)
-
-//FUNCION PARA LLENAR EL SELECT 
+//FUNCION PARA ***LLENAR EL SELECT***
 const llenarSelect = (categorias) =>{
     $$('.categoriasSelect').forEach((select)=>{
-        select.innerHTML=''
+        select.innerHTML='<option value="todasCategorias">Todas</option>'
         for(let {nombre, id} of categorias){
         select.innerHTML += `<option value="${id}" aria-label="${nombre}">${nombre}</option>`}
     })
 }
 
-//FUNCION QUE CREA LA LISTA EN EL HTML
-const crearLista=(categorias)=>{
-    $('#listaCategorias').innerHTML=[];
-    for (let {id, nombre } of categorias) {
-        $('#listaCategorias').innerHTML += `<div class="columns lista mt-4">
-        <li class="column is-10 elemento-lista"><p>${nombre}</p></li>
-        <button type="button" onclick="mostrarEdicionDeCategoria('${id}')" id="${id}" class="column btn-editar btn">Editar</button>
-        <button type="button" onclick="eliminarCategoria('${id}')" id="${id}" class="column btn-eliminar btn">Eliminar</button>
-    </div>`
-    };
-}
-
 crearLista(categoriasLista)
+llenarSelect(categoriasLista)
 
-//EVENTO CLICK PARA AGREGAR CATEGORIA
+//FUNCION INICIALIZAR
+const actualizarVistas = (datos) => {
+    crearLista(datos.categorias);
+    llenarSelect(datos.categorias);
+};
+
+//*************
+
+//FUNCION QUE ***AGREGA UNA CATEGORIA NUEVA***
+const addCategoria=()=>{
+    let nuevaCategoria= {
+        id:randomId(),
+        nombre:$('#nombre-categoria').value,
+    }
+    let nuevaLista= [...categoriasLista, nuevaCategoria]
+    llenarSelect(nuevaLista)
+    console.log(nuevaLista)
+    subirDatos({categorias: nuevaLista})
+    actualizarVistas(traerDatos())
+    $('#categoriasForm').reset()
+}
 $('#btnCategoria').addEventListener('click', ()=> addCategoria())
 
-//VISTA ***EDITAR CATEGORIA***
-const mostrarVistaEditar = () => {
-    $$('.btn-editar').forEach((btn) => {
-        btn.addEventListener('click', () =>
-            $('#vista-editar-categorias').classList.remove('is-hidden') &
-            $('#vistaCategorias').classList.add('is-hidden')
-        )
-    })
-}
-
-//FUNCION PARA VOLVER A LA VISTA CATEGORIAS
-const mostrarVistaCategorias = () => {
-    $('#vista-editar-categorias').classList.add('is-hidden') &
-    $('#vistaCategorias').classList.remove('is-hidden')
-}
-
-//CANCELAR VISTA ***EDITAR CATEGORIA***
-$('#btnCancelarEditar').addEventListener('click', () => mostrarVistaCategorias())
-
+//*************
 //FUNCION ***OBTENER CATEGORIA***
 const obtenerCategoria = (idCategoria, categoria) =>{
     return categoriasLista.find((categoria) => categoria.id == idCategoria)
@@ -121,7 +198,9 @@ const mostrarEdicionDeCategoria=(id)=>{
     $('#editar-categoria-input').value = categoriaAEditar.nombre
     $('#btnEditarCategoria').addEventListener('click', ()=>edicionDeCategoria
     (categoriaAEditar.id))
-    $('#btnEditarCategoria').addEventListener('click', ()=> mostrarVistaCategorias())
+    $('#btnEditarCategoria').addEventListener('click', ()=> openCategorias())
+
+
 }
 
 const edicionDeCategoria=(id)=>{
@@ -135,6 +214,7 @@ const edicionDeCategoria=(id)=>{
     crearLista(categoriasActualizadas) 
     llenarSelect(categoriasActualizadas)
     subirDatos({categorias: categoriasActualizadas})
+    actualizarVistas(traerDatos())
 }
 
 //FUNCION PARA ***ELIMINAR CATEGORIA***
@@ -152,20 +232,13 @@ const borrarCategoria=(idEliminar)=>{
     crearLista(categoriasSinEliminar)
     llenarSelect(categoriasSinEliminar)
     subirDatos({categorias: categoriasSinEliminar})
+    actualizarVistas(traerDatos())
 }
 
-console.log(categoriasLista)
 
-//FUNCION INICIALIZAR
-const actualizarVistas = () => {
-    crearLista(traerCategorias());
-    llenarSelect(traerCategorias());
-};
+//***************************************************
 
-actualizarVistas(traerDatos())
-window.onload= actualizarVistas()
-
-// EVENTO CAMBIAR SECCIONES- BALANCE-CATEGORIAS-REPORTES
+//EVENTO CAMBIAR SECCIONES- BALANCE-CATEGORIAS-REPORTES
 
 const categorias = document.getElementById("vistaCategorias")
 const balance = document.getElementById("seccion-balance")
@@ -175,75 +248,337 @@ const btnCategorias = document.getElementById("btn-categorias")
 const btnBalance = document.getElementById("btn-balance")
 const btnReportes= document.getElementById("btn-reportes")
 const btnAhorradas = document.getElementById("btn-ahorradas")
-const  nuevaOperacion = document.getElementById("btn-nuevaOperacion")
-
-const openCategorias = () => {
-    categorias.style.display = "flex"
-    balance.style.display = "none"
-    reportes.style.display="none"
-}
+const nuevaOperacion = document.getElementById("btn-nuevaOperacion");
+const seccionEditarOp = document.getElementById("Seccion-EditarOperacion");
 
 btnCategorias.onclick = openCategorias
-
-const openBalance = () => {
-    balance.style.display = "flex"
-    categorias.style.display = "none"
-    reportes.style.display="none"
-    seccionNuevaOperacion.style.display = "none";
-
-}
-
 btnBalance.onclick = openBalance
-
-const openReportes= ()=>{
-    reportes.style.display="flex"
-    balance.style.display = "none"
-    categorias.style.display = "none"
-    seccionNuevaOperacion.style.display = "none";
-}
-
-const openAhorradas = () => {
-        categorias.style.display = "none";
-        seccionNuevaOperacion.style.display = "none";
-        reportes.style.display="none"
-}
-
 btnReportes.onclick = openReportes
-
-btnAhorradas.onclick = openAhorradas()
-
-
-const openNuevaOperacion = () => { 
-    balance.style.display = "none";
-    seccionNuevaOperacion.style.display = "flex";
-}
+btnAhorradas.onclick = openAhorradas
 nuevaOperacion.onclick = openNuevaOperacion
 
 
-
-
 //  EVENTO VISTA DE FILTROS
-
 const btnFiltros =  document.getElementById("btn-filtros");
 const filtros    = document.getElementById("formulario-filtros");
 
 const openFiltros = () => {
-    console.log("HICIMOS CLICK EN Filtros");
-    console.log( btnFiltros);
     if(btnFiltros.innerHTML === "Ocultar Filtros"){
-        console.log("oculto los filtros");
         filtros.style.display = "none";
         btnFiltros.innerHTML = "Mostrar Filtros";
     }
     else if (btnFiltros.innerHTML === "Mostrar Filtros") {
-        console.log("mostramos los filtros");
         filtros.style.display = "flex";
         btnFiltros.innerHTML = "Ocultar Filtros";
         
     }
 }
 
-
 btnFiltros.onclick = openFiltros
 
-// EVENTO BOTON NUEVA OPERACIÓN
+
+
+ ///FORMULARIO OPERACIONES///
+
+$("#btn-editar-op").addEventListener('click', () => guardarCambiosOperacion())
+$('#btn-cancelar-edicion').addEventListener('click', () => openBalance())
+
+// Operaciones almacenadas en localStorage o inicializar un array vacío
+let operaciones = JSON.parse(localStorage.getItem("operaciones")) || [];
+
+// Función para guardar las operaciones en localStorage
+const guardarOperacionesEnLocalStorage = () => {
+    localStorage.setItem("operaciones", JSON.stringify(operaciones));
+};
+
+
+// Obtener valores del formulario y agregar una nueva operación
+const agregarOperacion = () => {
+    const descripcion = document.getElementById("input-descripción").value;
+    const monto = parseFloat(document.getElementById("input-monto").value);
+    const tipo = document.getElementById("select-tipo-op").value;
+    const fecha = document.getElementById("input-fecha").value;
+    const select = document.getElementById("select-categorias-op");
+    const categoria = select.options[select.selectedIndex].text;
+
+    const nuevaOperacion = {
+        id: randomId(),
+        descripcion,
+        monto,
+        tipo,
+        categoria,
+        fecha,
+    };
+
+    operaciones.push(nuevaOperacion); 
+    guardarOperacionesEnLocalStorage(); // Guardar en localStorage
+
+    document.getElementById("input-descripción").value = "";
+    document.getElementById("input-monto").value = "";
+    document.getElementById("select-tipo-op").value = "gasto";
+    document.getElementById("select-categorias-op").value = "";
+    document.getElementById("input-fecha").value = "";
+
+    mostrarOperaciones();
+};
+
+const btnAgregarOperacion = document.getElementById("boton-agregar-operacion");
+btnAgregarOperacion.onclick = agregarOperacion;
+
+
+// Función para mostrar las operaciones en el HTML
+const mostrarOperaciones = () => {
+    const containerDescripcion = document.getElementById("valor-descripcion");
+    const containerMonto = document.getElementById("valor-monto");
+    const containerFecha = document.getElementById("valor-fecha");
+    const containerCategoria = document.getElementById("valor-categoria");
+    const containerAcciones =  document.getElementById("valor-acciones");
+    
+
+    operaciones.forEach((elemento) => {
+        organizarLista(containerDescripcion, elemento.descripcion);
+        organizarLista(containerFecha, elemento.fecha);
+        organizarLista(containerCategoria, elemento.categoria);
+
+        // Formato especial para monto. 
+        const monto = document.createElement("p");
+        if (elemento.tipo === 'ganancia'){
+            monto.innerHTML = `+$${elemento.monto}`
+            monto.style.color = "hsl(153, 53%, 53%)"
+        } else if (elemento.tipo === "gasto"){
+            monto.innerHTML = `-$ ${elemento.monto}`;
+            monto.style.color = "hsl(348, 86%, 61%)"
+        }
+        containerMonto.appendChild(monto)
+        //
+        
+        const btnEditar = document.createElement("button");
+        btnEditar.textContent = "Editar";
+        btnEditar.onclick = () => editarOperacion(elemento.id);
+        btnEditar.style.border = 'none';
+        btnEditar.style.padding = '3px';
+        
+        const btnEliminar = document.createElement("button");
+        btnEliminar.textContent = "Eliminar";
+        btnEliminar.style.border= 'none';
+
+        btnEliminar.onclick = () => eliminarOperacion(elemento.id);
+
+        // Agregar los botones al div de acciones
+        const divAcciones = document.createElement("div");
+        divAcciones.appendChild(btnEditar);
+        divAcciones.appendChild(btnEliminar);
+
+        containerAcciones.appendChild(divAcciones);
+    });
+
+    openBalance()
+};
+let operacionIdAEditar = null;
+
+const editarOperacion = (id) => {
+    balance.style.display = "none";
+    seccionEditarOp.style.display = "flex";
+    
+    const opAEditar = operaciones.find(op => op.id === id);
+
+    document.getElementById("input-editar-descripción").value = opAEditar.descripcion;
+    document.getElementById("input-editar-monto").value = opAEditar.monto;
+    document.getElementById("select-tipo-editar-op").value = opAEditar.tipo;
+    document.getElementById("input-editar-fecha").value = opAEditar.fecha;
+    const select = document.getElementById("select-categorias-editar-op");
+    const categoria = select.options[select.selectedIndex];
+    categoria.text = opAEditar.categoria;
+
+    operacionIdAEditar = id;
+}
+
+const guardarCambiosOperacion = () => {
+    const descripcion = document.getElementById("input-editar-descripcion").value;
+    const monto = parseFloat(document.getElementById("input-editar-monto").value);
+    const tipo = document.getElementById("select-tipo-editar-op").value;
+    const fecha = document.getElementById("input-editar-fecha").value;
+    const select = document.getElementById("select-categorias-editar-op");
+    const categoria = select.options[select.selectedIndex].text;
+  
+    // Busca la operación en el array por su ID y actualiza sus propiedades
+    const operacionEditada = operaciones.find(op => op.id === operacionIdAEditar);
+
+    if (operacionEditada) {
+        operacionEditada.descripcion = descripcion;
+        operacionEditada.monto = monto;
+        operacionEditada.tipo = tipo;
+        operacionEditada.fecha = fecha;
+        operacionEditada.categoria = categoria;
+
+        guardarOperacionesEnLocalStorage();
+    }
+    
+
+const operacionesGuardadas = localStorage.getItem("operaciones");
+if (operacionesGuardadas) {
+    operaciones = JSON.parse(operacionesGuardadas);
+   mostrarOperaciones();
+}
+
+
+    // Limpia los campos del formulario de edición
+    document.getElementById("input-editar-descripcion").value = "";
+    document.getElementById("input-editar-monto").value = "";
+    document.getElementById("select-tipo-editar-op").value = "gasto";
+    document.getElementById("select-categorias-editar-op").value = "";
+    document.getElementById("input-editar-fecha").value = "";
+
+    // Limpia la variable global operacionIdAEditar
+    operacionIdAEditar = null;
+
+
+    // Vuelve a mostrar la lista actualizada de operaciones
+//    mostrarOperaciones();
+};
+
+const eliminarOperacion = (id) => {
+    operaciones= operaciones.filter(elemento => elemento.id !== id);
+    guardarOperacionesEnLocalStorage();
+    mostrarOperaciones();
+}
+
+
+const organizarLista = (div, propiedad) => {
+    const element = document.createElement('p');
+    element.style.fontWeight= '150';
+    element.textContent = `${propiedad}`;
+    div.appendChild(element);
+}
+
+
+// Llama a la función para mostrar las operaciones al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+    mostrarOperaciones();
+});
+
+
+const seccionSinOperaciones = document.getElementById("sin-operaciones");
+const listadoOperaciones = document.getElementById("listado-operaciones");
+
+if (operaciones.length > 0 ) {
+    seccionSinOperaciones.style.display = "none";
+}
+else  {
+    listadoOperaciones.style.display = "none";
+}
+
+
+
+//******************BALANCE******************
+
+const balanceGananciasTotales = document.getElementById("balance-ganancias-totales");
+const balanceTotalesOperables = document.getElementById("balance-totales-operables");
+const balanceGastosTotales = document.getElementById("balance-gastos-totales");
+
+const balanceGastosGanancias = (array, tipo) => {
+
+    const filtroOp = array.filter((elemento) => {
+      return elemento.tipo === tipo && elemento
+    })
+    
+    const reduceGastos = filtroOp.reduce((acc, elemento) => {
+      return acc + Number(elemento.monto)
+    }, 0)
+    
+    return reduceGastos  
+  }
+  
+  const balanceTotal = balanceGastosGanancias(operaciones, "ganancia") - balanceGastosGanancias(operaciones, "gasto")
+  
+  const balancesActualizados = () => {
+    balanceGananciasTotales.innerHTML = `+$${balanceGastosGanancias(operaciones, "ganancia")}`
+    balanceGastosTotales.innerHTML = `-$${balanceGastosGanancias(operaciones, "gasto")}`
+
+    if(balanceTotal > 0 ) {
+        balanceTotalesOperables.innerHTML = `+$${balanceTotal}`
+        balanceTotalesOperables.style.color = "hsl(153, 53%, 53%)"
+    }
+    else if (balanceTotal < 0 ) {
+        balanceTotalesOperables.innerHTML = `-$${balanceTotal}`
+        balanceTotalesOperables.style.color ="hsl(348, 86%, 61%)"
+    }
+  }
+  
+  const balanceEnCero = () => {
+    balanceGananciasTotales.innerHTML = `+$${0}`
+    balanceGastosTotales.innerHTML = `-$${0}`
+    balanceTotalesOperables.innerHTML = `$${0}`
+  }
+  
+  balanceTotalCondicion = () => localStorage.getItem("operaciones") === "[]" ? balanceEnCero() : balancesActualizados()
+  balanceTotalCondicion()
+
+
+
+
+
+//***MODOS****
+const cambiarModo = () =>{
+    if ($('#bodyContainer').getAttribute('data-theme') === 'light'){
+        $('#bodyContainer').setAttribute('data-theme','dark');
+        $("#modeBtn").innerHTML = '🌕'
+    }else if($('#bodyContainer').getAttribute('data-theme') === 'dark'){
+        $('#bodyContainer').setAttribute('data-theme','light')
+        $("#modeBtn").innerHTML = '🌑'
+    }
+}
+
+$('#modeBtn').addEventListener('click', cambiarModo)
+
+//******************REPORTES******************//
+
+const totalesPorCategoria= (operaciones) => {       
+        let categoriaMayorGanancia= "";
+        let categoriaMayorGasto="";
+        let montoMayorGanancia= 0;
+        let montoMayorGasto=0
+        for (let {nombre} of categoriasLista){
+            let operacionesPorCategoria = operaciones.filter((operacion)=> 
+            operacion.categoria === nombre
+            //console.log(nombre)
+            )
+            let gananciasTotalesPorCategoria= operacionesPorCategoria.filter((operacion) => operacion.tipo !== "gasto")
+            let totalGanancia= gananciasTotalesPorCategoria.reduce((acum, ganancia) => 
+                acum + ganancia.monto
+            , 0)
+
+            if(categoriaMayorGanancia === "" && montoMayorGanancia=== 0){
+                categoriaMayorGanancia = nombre
+                montoMayorGanancia = totalGanancia
+            }else if (totalGanancia > montoMayorGanancia){
+                categoriaMayorGanancia = nombre
+                montoMayorGanancia = totalGanancia
+            }
+
+            let gastosTotalesPorCategoria= operacionesPorCategoria.filter((operacion) => operacion.tipo === "gasto")
+            let totalGasto= gastosTotalesPorCategoria.reduce((acum, gasto) => 
+                acum - gasto.monto
+            , 0)
+
+            if(categoriaMayorGasto === '' && montoMayorGasto=== 0){
+                categoriaMayorGasto = nombre
+                montoMayorGasto = totalGanancia
+            }else if (montoMayorGasto > totalGasto){
+                categoriaMayorGasto = nombre
+                montoMayorGasto = totalGasto
+            }
+
+            console.log(categoriaMayorGanancia)
+        }
+    }
+
+
+totalesPorCategoria(operaciones)
+
+window.onload= actualizarVistas(traerDatos())
+
+
+
+//******************Calculos Balance******************//
+
