@@ -25,6 +25,7 @@ const openAhorradas = () => {
     $("#Seccion-NuevaOperacion").style.display = "none";
     $("#vistaReportes").style.display="none"
     $('#vista-editar-categorias').style.display='none'
+    $("#Seccion-EditarOperacion").style.display = "none";
 }
 const openCategorias = () => {
     $("#seccion-balance").style.display = "none";
@@ -32,6 +33,7 @@ const openCategorias = () => {
     $("#Seccion-NuevaOperacion").style.display = "none";
     $("#vistaReportes").style.display="none"
     $('#vista-editar-categorias').style.display='none'
+    $("#Seccion-EditarOperacion").style.display = "none";
 }
 const openBalance = () => {
     $("#seccion-balance").style.display = "flex";
@@ -39,6 +41,7 @@ const openBalance = () => {
     $("#Seccion-NuevaOperacion").style.display = "none";
     $("#vistaReportes").style.display="none"
     $('#vista-editar-categorias').style.display='none'
+    $("#Seccion-EditarOperacion").style.display = "none";
 }
 const openReportes= ()=>{
     $("#seccion-balance").style.display = "none";
@@ -46,6 +49,7 @@ const openReportes= ()=>{
     $("#Seccion-NuevaOperacion").style.display = "none";
     $("#vistaReportes").style.display="flex"
     $('#vista-editar-categorias').style.display='none'
+    $("#Seccion-EditarOperacion").style.display = "none";
 }
 const openNuevaOperacion = () => { 
     $("#seccion-balance").style.display = "none";
@@ -53,6 +57,7 @@ const openNuevaOperacion = () => {
     $("#Seccion-NuevaOperacion").style.display = "flex";
     $("#vistaReportes").style.display="none"
     $('#vista-editar-categorias').style.display='none'
+    $("#Seccion-EditarOperacion").style.display = "none";
 }
 const openEditarCategoria= ()=>{
     $("#seccion-balance").style.display = "none";
@@ -60,6 +65,7 @@ const openEditarCategoria= ()=>{
     $("#Seccion-NuevaOperacion").style.display = "none";
     $("#vistaReportes").style.display="none"
     $('#vista-editar-categorias').style.display='flex'
+    $("#Seccion-EditarOperacion").style.display = "none";
 }
 
 $("#btn-categorias").onclick = openCategorias
@@ -186,6 +192,7 @@ const mostrarEdicionDeCategoria=(id)=>{
     $('#editar-categoria-input').value = categoriaAEditar.nombre
     $('#btnEditarCategoria').addEventListener('click', ()=>
     edicionDeCategoria(categoriaAEditar.nombre))
+
 }
 
 const edicionDeCategoria=(nombre, id)=>{
@@ -320,9 +327,20 @@ const mostrarOperaciones = () => {
 
     operaciones.forEach((elemento) => {
         organizarLista(containerDescripcion, elemento.descripcion);
-        organizarLista(containerMonto, elemento.monto);
         organizarLista(containerFecha, elemento.fecha);
         organizarLista(containerCategoria, elemento.categoria);
+
+        // Formato especial para monto. 
+        const monto = document.createElement("p");
+        if (elemento.tipo === 'ganancia'){
+            monto.innerHTML = `+$${elemento.monto}`
+            monto.style.color = "hsl(153, 53%, 53%)"
+        } else if (elemento.tipo === "gasto"){
+            monto.innerHTML = `-$ ${elemento.monto}`;
+            monto.style.color = "hsl(348, 86%, 61%)"
+        }
+        containerMonto.appendChild(monto)
+        //
         
         const btnEditar = document.createElement("button");
         btnEditar.textContent = "Editar";
@@ -343,6 +361,8 @@ const mostrarOperaciones = () => {
 
         containerAcciones.appendChild(divAcciones);
     });
+
+    openBalance()
 };
 let operacionIdAEditar = null;
 
@@ -362,13 +382,8 @@ const editarOperacion = (id) => {
 
     operacionIdAEditar = id;
 }
-console.log("operacion", operacionIdAEditar);
 
 const guardarCambiosOperacion = () => {
-    if (operacionIdAEditar === null) {
-        return; // Si no hay operación para editar, no hagas nada
-    }
-
     const descripcion = document.getElementById("input-editar-descripcion").value;
     const monto = parseFloat(document.getElementById("input-editar-monto").value);
     const tipo = document.getElementById("select-tipo-editar-op").value;
@@ -385,13 +400,17 @@ const guardarCambiosOperacion = () => {
         operacionEditada.tipo = tipo;
         operacionEditada.fecha = fecha;
         operacionEditada.categoria = categoria;
+
+        guardarOperacionesEnLocalStorage();
     }
     
-    balance.style.display = "flex";
-    seccionEditarOp.style.display = "none";
 
-    // Guarda los cambios en localStorage
-    guardarOperacionesEnLocalStorage();
+const operacionesGuardadas = localStorage.getItem("operaciones");
+if (operacionesGuardadas) {
+    operaciones = JSON.parse(operacionesGuardadas);
+   mostrarOperaciones();
+}
+
 
     // Limpia los campos del formulario de edición
     document.getElementById("input-editar-descripcion").value = "";
@@ -403,11 +422,10 @@ const guardarCambiosOperacion = () => {
     // Limpia la variable global operacionIdAEditar
     operacionIdAEditar = null;
 
+
     // Vuelve a mostrar la lista actualizada de operaciones
-    mostrarOperaciones();
+//    mostrarOperaciones();
 };
-
-
 
 const eliminarOperacion = (id) => {
     operaciones= operaciones.filter(elemento => elemento.id !== id);
@@ -442,6 +460,53 @@ else  {
 
 //*************************************************************
 
+//******************BALANCE******************
+
+const balanceGananciasTotales = document.getElementById("balance-ganancias-totales");
+const balanceTotalesOperables = document.getElementById("balance-totales-operables");
+const balanceGastosTotales = document.getElementById("balance-gastos-totales");
+
+const balanceGastosGanancias = (array, tipo) => {
+
+    const filtroOp = array.filter((elemento) => {
+      return elemento.tipo === tipo && elemento
+    })
+    
+    const reduceGastos = filtroOp.reduce((acc, elemento) => {
+      return acc + Number(elemento.monto)
+    }, 0)
+    
+    return reduceGastos  
+  }
+  
+  const balanceTotal = balanceGastosGanancias(operaciones, "ganancia") - balanceGastosGanancias(operaciones, "gasto")
+  
+  const balancesActualizados = () => {
+    balanceGananciasTotales.innerHTML = `+$${balanceGastosGanancias(operaciones, "ganancia")}`
+    balanceGastosTotales.innerHTML = `-$${balanceGastosGanancias(operaciones, "gasto")}`
+
+    if(balanceTotal > 0 ) {
+        balanceTotalesOperables.innerHTML = `+$${balanceTotal}`
+        balanceTotalesOperables.style.color = "hsl(153, 53%, 53%)"
+    }
+    else if (balanceTotal < 0 ) {
+        balanceTotalesOperables.innerHTML = `-$${balanceTotal}`
+        balanceTotalesOperables.style.color ="hsl(348, 86%, 61%)"
+    }
+  }
+  
+  const balanceEnCero = () => {
+    balanceGananciasTotales.innerHTML = `+$${0}`
+    balanceGastosTotales.innerHTML = `-$${0}`
+    balanceTotalesOperables.innerHTML = `$${0}`
+  }
+  
+  balanceTotalCondicion = () => localStorage.getItem("operaciones") === "[]" ? balanceEnCero() : balancesActualizados()
+  balanceTotalCondicion()
+
+
+
+
 
 //***MODOS****
 const cambiarModo = () =>{
@@ -456,8 +521,7 @@ const cambiarModo = () =>{
 
 $('#modeBtn').addEventListener('click', cambiarModo)
 
-//******************REPORTES******************
-//
+//******************REPORTES******************//
 
 const totalesPorCategoria= (operaciones) => {       
         let categoriaMayorGanancia= "";
@@ -506,5 +570,10 @@ const totalesPorCategoria= (operaciones) => {
  
 totalesPorCategoria(operaciones)
 
-
 window.onload= ()=> inicializar()  
+
+
+
+//******************Calculos Balance******************//
+
+
