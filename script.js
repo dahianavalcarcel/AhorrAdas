@@ -1,46 +1,25 @@
-//***************NAVBAR BURGER***********************
-document.addEventListener('DOMContentLoaded', () => {
-    const navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-
-navbarBurgers.forEach( el => {
-    el.addEventListener('click', () => {
-        const target = el.dataset.target;
-        const $target = document.getElementById(target);
-        el.classList.toggle('is-active');
-        $target.classList.toggle('is-active');
-    });
-    });
-});
-
 //**************SELECTORES UNIVERSALES***************
 
 const $=(selector)=> document.querySelector(selector)
 const $$=(selector=> document.querySelectorAll(selector))
 const randomId = ()=> self.crypto.randomUUID()
 
-//*****************localStorage************************
+//***************NAVBAR BURGER***********************
+document.addEventListener('DOMContentLoaded', () => {
+    const navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
 
-//localStorage.clear()
-
-const traerDatos=()=>{
-    return JSON.parse(localStorage.getItem("datos"))
-}
-
-const subirDatos= (datos) => {
-    localStorage.setItem("datos", JSON.stringify ({...traerDatos(), ...datos}))
-}
-
-const traerCategorias=()=>{
-    if (traerDatos()){
-        return traerDatos().categorias
-    }
-}
-
-
-
+navbarBurgers.forEach( (element) => {
+    element.addEventListener('mouseenter', () => {
+        const target = element.dataset.target;
+        const $target = document.getElementById(target);
+        element.classList.toggle('is-active');
+        $target.classList.toggle('is-active');
+        $('#navMenu').classList.add('navbar-dropdown')
+    });
+    });
+});
 
 //******************VISTAS******************
-
 const openAhorradas = () => {
     $("#vistaCategorias").style.display = "none";
     $("#Seccion-NuevaOperacion").style.display = "none";
@@ -105,6 +84,30 @@ const mostrarVistaEditar = () => {
     })
 }
 
+//*****************localStorage************************
+
+//localStorage.clear()
+
+const traerDatos=()=>{
+    return JSON.parse(localStorage.getItem("datos"))
+}
+
+const subirDatos= (datos) => {
+    localStorage.setItem("datos", JSON.stringify ({...traerDatos(), ...datos}))
+}
+
+const traerCategorias=()=>{
+    if (traerDatos()){
+        return traerDatos().categorias
+    }
+}
+
+//FUNCION ACTUALIZAR VISTAS
+const actualizarVistas = (datos) => {
+    crearLista(datos.categorias);
+    llenarSelect(datos.categorias);
+};
+
 //******************CATEGORIAS******************
 
 //***categorias predefinidas****
@@ -146,7 +149,6 @@ const crearLista=(categorias)=>{
         <button type="button" onclick="eliminarCategoria('${id}')" id="${id}" class="column btn-eliminar btn">Eliminar</button>
         </div>
         </div>`
-        
     };
 }
 
@@ -158,17 +160,16 @@ const llenarSelect = (categorias) =>{
         select.innerHTML += `<option value="${id}" aria-label="${nombre}">${nombre}</option>`}
     })
 }
+const inicializar=()=>{
+    crearLista(categoriasLista)
+    llenarSelect(categoriasLista)
+}
 
-crearLista(categoriasLista)
-llenarSelect(categoriasLista)
 
-//FUNCION INICIALIZAR
-const actualizarVistas = (datos) => {
-    crearLista(datos.categorias);
-    llenarSelect(datos.categorias);
-};
-
-//*************
+//FUNCION ***OBTENER CATEGORIA***
+const obtenerCategoria = (idCategoria, categoria) =>{
+    return categoriasLista.find((categoria) => categoria.id == idCategoria)
+}
 
 //FUNCION QUE ***AGREGA UNA CATEGORIA NUEVA***
 const addCategoria=()=>{
@@ -176,50 +177,42 @@ const addCategoria=()=>{
         id:randomId(),
         nombre:$('#nombre-categoria').value,
     }
-    let nuevaLista= [...categoriasLista, nuevaCategoria]
-    llenarSelect(nuevaLista)
-    console.log(nuevaLista)
-    subirDatos({categorias: nuevaLista})
+    categoriasLista.push(nuevaCategoria)
+    subirDatos({categorias: [...categoriasLista]})
     actualizarVistas(traerDatos())
     $('#categoriasForm').reset()
+    console.log(categoriasLista)
 }
-$('#btnCategoria').addEventListener('click', ()=> addCategoria())
-
-//*************
-//FUNCION ***OBTENER CATEGORIA***
-const obtenerCategoria = (idCategoria, categoria) =>{
-    return categoriasLista.find((categoria) => categoria.id == idCategoria)
-}
+$('#btnCategoria').addEventListener('click', addCategoria)
 
 //FUNCION PARA ***EDITAR CATEGORIAS***
 const mostrarEdicionDeCategoria=(id)=>{
     mostrarVistaEditar()
-    let categoriaAEditar= obtenerCategoria(id,traerCategorias())
+    let categoriaAEditar= obtenerCategoria(id, categoriasLista)
     $('#editar-categoria-input').value = categoriaAEditar.nombre
-    $('#btnEditarCategoria').addEventListener('click', ()=>edicionDeCategoria
-    (categoriaAEditar.id))
-    $('#btnEditarCategoria').addEventListener('click', ()=> openCategorias())
-
+    $('#btnEditarCategoria').addEventListener('click', ()=>
+    edicionDeCategoria(categoriaAEditar.nombre))
 
 }
 
-const edicionDeCategoria=(id)=>{
+const edicionDeCategoria=(nombre, id)=>{
     let nuevaCategoria= {
         id: id,
         nombre: $('#editar-categoria-input').value,
     }
-    let categoriasActualizadas= traerCategorias().map((categoria)=>
-        categoria.id === id ? {...nuevaCategoria} :categoria
+    let categoriasActualizadas= categoriasLista.map((categoria)=>
+        categoria.nombre === nombre ? {...nuevaCategoria} :categoria
     )
-    crearLista(categoriasActualizadas) 
-    llenarSelect(categoriasActualizadas)
-    subirDatos({categorias: categoriasActualizadas})
+    categoriasLista=categoriasActualizadas
+    subirDatos({categorias: [...categoriasActualizadas]})
     actualizarVistas(traerDatos())
+    openCategorias()
 }
 
 //FUNCION PARA ***ELIMINAR CATEGORIA***
 const eliminarCategoria = (id) => {
     let categoriaAEliminar = obtenerCategoria(id, traerCategorias())
+    console.log(categoriaAEliminar)
     $$('.btn-eliminar').forEach((btn) => {
         btn.addEventListener('click', () => borrarCategoria(categoriaAEliminar.id)
         )
@@ -229,12 +222,11 @@ const eliminarCategoria = (id) => {
 const borrarCategoria=(idEliminar)=>{
     let categoriasSinEliminar= traerCategorias().filter((categoria) => 
     categoria.id != idEliminar)
-    crearLista(categoriasSinEliminar)
-    llenarSelect(categoriasSinEliminar)
-    subirDatos({categorias: categoriasSinEliminar})
+    categoriasLista=categoriasSinEliminar
+    subirDatos({categorias: [...categoriasSinEliminar]})
+    console.log(categoriasLista)
     actualizarVistas(traerDatos())
 }
-
 
 //***************************************************
 
@@ -275,8 +267,6 @@ const openFiltros = () => {
 }
 
 btnFiltros.onclick = openFiltros
-
-
 
  ///FORMULARIO OPERACIONES///
 
@@ -468,7 +458,7 @@ else  {
     listadoOperaciones.style.display = "none";
 }
 
-
+//*************************************************************
 
 //******************BALANCE******************
 
@@ -537,48 +527,53 @@ const totalesPorCategoria= (operaciones) => {
         let categoriaMayorGanancia= "";
         let categoriaMayorGasto="";
         let montoMayorGanancia= 0;
-        let montoMayorGasto=0
-        for (let {nombre} of categoriasLista){
+        let montoMayorGasto= 0;
+        for (let {nombre, id} of categoriasLista){
             let operacionesPorCategoria = operaciones.filter((operacion)=> 
-            operacion.categoria === nombre
-            //console.log(nombre)
+            operacion.categoria === nombre      
             )
+            //console.log(operacionesPorCategoria)
             let gananciasTotalesPorCategoria= operacionesPorCategoria.filter((operacion) => operacion.tipo !== "gasto")
+            //console.log(gananciasTotalesPorCategoria)
             let totalGanancia= gananciasTotalesPorCategoria.reduce((acum, ganancia) => 
                 acum + ganancia.monto
             , 0)
+            //console.log(totalGanancia)
 
-            if(categoriaMayorGanancia === "" && montoMayorGanancia=== 0){
+            if(categoriaMayorGanancia === " " && montoMayorGanancia=== 0){
                 categoriaMayorGanancia = nombre
                 montoMayorGanancia = totalGanancia
-            }else if (totalGanancia > montoMayorGanancia){
-                categoriaMayorGanancia = nombre
+            }else if(totalGanancia > montoMayorGanancia){
+                categoriaMayorGanancia = nombre,
                 montoMayorGanancia = totalGanancia
             }
 
             let gastosTotalesPorCategoria= operacionesPorCategoria.filter((operacion) => operacion.tipo === "gasto")
+            //console.log(gastosTotalesPorCategoria)
             let totalGasto= gastosTotalesPorCategoria.reduce((acum, gasto) => 
                 acum - gasto.monto
             , 0)
-
-            if(categoriaMayorGasto === '' && montoMayorGasto=== 0){
+            //console.log(totalGasto)
+            if(categoriaMayorGasto === "" && montoMayorGasto===0){
                 categoriaMayorGasto = nombre
-                montoMayorGasto = totalGanancia
-            }else if (montoMayorGasto > totalGasto){
+                montoMayorGasto = totalGasto
+            }else if(totalGasto < montoMayorGasto){
                 categoriaMayorGasto = nombre
                 montoMayorGasto = totalGasto
             }
 
-            console.log(categoriaMayorGanancia)
+//            console.log(categoriaMayorGanancia)
+//            console.log(categoriaMayorGasto, montoMayorGasto)
         }
     }
 
-
+ 
 totalesPorCategoria(operaciones)
 
-window.onload= actualizarVistas(traerDatos())
+window.onload= ()=> inicializar()  
 
 
 
 //******************Calculos Balance******************//
+
 

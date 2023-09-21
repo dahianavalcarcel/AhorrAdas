@@ -27,8 +27,8 @@
                         </h2>
                     </a>
 
-                    <div role="button" class="navbar-burger" id="menu-hamburguesa" aria-label="menu"
-                        aria-expanded="false" data-target="navMenu">
+                    <div role="button" class="navbar-burger has-dropdown" id="menu-hamburguesa" aria-label="menu"
+                        aria-expanded="true" data-target="navMenu">
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
@@ -60,7 +60,7 @@
         </header>
         <main>
             <!-- *****VISTA CATEGORIAS***** -->
-            <section class="categorias container is-center vista " id="vistaCategorias">
+            <section class="categorias container is-center" id="vistaCategorias">
                 <div class="box categorias-box mb-4 p-4">
                     <h2 class="title is-orange">
                         Categorias:
@@ -90,7 +90,7 @@
                     <h2 class="title is-orange">
                         Editar categoria:
                     </h2>
-                    <form onsubmit="event.preventDefault()" id="categoriasForm">
+                    <form onsubmit="event.preventDefault()" id="categoriasEditForm">
                         <label for="editar-categoria">Nombre:</label>
                         <div class="field is-grouped">
                             <p class="control is-expanded">
@@ -394,7 +394,7 @@
                     </div>
             </section>
 
-            <section class="section mt-5 " id="Seccion-EditarOperacion">
+            <section class="section mt-5" id="Seccion-EditarOperacion">
                 <div class="container">
                     <div>
                         <div class="column is-8-widescreen is-10-desktop  is-offset-2-widescreen is-offset-1-desktop">
