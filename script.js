@@ -110,7 +110,7 @@ const actualizarVistas = (datos) => {
 
 //******************CATEGORIAS******************
 
-//***categorias predefinidas****
+//***categorias predefinidas y local Storage****
 let categoriasLista= traerCategorias() || [
     {
         id:randomId(), 
@@ -160,12 +160,11 @@ const llenarSelect = (categorias) =>{
         select.innerHTML += `<option value="${id}" aria-label="${nombre}">${nombre}</option>`}
     })
 }
+
 const inicializar=()=>{
     crearLista(categoriasLista)
     llenarSelect(categoriasLista)
 }
-
-
 //FUNCION ***OBTENER CATEGORIA***
 const obtenerCategoria = (idCategoria, categoria) =>{
     return categoriasLista.find((categoria) => categoria.id == idCategoria)
@@ -191,8 +190,7 @@ const mostrarEdicionDeCategoria=(id)=>{
     let categoriaAEditar= obtenerCategoria(id, categoriasLista)
     $('#editar-categoria-input').value = categoriaAEditar.nombre
     $('#btnEditarCategoria').addEventListener('click', ()=>
-    edicionDeCategoria(categoriaAEditar.nombre))
-
+    edicionDeCategoria(categoriaAEditar.nombre, categoriaAEditar.id))
 }
 
 const edicionDeCategoria=(nombre, id)=>{
@@ -281,7 +279,6 @@ const guardarOperacionesEnLocalStorage = () => {
     localStorage.setItem("operaciones", JSON.stringify(operaciones));
 };
 
-
 // Obtener valores del formulario y agregar una nueva operación
 const agregarOperacion = () => {
     const descripcion = document.getElementById("input-descripción").value;
@@ -307,7 +304,7 @@ const agregarOperacion = () => {
     document.getElementById("input-monto").value = "";
     document.getElementById("select-tipo-op").value = "gasto";
     document.getElementById("select-categorias-op").value = "";
-    document.getElementById("input-fecha").value = "";
+    document.getElementById("input-fecha").valueAsDate = new Date();
 
     mostrarOperaciones();
 };
@@ -478,7 +475,6 @@ const balanceGastosGanancias = (array, tipo) => {
     
     return reduceGastos  
   }
-  
   const balanceTotal = balanceGastosGanancias(operaciones, "ganancia") - balanceGastosGanancias(operaciones, "gasto")
   
   const balancesActualizados = () => {
@@ -521,24 +517,30 @@ const cambiarModo = () =>{
 
 $('#modeBtn').addEventListener('click', cambiarModo)
 
-//******************REPORTES******************//
 
+//******************REPORTES******************//
+const resumen=()=> {
+    const operacionesResumen= operaciones()
+    const categoriasResumen= categoriasLista
+}
 const totalesPorCategoria= (operaciones) => {       
         let categoriaMayorGanancia= "";
         let categoriaMayorGasto="";
+        let categoriaMayorBalance="";
         let montoMayorGanancia= 0;
         let montoMayorGasto= 0;
+        let montoMayorBalance= 0;
+
         for (let {nombre, id} of categoriasLista){
             let operacionesPorCategoria = operaciones.filter((operacion)=> 
             operacion.categoria === nombre      
             )
-            //console.log(operacionesPorCategoria)
+            
             let gananciasTotalesPorCategoria= operacionesPorCategoria.filter((operacion) => operacion.tipo !== "gasto")
             //console.log(gananciasTotalesPorCategoria)
             let totalGanancia= gananciasTotalesPorCategoria.reduce((acum, ganancia) => 
                 acum + ganancia.monto
             , 0)
-            //console.log(totalGanancia)
 
             if(categoriaMayorGanancia === " " && montoMayorGanancia=== 0){
                 categoriaMayorGanancia = nombre
@@ -549,11 +551,10 @@ const totalesPorCategoria= (operaciones) => {
             }
 
             let gastosTotalesPorCategoria= operacionesPorCategoria.filter((operacion) => operacion.tipo === "gasto")
-            //console.log(gastosTotalesPorCategoria)
             let totalGasto= gastosTotalesPorCategoria.reduce((acum, gasto) => 
                 acum - gasto.monto
             , 0)
-            //console.log(totalGasto)
+
             if(categoriaMayorGasto === "" && montoMayorGasto===0){
                 categoriaMayorGasto = nombre
                 montoMayorGasto = totalGasto
@@ -562,18 +563,80 @@ const totalesPorCategoria= (operaciones) => {
                 montoMayorGasto = totalGasto
             }
 
-//            console.log(categoriaMayorGanancia)
-//            console.log(categoriaMayorGasto, montoMayorGasto)
+            let totalBalance= (totalGanancia) + (totalGasto)
+
+            if(categoriaMayorBalance === " " && montoMayorBalance=== 0){
+                categoriaMayorBalance = nombre
+                montoMayorBalance = totalBalance
+            }else if(totalGanancia > montoMayorBalance){
+                categoriaMayorBalance = nombre,
+                montoMayorBalance = totalBalance
+        }
+
+        //console.log(categoriaMayorBalance, montoMayorBalance)
+
+        $('#categoriaMayorGanancia').innerHTML=`<span class="elemento-lista is-center">${categoriaMayorGanancia}</span>`
+        $('#montoMayorGanancia').innerHTML=`$${montoMayorGanancia}`
+        $('#categoriaMayorGasto').innerHTML=`<span class="elemento-lista is-center">${categoriaMayorGasto}</span>`
+        $('#montoMayorGasto').innerHTML=`$${montoMayorGasto}`
+        $('#categoriaMayorBalance').innerHTML=`<span class="elemento-lista is-center">${categoriaMayorBalance}</span>`
+        $('#montoMayorBalance').innerHTML=`$${montoMayorBalance}`
+        }
+}
+totalesPorCategoria(operaciones)
+
+
+const totalesPorMes= (operaciones) => {   
+    const meses= [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]    
+    let mesMayorGanancia= "";
+    let mesMayorGasto="";
+    let montoMesMayorGanancia= 0;
+    let montoMesMayorGasto= 0;
+    for (let mesNume of meses){
+        
+        const operacionesPorMes = operaciones.filter((operacion)=>
+        new Date(operacion.fecha).getMonth() + 1 === mesNume
+        )
+        let gananciasTotalesPorMes= operacionesPorMes.filter((operacion) => operacion.tipo !== "gasto")
+        let totalGanancia= gananciasTotalesPorMes.reduce((acum, ganancia) => 
+            acum + ganancia.monto
+        , 0)
+        if(mesMayorGanancia === " " && montoMesMayorGanancia=== 0){
+                mesMayorGanancia = mesNume
+                montoMesMayorGanancia = totalGanancia
+            }else if(totalGanancia > montoMesMayorGanancia){
+                mesMayorGanancia = mesNume,
+                montoMesMayorGanancia = totalGanancia
+            }
+        let gastosTotalesPorMes= operacionesPorMes.filter((operacion) => operacion.tipo === "gasto")
+        let totalGasto= gastosTotalesPorMes.reduce((acum, gasto) => 
+            acum - gasto.monto
+        , 0)
+        if(mesMayorGasto === "" && montoMesMayorGasto===0){
+            mesMayorGasto = mesNume
+            montoMesMayorGasto = totalGasto
+        }else if(totalGasto < montoMesMayorGasto){
+            mesMayorGasto = mesNume
+            montoMesMayorGasto = totalGasto
+        }
+}
+
+    $('#mesMayorGanancia').innerHTML=`<span class="elemento-lista is-center">${mesMayorGanancia}</span`
+    $('#montoMesMayorGanancia').innerHTML=`$${montoMesMayorGanancia}`
+    $('#mesMayorGasto').innerHTML=`<span class="elemento-lista is-center">${mesMayorGasto}</span>`
+    $('#montoMesMayorGasto').innerHTML=`$${montoMesMayorGasto}`
+}
+totalesPorMes(operaciones)
+
+const reportesPorCategoria=(operaciones)=>{
+    for (let categoria of categoriasLista){
+        //console.log(categoria)
+        let operacionesIncluyeCategoria = operaciones.filter((operacion) => (operacion.categoria) === categoria.nombre)
+        console.log(operacionesIncluyeCategoria)
         }
     }
 
- 
-totalesPorCategoria(operaciones)
 
-window.onload= ()=> inicializar()  
+reportesPorCategoria(operaciones)
 
-
-
-//******************Calculos Balance******************//
-
-
+window.onload= ()=> inicializar()
