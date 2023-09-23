@@ -639,16 +639,6 @@ const totalesPorMes= (operaciones) => {
 }
 totalesPorMes(operaciones)
 
-const reportesPorCategoria=(operaciones)=>{
-    for (let categoria of categoriasLista){
-        //console.log(categoria)
-        let operacionesIncluyeCategoria = operaciones.filter((operacion) => (operacion.categoria) === categoria.nombre)
-        console.log(operacionesIncluyeCategoria)
-        }
-    }
-
-
-reportesPorCategoria(operaciones)
 
 
 
