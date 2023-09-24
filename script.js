@@ -163,10 +163,6 @@ const inicializar=()=>{
     crearLista(categoriasLista)
     llenarSelect(categoriasLista)
 }
-//FUNCION ***OBTENER CATEGORIA***
-const obtenerCategoria = (idCategoria, categoria) =>{
-    return categoriasLista.find((categoria) => categoria.id == idCategoria)
-}
 
 //FUNCION QUE ***AGREGA UNA CATEGORIA NUEVA***
 const addCategoria=()=>{
