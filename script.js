@@ -509,8 +509,6 @@ const balanceGastosGanancias = (array, tipo) => {
   balanceTotalCondicion = () => localStorage.getItem("operaciones") === "[]" ? balanceEnCero() : balancesActualizados()
   balanceTotalCondicion()
 
-
-
 //******************Filtros******************//
 
 const inputDateFiltro = document.getElementById("input-date");
