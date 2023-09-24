@@ -469,12 +469,12 @@ const balanceGastosGanancias = (array, tipo) => {
   }
   let balanceTotal;
 
-  const actualizarBalance = (array) => {
-    if (!array || !array[0]){
+  const actualizarBalance = () => {
+    if (!operaciones || !operaciones[0]){
         return "No hay Operaciones"
     }
     else{
-        balanceTotal = balanceGastosGanancias(array, "ganancia") - balanceGastosGanancias(array, "gasto");
+        balanceTotal = balanceGastosGanancias(operaciones, "ganancia") - balanceGastosGanancias(operaciones, "gasto");
         return balanceTotal
     }
   }
@@ -484,15 +484,21 @@ const balanceGastosGanancias = (array, tipo) => {
     balanceGananciasTotales.innerHTML = `+$${balanceGastosGanancias(operaciones, "ganancia")}`
     balanceGastosTotales.innerHTML = `-$${balanceGastosGanancias(operaciones, "gasto")}`
 
-    if(balanceTotal > 0 ) {
+    if (balanceTotal > 0) {
         balanceTotalesOperables.innerHTML = `+$${balanceTotal}`
         balanceTotalesOperables.style.color = "hsl(153, 53%, 53%)"
     }
-    else if (balanceTotal < 0 ) {
-        balanceTotalesOperables.innerHTML = `-$${balanceTotal}`
-        balanceTotalesOperables.style.color ="hsl(348, 86%, 61%)"
+    else if (balanceTotal < 0) {
+        balanceTotalesOperables.innerHTML = `-$${Math.abs(balanceTotal)}`
+        balanceTotalesOperables.style.color = "hsl(348, 86%, 61%)"
     }
-  }
+    else {
+        // Manejo para el caso de balanceTotal igual a 0
+        balanceTotalesOperables.innerHTML = `$${balanceTotal}`
+        balanceTotalesOperables.style.color = "inherit" // Restaurar el color predeterminado
+    }
+}
+
   
   const balanceEnCero = () => {
     balanceGananciasTotales.innerHTML = `+$${0}`
