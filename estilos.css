@@ -273,6 +273,12 @@ main{
     }
 }
 
+@media (max-width: 750px){
+    .operaciones{
+        padding: 0px;
+        margin: 0px;
+    }
+}
 @media (max-width: 500px){
     .reportes-box{
         width: 95%;

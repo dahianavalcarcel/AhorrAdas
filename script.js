@@ -571,7 +571,6 @@ const totalesPorCategoria= (operaciones) => {
         }
 
         let totalBalance = (totalGanancia) + (totalGasto)
-        console.log(totalBalance)
 
         if (categoriaMayorBalance === " " && montoMayorBalance === 0) {
             categoriaMayorBalance = nombre
@@ -666,7 +665,6 @@ const totalesPorMes = (operaciones) => {
 
 const actualizarReportes=(op)=>{
     const gananciasOp= op.filter((operacion) => operacion.tipo !== "gasto")
-    console.log(gananciasOp.length)
     const gastosOp=op.filter((operacion) => operacion.tipo === "gasto")
     if(gananciasOp.length === 0 || gastosOp.length === 0){
         $('#sinReportes').classList.remove('is-hidden')
@@ -705,7 +703,6 @@ const filtrosPorTipo = () => {
 }
 const filtrosPorCategoria = () => {
     const filtracionPorCategoria = selectCategoriasDeFiltros.options[selectCategoriasDeFiltros.selectedIndex].text;
-    console.log(filtracionPorCategoria);
   const filtrado = operaciones.filter((operacion) => {
     if (filtracionPorCategoria.toLowerCase() === "todas") {
       return operaciones
