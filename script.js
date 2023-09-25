@@ -20,12 +20,7 @@ navbarBurgers.forEach( (element) => {
 
 //******************VISTAS******************
 const openAhorradas = () => {
-    $("#seccion-balance").classList.remove('is-hidden');
     $("#seccion-balance").classList.add('is-active');
-    $("#vistaCategorias").classList.add('is-hidden');
-    $("#vistaReportes").classList.add('is-hidden');
-    $("#Seccion-NuevaOperacion").classList.add('is-hidden');
-    $("#vista-editar-categorias").classList.add('is-hidden');
 }
 
 const openCategorias = () => {
@@ -35,6 +30,7 @@ const openCategorias = () => {
     $("#vistaReportes").classList.add('is-hidden');
     $("#Seccion-NuevaOperacion").classList.add('is-hidden');
     $("#vista-editar-categorias").classList.add('is-hidden');
+    $("#Seccion-EditarOperacion").classList.add('is-hidden');
 
 }
 const openBalance = () => {
@@ -44,6 +40,7 @@ const openBalance = () => {
     $("#vistaReportes").classList.add('is-hidden');
     $("#Seccion-NuevaOperacion").classList.add('is-hidden');
     $("#vista-editar-categorias").classList.add('is-hidden');
+    $("#Seccion-EditarOperacion").classList.add('is-hidden');
 }
 const openReportes= ()=>{
     $("#vistaReportes").classList.remove('is-hidden');
@@ -52,7 +49,7 @@ const openReportes= ()=>{
     $("#seccion-balance").classList.add('is-hidden');
     $("#Seccion-NuevaOperacion").classList.add('is-hidden');
     $("#vista-editar-categorias").classList.add('is-hidden');
-    
+    $("#Seccion-EditarOperacion").classList.add('is-hidden');
 }
 const openNuevaOperacion = () => { 
     $("#Seccion-NuevaOperacion").classList.remove('is-hidden');
@@ -61,6 +58,7 @@ const openNuevaOperacion = () => {
     $("#seccion-balance").classList.add('is-hidden');
     $("#vistaReportes").classList.add('is-hidden');
     $("#vista-editar-categorias").classList.add('is-hidden');
+    $("#Seccion-EditarOperacion").classList.add('is-hidden');
 }
 const openEditarCategoria= ()=>{
     $("#vista-editar-categorias").classList.remove('is-hidden');
@@ -69,6 +67,16 @@ const openEditarCategoria= ()=>{
     $("#seccion-balance").classList.add('is-hidden');
     $("#vistaReportes").classList.add('is-hidden');
     $("#Seccion-NuevaOperacion").classList.add('is-hidden');
+    $("#Seccion-EditarOperacion").classList.add('is-hidden');
+}
+const openEditarOperacion=()=>{
+    $("#Seccion-EditarOperacion").classList.remove('is-hidden');
+    $("#Seccion-EditarOperacion").classList.add('is-active');
+    $("#vistaCategorias").classList.add('is-hidden');
+    $("#seccion-balance").classList.add('is-hidden');
+    $("#vistaReportes").classList.add('is-hidden');
+    $("#Seccion-NuevaOperacion").classList.add('is-hidden');
+    $("#vista-editar-categorias").classList.add('is-hidden');
 }
 
 $("#btn-categorias").onclick = openCategorias
@@ -77,13 +85,11 @@ $("#btn-reportes").onclick = openReportes
 $("#btn-nuevaOperacion").onclick = openNuevaOperacion
 $('#btnCancelarEditar').onclick= openCategorias
 $('#boton-cancelar-nueva-operacion').onclick= openBalance
-openAhorradas()
+
 
 const mostrarVistaEditar = () => {
     $$('.btn-editar').forEach((btn) => {
-        btn.addEventListener('click', () =>
-            openEditarCategoria()
-            )
+        btn.onclick = openEditarCategoria
     })
 }
 
@@ -110,7 +116,6 @@ const actualizarVistas = (datos) => {
     crearLista(datos.categorias);
     llenarSelect(datos.categorias);
 };
-
 
 //******************CATEGORIAS******************
 
@@ -169,6 +174,7 @@ const llenarSelect = (categorias) =>{
 const inicializar=()=>{
     crearLista(categoriasLista)
     llenarSelect(categoriasLista)
+    openAhorradas()
 }
 
 //FUNCION ***OBTENER CATEGORIA***
@@ -198,7 +204,6 @@ const mostrarEdicionDeCategoria=(id)=>{
     $('#btnEditarCategoria').addEventListener('click', ()=>edicionDeCategoria
     (categoriaAEditar.nombre, categoriaAEditar.id))
 }
-
 const edicionDeCategoria=(nombre, id)=>{
     let nuevaCategoria= {
         id: id,
@@ -221,7 +226,6 @@ const eliminarCategoria = (id) => {
         )
     })
 }
-
 const borrarCategoria=(idEliminar)=>{
     let categoriasSinEliminar= traerCategorias().filter((categoria) => 
     categoria.id != idEliminar)
@@ -230,7 +234,6 @@ const borrarCategoria=(idEliminar)=>{
     console.log(categoriasLista)
     actualizarVistas(traerDatos())
 }
-
 
 //***************************************************
 
@@ -247,11 +250,11 @@ const btnAhorradas = document.getElementById("btn-ahorradas")
 const nuevaOperacion = document.getElementById("btn-nuevaOperacion");
 const seccionEditarOp = document.getElementById("Seccion-EditarOperacion");
 
-btnCategorias.onclick = openCategorias
-btnBalance.onclick = openBalance
-btnReportes.onclick = openReportes
-btnAhorradas.onclick = openAhorradas
-nuevaOperacion.onclick = openNuevaOperacion
+// btnCategorias.onclick = openCategorias
+// btnBalance.onclick = openBalance
+// btnReportes.onclick = openReportes
+// btnAhorradas.onclick = openAhorradas
+// nuevaOperacion.onclick = openNuevaOperacion
 
 
 //  EVENTO VISTA DE FILTROS
@@ -271,8 +274,6 @@ const openFiltros = () => {
 }
 
 btnFiltros.onclick = openFiltros
-
-
 
  ///FORMULARIO OPERACIONES///
 
@@ -378,8 +379,7 @@ $("#btn-editar-op").addEventListener('click', () => guardarCambiosOperacion())
 $('#btn-cancelar-edicion').addEventListener('click', () => openBalance())
 
 const editarOperacion = (id) => {
-    balance.style.display = "none";
-    seccionEditarOp.style.display = "flex";
+    openEditarOperacion()
     
     const opAEditar = operaciones.find(op => op.id === id);
 
@@ -626,8 +626,29 @@ const totalesPorMes= (operaciones) => {
 }
 totalesPorMes(operaciones)
 
+const resumenPorCategorias = () => {
+    for (let { id, nombre } of categoriasLista) {
+        const filtrarPorCategoria = operaciones.filter(operacion => operacion.categoria === nombre)
+        let gastoPorCategoria = filtrarPorCategoria.filter((operacion) => operacion.tipo === "gasto")
+        let totalGasto = gastoPorCategoria.reduce((acum, ganancia) =>
+            acum + ganancia.monto, 0)
+        let gananciaPorCategoria = filtrarPorCategoria.filter((operacion) => operacion.tipo !== "gasto")
+        let totalGanancia = gananciaPorCategoria.reduce((acum, ganancia) =>
+            acum + ganancia.monto, 0)
+        let totalBalance= (totalGanancia) - (totalGasto)
+
+        if(totalGanancia != 0 || totalGasto != 0){
+            $('#listaTotalesPorCategoria').innerHTML += `<div class="columns lista is-flex"> <p class="column is-3 elemento-lista">${nombre}</p>
+            <p class="column is-3 elemento-lista">${totalGanancia}</p>
+            <p class="column is-3 elemento-lista">-${totalGasto}</p>
+            <p class="column is-3 elemento-lista">${totalBalance}</p>
+            </div>`
+        }
+    }
+}
 
 
+resumenPorCategorias(operaciones)
 
 
 
