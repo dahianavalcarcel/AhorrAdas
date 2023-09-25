@@ -363,17 +363,18 @@ const mostrarOperaciones = (array) => {
         const btnEditar = document.createElement("button");
         btnEditar.onclick = () => editarOperacion(elemento.id);
         btnEditar.textContent = "Editar";
+        btnEditar.classList.add('btn-editar')
         btnEditar.style.border = 'none';
-        btnEditar.style.padding = '3px';
+        btnEditar.style.padding = '5px';
         btnEditar.style.marginTop = '16px';
         
         
         const btnEliminar = document.createElement("button");
         btnEliminar.onclick = () => eliminarOperacion(elemento.id);
         btnEliminar.textContent = "Eliminar";
+        btnEliminar.classList.add('btn-eliminar')
         btnEliminar.style.border= 'none';
         btnEliminar.style.marginBottom = '16px';
-       
         btnEliminar.style.fontSize = '12px';
 
 
