@@ -6,6 +6,7 @@
 .body-container{
     min-height: 100vh;
     background-color: var(--background-body);
+    font-family:'Poppins', sans-serif;
 }
 
 /*reutilizables*/
@@ -195,7 +196,7 @@
 .reportes-box{ 
     margin-top: 7vh;
     width: 65%;
-    height: 80vh;
+    min-height: 80vh;
 }
 
 .reportes-insuficientes{
@@ -209,7 +210,20 @@
     margin: 5vh;
 }
 
+.is-categoria{
+    width: 100%;
+    font-family:'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+}
 
+.is-red{
+    color: red
+}
+
+.is-green{
+    color: green;
+}
 /*MEDIAS QUERY*/
 
 @media (max-width: 1200px){
@@ -249,5 +263,14 @@
     }
     .img-reportes{
         width: 90%;
+    }
+}
+
+@media (max-width: 500px){
+    .reportes-box{
+        width: 95%;
+    }
+    .is-categoria{
+        font-size: 12px;
     }
 }
