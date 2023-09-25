@@ -27,8 +27,8 @@
                         </h2>
                     </a>
 
-                    <div role="button" class="navbar-burger has-dropdown" id="menu-hamburguesa" aria-label="menu"
-                        aria-expanded="true" data-target="navMenu">
+                    <div role="button" class="navbar-burger" id="menu-hamburguesa" aria-label="menu"
+                        aria-expanded="false" data-target="navMenu">
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
@@ -36,7 +36,6 @@
                 </div>
 
                 <div id="navMenu" class="navbar-menu">
-
                     <div class="navbar-end">
                         <div class="navbar-item">
                             <div class="buttons nav-bts">
@@ -85,7 +84,7 @@
             </section>
         
             <!-- *****EDITAR CATEGORIAS***** -->
-            <section id="vista-editar-categorias" class="container is-center vista">
+            <section id="vista-editar-categorias" class="container is-center is-hidden">
                 <div class="box categorias-box mb-4">
                     <h2 class="title is-orange">
                         Editar categoria:
@@ -110,7 +109,7 @@
             </section>
         
             <!-- ****VISTA REPORTES**** -->
-            <section class="reportes container is-center" id="vistaReportes">
+            <section class="reportes container is-center is-hidden" id="vistaReportes">
                 <div class="reportes-box box mb-4 is-hidden" id="sinReportes">
                     <h2 class="title is-orange">
                         Reportes:
@@ -139,33 +138,47 @@
                             <div class="column is-9">
                                 <p>Categoria con mayor ganancia:</p>
                                 <p>Categoria con mayor gasto:</p>
+                                <p>Categoria con mayor balance:</p>
                                 <p>Mes con mayor ganancia:</p>
                                 <p>Mes con mayor gasto:</p>
                             </div>
                             <div class="column">
+                                <div id="categoriaMayorGanancia">
+                                </div>
+                                <div id="categoriaMayorGasto">
+                                </div>
+                                <div id="categoriaMayorBalance">
+                                </div>
+                                <div id="mesMayorGanancia">
+                                </div>
+                                <div id="mesMayorGasto">
+                                </div>
                             </div>
                             <div class="column">
+                                <div id="montoMayorGanancia">
+                                </div>
+                                <div id="montoMayorGasto">
+                                </div>
+                                <div id="montoMayorBalance">
+                                </div>
+                                <div id="montoMesMayorGanancia">
+                                </div>
+                                <div id="montoMesMayorGasto">
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="reportes-cargados mt-5">
-                        <div>
-                            <h3 class="title">Totales por categorías:</h3>
-                        </div>
-                        <div class="columns is-flex">
-                            <div class="column is-3">
-                                <h4>Categoría:</h4>
-                            </div>
-                            <div class="column is-3">
-                                <h4>Ganancias:</h4>
-                            </div>
-                            <div class="column is-3">
-                                <h4>Gastos:</h4>
-                            </div>
-                            <div class="column is-3">
-                                <h4>Balance:</h4>
+                        <h3 class="title">Totales por categorías:</h3>
+                        <div id="listaTotalesPorCategoria">
+                            <div class="columns lista is-flex">
+                                <h3 class="column is-3">Categoría:</h3>
+                                <h3 class="column is-3">Ganancias:</h3>
+                                <h3 class="column is-3">Gastos:</h3>
+                                <h3 class="column is-3">Balance:</h3>
                             </div>
                         </div>
+                        
                     </div>
                     <div class="reportes-cargados mt-5">
                         <div>
@@ -190,7 +203,7 @@
             </section>
         
             <!-- ****VISTA BALANCE**** -->
-            <section class="section mt-5 vista" id="seccion-balance">
+            <section class="section mt-5" id="seccion-balance">
                 <div class="container">
                     <div class="columns">
                         <div class="column is-3 is-offset-1">
@@ -255,7 +268,7 @@
                                         </div>
                                         <div class="control">
                                             <div class="select is-fullwidth">
-                                                <select id="select-categorias"
+                                                <select id="select-filtro-categorias"
                                                     class="column input is-rounded categoriasSelect"></select>
                                             </div>
                                         </div>
@@ -320,7 +333,7 @@
                                 <section class="listado-operaciones" id="listado-operaciones">
                                     <div class="columns has-text-weight-medium">
                                         <div class="column is-3 " id="valor-descripcion">Descripción</div>
-                                        <div class="column is-3 pl-0 " id="valor-categoria">Categoría</div>
+                                        <div class="column is-3" id="valor-categoria">Categoría</div>
                                         <div class="column is-2 " id="valor-fecha">Fecha</div>
                                         <div class="column is-2 " id="valor-monto">Monto</div>
                                         <div class="column is-2 " id="valor-acciones">Acciones</div>
@@ -334,7 +347,7 @@
     
             <!-- ***Inicio Nueva Operación***-->
 
-            <section class="section mt-5 " id="Seccion-NuevaOperacion">
+            <section class="section mt-5 is-hidden" id="Seccion-NuevaOperacion">
                 <div class="container">
                     <div>
                         <div class="column is-8-widescreen is-10-desktop  is-offset-2-widescreen is-offset-1-desktop">
@@ -344,7 +357,7 @@
                                     <div class="field">
                                         <label>Descripción</label>
                                         <div class="control">
-                                            <input id="input-descripción" class="input" type="text" required
+                                            <input id="input-descripcion" class="input" type="text" required
                                                 placeholder="Ingrese una descripción">
                                         </div>
         
@@ -394,7 +407,7 @@
                     </div>
             </section>
 
-            <section class="section mt-5" id="Seccion-EditarOperacion">
+            <section class="section mt-5 is-hidden" id="Seccion-EditarOperacion">
                 <div class="container">
                     <div>
                         <div class="column is-8-widescreen is-10-desktop  is-offset-2-widescreen is-offset-1-desktop">
@@ -404,7 +417,7 @@
                                     <div class="field">
                                         <label>Descripción</label>
                                         <div class="control">
-                                            <input id="input-editar-descripción" class="input"  type="text" required placeholder="Ingrese una descripción">
+                                            <input id="input-editar-descripcion" class="input"  type="text" required placeholder="Ingrese una descripción">
                                         </div>
 
                                     </div>

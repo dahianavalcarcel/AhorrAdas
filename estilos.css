@@ -44,9 +44,8 @@
 
 /*MODOS*/
 .btn-mode {
-    position: absolute;
-    top: 90px;
-    right: 2px;
+    position:sticky;
+    bottom: 10px;
     font-size: 25px;
     margin: 0px 10px;
     background-color:transparent;
