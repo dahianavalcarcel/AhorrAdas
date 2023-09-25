@@ -1,22 +1,91 @@
-//***************NAVBAR BURGER***********************
-document.addEventListener('DOMContentLoaded', () => {
-    const navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-
-navbarBurgers.forEach( el => {
-    el.addEventListener('click', () => {
-        const target = el.dataset.target;
-        const $target = document.getElementById(target);
-        el.classList.toggle('is-active');
-        $target.classList.toggle('is-active');
-    });
-    });
-});
-
 //**************SELECTORES UNIVERSALES***************
 
 const $=(selector)=> document.querySelector(selector)
 const $$=(selector=> document.querySelectorAll(selector))
 const randomId = ()=> self.crypto.randomUUID()
+
+//***************NAVBAR BURGER***********************
+document.addEventListener('DOMContentLoaded', () => {
+    const navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+navbarBurgers.forEach( (element) => {
+    element.addEventListener('mouseenter', () => {
+        const target = element.dataset.target;
+        const $target = document.getElementById(target);
+        element.classList.toggle('is-active');
+        $target.classList.toggle('is-active');
+    });
+    });
+});
+
+//******************VISTAS******************
+const openAhorradas = () => {
+    $("#seccion-balance").classList.remove('is-hidden');
+    $("#seccion-balance").classList.add('is-active');
+    $("#vistaCategorias").classList.add('is-hidden');
+    $("#vistaReportes").classList.add('is-hidden');
+    $("#Seccion-NuevaOperacion").classList.add('is-hidden');
+    $("#vista-editar-categorias").classList.add('is-hidden');
+}
+
+const openCategorias = () => {
+    $("#vistaCategorias").classList.remove('is-hidden');
+    $("#vistaCategorias").classList.add('is-active');
+    $("#seccion-balance").classList.add('is-hidden');
+    $("#vistaReportes").classList.add('is-hidden');
+    $("#Seccion-NuevaOperacion").classList.add('is-hidden');
+    $("#vista-editar-categorias").classList.add('is-hidden');
+
+}
+const openBalance = () => {
+    $("#seccion-balance").classList.remove('is-hidden');
+    $("#seccion-balance").classList.add('is-active');
+    $("#vistaCategorias").classList.add('is-hidden');
+    $("#vistaReportes").classList.add('is-hidden');
+    $("#Seccion-NuevaOperacion").classList.add('is-hidden');
+    $("#vista-editar-categorias").classList.add('is-hidden');
+}
+const openReportes= ()=>{
+    $("#vistaReportes").classList.remove('is-hidden');
+    $("#vistaReportes").classList.add('is-active');
+    $("#vistaCategorias").classList.add('is-hidden');
+    $("#seccion-balance").classList.add('is-hidden');
+    $("#Seccion-NuevaOperacion").classList.add('is-hidden');
+    $("#vista-editar-categorias").classList.add('is-hidden');
+    
+}
+const openNuevaOperacion = () => { 
+    $("#Seccion-NuevaOperacion").classList.remove('is-hidden');
+    $("#Seccion-NuevaOperacion").classList.add('is-active');
+    $("#vistaCategorias").classList.add('is-hidden');
+    $("#seccion-balance").classList.add('is-hidden');
+    $("#vistaReportes").classList.add('is-hidden');
+    $("#vista-editar-categorias").classList.add('is-hidden');
+}
+const openEditarCategoria= ()=>{
+    $("#vista-editar-categorias").classList.remove('is-hidden');
+    $("#vista-editar-categorias").classList.add('is-active');
+    $("#vistaCategorias").classList.add('is-hidden');
+    $("#seccion-balance").classList.add('is-hidden');
+    $("#vistaReportes").classList.add('is-hidden');
+    $("#Seccion-NuevaOperacion").classList.add('is-hidden');
+}
+
+$("#btn-categorias").onclick = openCategorias
+$("#btn-balance").onclick = openBalance
+$("#btn-reportes").onclick = openReportes
+$("#btn-nuevaOperacion").onclick = openNuevaOperacion
+$('#btnCancelarEditar').onclick= openCategorias
+$('#boton-cancelar-nueva-operacion').onclick= openBalance
+openAhorradas()
+
+const mostrarVistaEditar = () => {
+    $$('.btn-editar').forEach((btn) => {
+        btn.addEventListener('click', () =>
+            openEditarCategoria()
+            )
+    })
+}
 
 //*****************localStorage************************
 
@@ -36,74 +105,12 @@ const traerCategorias=()=>{
     }
 }
 
+//FUNCION ACTUALIZAR VISTAS
+const actualizarVistas = (datos) => {
+    crearLista(datos.categorias);
+    llenarSelect(datos.categorias);
+};
 
-
-
-//******************VISTAS******************
-
-const openAhorradas = () => {
-    $("#vistaCategorias").style.display = "none";
-    $("#Seccion-NuevaOperacion").style.display = "none";
-    $("#vistaReportes").style.display="none"
-    $('#vista-editar-categorias').style.display='none'
-    $("#Seccion-EditarOperacion").style.display = "none";
-}
-const openCategorias = () => {
-    $("#seccion-balance").style.display = "none";
-    $("#vistaCategorias").style.display = "flex";
-    $("#Seccion-NuevaOperacion").style.display = "none";
-    $("#vistaReportes").style.display="none"
-    $('#vista-editar-categorias').style.display='none'
-    $("#Seccion-EditarOperacion").style.display = "none";
-}
-const openBalance = () => {
-    $("#seccion-balance").style.display = "flex";
-    $("#vistaCategorias").style.display = "none";
-    $("#Seccion-NuevaOperacion").style.display = "none";
-    $("#vistaReportes").style.display="none"
-    $('#vista-editar-categorias').style.display='none'
-    $("#Seccion-EditarOperacion").style.display = "none";
-}
-const openReportes= ()=>{
-    $("#seccion-balance").style.display = "none";
-    $("#vistaCategorias").style.display = "none";
-    $("#Seccion-NuevaOperacion").style.display = "none";
-    $("#vistaReportes").style.display="flex"
-    $('#vista-editar-categorias').style.display='none'
-    $("#Seccion-EditarOperacion").style.display = "none";
-}
-const openNuevaOperacion = () => { 
-    $("#seccion-balance").style.display = "none";
-    $("#vistaCategorias").style.display = "none";
-    $("#Seccion-NuevaOperacion").style.display = "flex";
-    $("#vistaReportes").style.display="none"
-    $('#vista-editar-categorias').style.display='none'
-    $("#Seccion-EditarOperacion").style.display = "none";
-}
-const openEditarCategoria= ()=>{
-    $("#seccion-balance").style.display = "none";
-    $("#vistaCategorias").style.display = "none";
-    $("#Seccion-NuevaOperacion").style.display = "none";
-    $("#vistaReportes").style.display="none"
-    $('#vista-editar-categorias').style.display='flex'
-    $("#Seccion-EditarOperacion").style.display = "none";
-}
-
-$("#btn-categorias").onclick = openCategorias
-$("#btn-balance").onclick = openBalance
-$("#btn-reportes").onclick = openReportes
-$("#btn-nuevaOperacion").onclick = openNuevaOperacion
-$('#btnCancelarEditar').onclick= openCategorias
-$('#boton-cancelar-nueva-operacion').onclick= openBalance
-openAhorradas()
-
-const mostrarVistaEditar = () => {
-    $$('.btn-editar').forEach((btn) => {
-        btn.addEventListener('click', () =>
-            openEditarCategoria()
-            )
-    })
-}
 
 //******************CATEGORIAS******************
 
@@ -163,6 +170,7 @@ const inicializar=()=>{
     crearLista(categoriasLista)
     llenarSelect(categoriasLista)
 }
+
 //FUNCION ***OBTENER CATEGORIA***
 const obtenerCategoria = (idCategoria, categoria) =>{
     return categoriasLista.find((categoria) => categoria.id == idCategoria)
@@ -174,42 +182,35 @@ const addCategoria=()=>{
         id:randomId(),
         nombre:$('#nombre-categoria').value,
     }
-    let nuevaLista= [...categoriasLista, nuevaCategoria]
-    llenarSelect(nuevaLista)
-    console.log(nuevaLista)
-    subirDatos({categorias: nuevaLista})
+    categoriasLista.push(nuevaCategoria)
+    subirDatos({categorias: [...categoriasLista]})
     actualizarVistas(traerDatos())
     $('#categoriasForm').reset()
+    console.log(categoriasLista)
 }
-$('#btnCategoria').addEventListener('click', ()=> addCategoria())
-
-//*************
-//FUNCION ***OBTENER CATEGORIA***
-const obtenerCategoria = (idCategoria, categoria) =>{
-    return categoriasLista.find((categoria) => categoria.id == idCategoria)
-}
+$('#btnCategoria').addEventListener('click', addCategoria)
 
 //FUNCION PARA ***EDITAR CATEGORIAS***
 const mostrarEdicionDeCategoria=(id)=>{
     mostrarVistaEditar()
-    let categoriaAEditar= obtenerCategoria(id,traerCategorias())
+    let categoriaAEditar= obtenerCategoria(id, categoriasLista)
     $('#editar-categoria-input').value = categoriaAEditar.nombre
     $('#btnEditarCategoria').addEventListener('click', ()=>
     edicionDeCategoria(categoriaAEditar.nombre, categoriaAEditar.id))
 }
 
-const edicionDeCategoria=(id)=>{
+const edicionDeCategoria=(nombre, id)=>{
     let nuevaCategoria= {
         id: id,
         nombre: $('#editar-categoria-input').value,
     }
-    let categoriasActualizadas= traerCategorias().map((categoria)=>
-        categoria.id === id ? {...nuevaCategoria} :categoria
+    let categoriasActualizadas = categoriasLista.map((categoria) =>
+        categoria.nombre === nombre ? { ...nuevaCategoria } : categoria
     )
-    crearLista(categoriasActualizadas) 
-    llenarSelect(categoriasActualizadas)
-    subirDatos({categorias: categoriasActualizadas})
+    categoriasLista = categoriasActualizadas
+    subirDatos({ categorias: [...categoriasActualizadas] })
     actualizarVistas(traerDatos())
+    openCategorias()
 }
 
 //FUNCION PARA ***ELIMINAR CATEGORIA***
@@ -224,9 +225,9 @@ const eliminarCategoria = (id) => {
 const borrarCategoria=(idEliminar)=>{
     let categoriasSinEliminar= traerCategorias().filter((categoria) => 
     categoria.id != idEliminar)
-    crearLista(categoriasSinEliminar)
-    llenarSelect(categoriasSinEliminar)
-    subirDatos({categorias: categoriasSinEliminar})
+    categoriasLista=categoriasSinEliminar
+    subirDatos({categorias: [...categoriasSinEliminar]})
+    console.log(categoriasLista)
     actualizarVistas(traerDatos())
 }
 
@@ -531,10 +532,7 @@ $('#modeBtn').addEventListener('click', cambiarModo)
 
 
 //******************REPORTES******************//
-const resumen=()=> {
-    const operacionesResumen= operaciones()
-    const categoriasResumen= categoriasLista
-}
+
 const totalesPorCategoria= (operaciones) => {       
         let categoriaMayorGanancia= "";
         let categoriaMayorGasto="";
@@ -638,6 +636,7 @@ const totalesPorMes= (operaciones) => {
     $('#montoMesMayorGasto').innerHTML=`$${montoMesMayorGasto}`
 }
 totalesPorMes(operaciones)
+
 
 
 
