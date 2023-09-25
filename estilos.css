@@ -9,6 +9,10 @@
     font-family:'Poppins', sans-serif;
 }
 
+main{
+    min-height: 89vh;
+}
+
 /*reutilizables*/
 :root{
     --pink: #eacacb;
