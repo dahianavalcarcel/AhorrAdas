@@ -1,22 +1,91 @@
-//***************NAVBAR BURGER***********************
-document.addEventListener('DOMContentLoaded', () => {
-    const navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-
-navbarBurgers.forEach( el => {
-    el.addEventListener('click', () => {
-        const target = el.dataset.target;
-        const $target = document.getElementById(target);
-        el.classList.toggle('is-active');
-        $target.classList.toggle('is-active');
-    });
-    });
-});
-
 //**************SELECTORES UNIVERSALES***************
 
 const $=(selector)=> document.querySelector(selector)
 const $$=(selector=> document.querySelectorAll(selector))
 const randomId = ()=> self.crypto.randomUUID()
+
+//***************NAVBAR BURGER***********************
+document.addEventListener('DOMContentLoaded', () => {
+    const navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+navbarBurgers.forEach( (element) => {
+    element.addEventListener('mouseenter', () => {
+        const target = element.dataset.target;
+        const $target = document.getElementById(target);
+        element.classList.toggle('is-active');
+        $target.classList.toggle('is-active');
+    });
+    });
+});
+
+//******************VISTAS******************
+const openAhorradas = () => {
+    $("#seccion-balance").classList.remove('is-hidden');
+    $("#seccion-balance").classList.add('is-active');
+    $("#vistaCategorias").classList.add('is-hidden');
+    $("#vistaReportes").classList.add('is-hidden');
+    $("#Seccion-NuevaOperacion").classList.add('is-hidden');
+    $("#vista-editar-categorias").classList.add('is-hidden');
+}
+
+const openCategorias = () => {
+    $("#vistaCategorias").classList.remove('is-hidden');
+    $("#vistaCategorias").classList.add('is-active');
+    $("#seccion-balance").classList.add('is-hidden');
+    $("#vistaReportes").classList.add('is-hidden');
+    $("#Seccion-NuevaOperacion").classList.add('is-hidden');
+    $("#vista-editar-categorias").classList.add('is-hidden');
+
+}
+const openBalance = () => {
+    $("#seccion-balance").classList.remove('is-hidden');
+    $("#seccion-balance").classList.add('is-active');
+    $("#vistaCategorias").classList.add('is-hidden');
+    $("#vistaReportes").classList.add('is-hidden');
+    $("#Seccion-NuevaOperacion").classList.add('is-hidden');
+    $("#vista-editar-categorias").classList.add('is-hidden');
+}
+const openReportes= ()=>{
+    $("#vistaReportes").classList.remove('is-hidden');
+    $("#vistaReportes").classList.add('is-active');
+    $("#vistaCategorias").classList.add('is-hidden');
+    $("#seccion-balance").classList.add('is-hidden');
+    $("#Seccion-NuevaOperacion").classList.add('is-hidden');
+    $("#vista-editar-categorias").classList.add('is-hidden');
+    
+}
+const openNuevaOperacion = () => { 
+    $("#Seccion-NuevaOperacion").classList.remove('is-hidden');
+    $("#Seccion-NuevaOperacion").classList.add('is-active');
+    $("#vistaCategorias").classList.add('is-hidden');
+    $("#seccion-balance").classList.add('is-hidden');
+    $("#vistaReportes").classList.add('is-hidden');
+    $("#vista-editar-categorias").classList.add('is-hidden');
+}
+const openEditarCategoria= ()=>{
+    $("#vista-editar-categorias").classList.remove('is-hidden');
+    $("#vista-editar-categorias").classList.add('is-active');
+    $("#vistaCategorias").classList.add('is-hidden');
+    $("#seccion-balance").classList.add('is-hidden');
+    $("#vistaReportes").classList.add('is-hidden');
+    $("#Seccion-NuevaOperacion").classList.add('is-hidden');
+}
+
+$("#btn-categorias").onclick = openCategorias
+$("#btn-balance").onclick = openBalance
+$("#btn-reportes").onclick = openReportes
+$("#btn-nuevaOperacion").onclick = openNuevaOperacion
+$('#btnCancelarEditar').onclick= openCategorias
+$('#boton-cancelar-nueva-operacion').onclick= openBalance
+openAhorradas()
+
+const mostrarVistaEditar = () => {
+    $$('.btn-editar').forEach((btn) => {
+        btn.addEventListener('click', () =>
+            openEditarCategoria()
+            )
+    })
+}
 
 //*****************localStorage************************
 
@@ -36,78 +105,16 @@ const traerCategorias=()=>{
     }
 }
 
+//FUNCION ACTUALIZAR VISTAS
+const actualizarVistas = (datos) => {
+    crearLista(datos.categorias);
+    llenarSelect(datos.categorias);
+};
 
-
-
-//******************VISTAS******************
-
-const openAhorradas = () => {
-    $("#vistaCategorias").style.display = "none";
-    $("#Seccion-NuevaOperacion").style.display = "none";
-    $("#vistaReportes").style.display="none"
-    $('#vista-editar-categorias').style.display='none'
-    $("#Seccion-EditarOperacion").style.display = "none";
-}
-const openCategorias = () => {
-    $("#seccion-balance").style.display = "none";
-    $("#vistaCategorias").style.display = "flex";
-    $("#Seccion-NuevaOperacion").style.display = "none";
-    $("#vistaReportes").style.display="none"
-    $('#vista-editar-categorias').style.display='none'
-    $("#Seccion-EditarOperacion").style.display = "none";
-}
-const openBalance = () => {
-    $("#seccion-balance").style.display = "flex";
-    $("#vistaCategorias").style.display = "none";
-    $("#Seccion-NuevaOperacion").style.display = "none";
-    $("#vistaReportes").style.display="none"
-    $('#vista-editar-categorias').style.display='none'
-    $("#Seccion-EditarOperacion").style.display = "none";
-}
-const openReportes= ()=>{
-    $("#seccion-balance").style.display = "none";
-    $("#vistaCategorias").style.display = "none";
-    $("#Seccion-NuevaOperacion").style.display = "none";
-    $("#vistaReportes").style.display="flex"
-    $('#vista-editar-categorias').style.display='none'
-    $("#Seccion-EditarOperacion").style.display = "none";
-}
-const openNuevaOperacion = () => { 
-    $("#seccion-balance").style.display = "none";
-    $("#vistaCategorias").style.display = "none";
-    $("#Seccion-NuevaOperacion").style.display = "flex";
-    $("#vistaReportes").style.display="none"
-    $('#vista-editar-categorias').style.display='none'
-    $("#Seccion-EditarOperacion").style.display = "none";
-}
-const openEditarCategoria= ()=>{
-    $("#seccion-balance").style.display = "none";
-    $("#vistaCategorias").style.display = "none";
-    $("#Seccion-NuevaOperacion").style.display = "none";
-    $("#vistaReportes").style.display="none"
-    $('#vista-editar-categorias').style.display='flex'
-    $("#Seccion-EditarOperacion").style.display = "none";
-}
-
-$("#btn-categorias").onclick = openCategorias
-$("#btn-balance").onclick = openBalance
-$("#btn-reportes").onclick = openReportes
-$("#btn-nuevaOperacion").onclick = openNuevaOperacion
-$('#btnCancelarEditar').onclick= openCategorias
-$('#boton-cancelar-nueva-operacion').onclick= openBalance
-openAhorradas()
-
-const mostrarVistaEditar = () => {
-    $$('.btn-editar').forEach((btn) => {
-        btn.addEventListener('click', () =>
-            openEditarCategoria()
-            )
-    })
-}
 
 //******************CATEGORIAS******************
 
-//***categorias predefinidas****
+//***categorias predefinidas y local Storage****
 let categoriasLista= traerCategorias() || [
     {
         id:randomId(), 
@@ -159,16 +166,15 @@ const llenarSelect = (categorias) =>{
     })
 }
 
-crearLista(categoriasLista)
-llenarSelect(categoriasLista)
+const inicializar=()=>{
+    crearLista(categoriasLista)
+    llenarSelect(categoriasLista)
+}
 
-//FUNCION INICIALIZAR
-const actualizarVistas = (datos) => {
-    crearLista(datos.categorias);
-    llenarSelect(datos.categorias);
-};
-
-//*************
+//FUNCION ***OBTENER CATEGORIA***
+const obtenerCategoria = (idCategoria, categoria) =>{
+    return categoriasLista.find((categoria) => categoria.id == idCategoria)
+}
 
 //FUNCION QUE ***AGREGA UNA CATEGORIA NUEVA***
 const addCategoria=()=>{
@@ -176,45 +182,35 @@ const addCategoria=()=>{
         id:randomId(),
         nombre:$('#nombre-categoria').value,
     }
-    let nuevaLista= [...categoriasLista, nuevaCategoria]
-    llenarSelect(nuevaLista)
-    console.log(nuevaLista)
-    subirDatos({categorias: nuevaLista})
+    categoriasLista.push(nuevaCategoria)
+    subirDatos({categorias: [...categoriasLista]})
     actualizarVistas(traerDatos())
     $('#categoriasForm').reset()
+    console.log(categoriasLista)
 }
-$('#btnCategoria').addEventListener('click', ()=> addCategoria())
-
-//*************
-//FUNCION ***OBTENER CATEGORIA***
-const obtenerCategoria = (idCategoria, categoria) =>{
-    return categoriasLista.find((categoria) => categoria.id == idCategoria)
-}
+$('#btnCategoria').addEventListener('click', addCategoria)
 
 //FUNCION PARA ***EDITAR CATEGORIAS***
 const mostrarEdicionDeCategoria=(id)=>{
     mostrarVistaEditar()
-    let categoriaAEditar= obtenerCategoria(id,traerCategorias())
+    let categoriaAEditar= obtenerCategoria(id, categoriasLista)
     $('#editar-categoria-input').value = categoriaAEditar.nombre
     $('#btnEditarCategoria').addEventListener('click', ()=>edicionDeCategoria
-    (categoriaAEditar.id))
-    $('#btnEditarCategoria').addEventListener('click', ()=> openCategorias())
-
-
+    (categoriaAEditar.nombre, categoriaAEditar.id))
 }
 
-const edicionDeCategoria=(id)=>{
+const edicionDeCategoria=(nombre, id)=>{
     let nuevaCategoria= {
         id: id,
         nombre: $('#editar-categoria-input').value,
     }
-    let categoriasActualizadas= traerCategorias().map((categoria)=>
-        categoria.id === id ? {...nuevaCategoria} :categoria
+    let categoriasActualizadas = categoriasLista.map((categoria) =>
+        categoria.nombre === nombre ? { ...nuevaCategoria } : categoria
     )
-    crearLista(categoriasActualizadas) 
-    llenarSelect(categoriasActualizadas)
-    subirDatos({categorias: categoriasActualizadas})
+    categoriasLista = categoriasActualizadas
+    subirDatos({ categorias: [...categoriasActualizadas] })
     actualizarVistas(traerDatos())
+    openCategorias()
 }
 
 //FUNCION PARA ***ELIMINAR CATEGORIA***
@@ -229,9 +225,9 @@ const eliminarCategoria = (id) => {
 const borrarCategoria=(idEliminar)=>{
     let categoriasSinEliminar= traerCategorias().filter((categoria) => 
     categoria.id != idEliminar)
-    crearLista(categoriasSinEliminar)
-    llenarSelect(categoriasSinEliminar)
-    subirDatos({categorias: categoriasSinEliminar})
+    categoriasLista=categoriasSinEliminar
+    subirDatos({categorias: [...categoriasSinEliminar]})
+    console.log(categoriasLista)
     actualizarVistas(traerDatos())
 }
 
@@ -509,6 +505,134 @@ const balanceGastosGanancias = (array, tipo) => {
   balanceTotalCondicion = () => localStorage.getItem("operaciones") === "[]" ? balanceEnCero() : balancesActualizados()
   balanceTotalCondicion()
 
+
+//***MODOS****
+const cambiarModo = () =>{
+    if ($('#bodyContainer').getAttribute('data-theme') === 'light'){
+        $('#bodyContainer').setAttribute('data-theme','dark');
+        $("#modeBtn").innerHTML = '🌕'
+    }else if($('#bodyContainer').getAttribute('data-theme') === 'dark'){
+        $('#bodyContainer').setAttribute('data-theme','light')
+        $("#modeBtn").innerHTML = '🌑'
+    }
+}
+
+$('#modeBtn').addEventListener('click', cambiarModo)
+
+
+//******************REPORTES******************//
+
+const totalesPorCategoria= (operaciones) => {       
+        let categoriaMayorGanancia= "";
+        let categoriaMayorGasto="";
+        let categoriaMayorBalance="";
+        let montoMayorGanancia= 0;
+        let montoMayorGasto= 0;
+        let montoMayorBalance= 0;
+
+        for (let {nombre, id} of categoriasLista){
+            let operacionesPorCategoria = operaciones.filter((operacion)=> 
+            operacion.categoria === nombre
+            //console.log(nombre)
+            )
+            let gananciasTotalesPorCategoria= operacionesPorCategoria.filter((operacion) => operacion.tipo !== "gasto")
+            let totalGanancia= gananciasTotalesPorCategoria.reduce((acum, ganancia) => 
+                acum + ganancia.monto
+            , 0)
+
+            if(categoriaMayorGanancia === "" && montoMayorGanancia=== 0){
+                categoriaMayorGanancia = nombre
+                montoMayorGanancia = totalGanancia
+            }else if (totalGanancia > montoMayorGanancia){
+                categoriaMayorGanancia = nombre
+                montoMayorGanancia = totalGanancia
+            }
+
+            let gastosTotalesPorCategoria= operacionesPorCategoria.filter((operacion) => operacion.tipo === "gasto")
+            let totalGasto= gastosTotalesPorCategoria.reduce((acum, gasto) => 
+                acum - gasto.monto
+            , 0)
+
+            if(categoriaMayorGasto === "" && montoMayorGasto===0){
+                categoriaMayorGasto = nombre
+                montoMayorGasto = totalGanancia
+            }else if (montoMayorGasto > totalGasto){
+                categoriaMayorGasto = nombre
+                montoMayorGasto = totalGasto
+            }
+
+            let totalBalance= (totalGanancia) + (totalGasto)
+
+            if(categoriaMayorBalance === " " && montoMayorBalance=== 0){
+                categoriaMayorBalance = nombre
+                montoMayorBalance = totalBalance
+            }else if(totalGanancia > montoMayorBalance){
+                categoriaMayorBalance = nombre,
+                montoMayorBalance = totalBalance
+
+        }
+
+        //console.log(categoriaMayorBalance, montoMayorBalance)
+
+        $('#categoriaMayorGanancia').innerHTML=`<span class="elemento-lista is-center">${categoriaMayorGanancia}</span>`
+        $('#montoMayorGanancia').innerHTML=`$${montoMayorGanancia}`
+        $('#categoriaMayorGasto').innerHTML=`<span class="elemento-lista is-center">${categoriaMayorGasto}</span>`
+        $('#montoMayorGasto').innerHTML=`$${montoMayorGasto}`
+        $('#categoriaMayorBalance').innerHTML=`<span class="elemento-lista is-center">${categoriaMayorBalance}</span>`
+        $('#montoMayorBalance').innerHTML=`$${montoMayorBalance}`
+        }
+}
+totalesPorCategoria(operaciones)
+
+const totalesPorMes= (operaciones) => {   
+    const meses= [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]    
+    let mesMayorGanancia= "";
+    let mesMayorGasto="";
+    let montoMesMayorGanancia= 0;
+    let montoMesMayorGasto= 0;
+    for (let mesNume of meses){
+        
+        const operacionesPorMes = operaciones.filter((operacion)=>
+        new Date(operacion.fecha).getMonth() + 1 === mesNume
+        )
+        let gananciasTotalesPorMes= operacionesPorMes.filter((operacion) => operacion.tipo !== "gasto")
+        let totalGanancia= gananciasTotalesPorMes.reduce((acum, ganancia) => 
+            acum + ganancia.monto
+        , 0)
+        if(mesMayorGanancia === " " && montoMesMayorGanancia=== 0){
+                mesMayorGanancia = mesNume
+                montoMesMayorGanancia = totalGanancia
+            }else if(totalGanancia > montoMesMayorGanancia){
+                mesMayorGanancia = mesNume,
+                montoMesMayorGanancia = totalGanancia
+            }
+        let gastosTotalesPorMes= operacionesPorMes.filter((operacion) => operacion.tipo === "gasto")
+        let totalGasto= gastosTotalesPorMes.reduce((acum, gasto) => 
+            acum - gasto.monto
+        , 0)
+        if(mesMayorGasto === "" && montoMesMayorGasto===0){
+            mesMayorGasto = mesNume
+            montoMesMayorGasto = totalGasto
+        }else if(totalGasto < montoMesMayorGasto){
+            mesMayorGasto = mesNume
+            montoMesMayorGasto = totalGasto
+        }
+}
+
+    $('#mesMayorGanancia').innerHTML=`<span class="elemento-lista is-center">${mesMayorGanancia}</span`
+    $('#montoMesMayorGanancia').innerHTML=`$${montoMesMayorGanancia}`
+    $('#mesMayorGasto').innerHTML=`<span class="elemento-lista is-center">${mesMayorGasto}</span>`
+    $('#montoMesMayorGasto').innerHTML=`$${montoMesMayorGasto}`
+}
+totalesPorMes(operaciones)
+
+
+
+
+
+
+
+
 //******************Filtros******************//
 
 const inputDateFiltro = document.getElementById("input-date");
@@ -645,62 +769,5 @@ const selectOrdenarPorAHTML = () => {
 selectOrdenarPorAHTML()
 
 
-
-//***MODOS****
-const cambiarModo = () =>{
-    if ($('#bodyContainer').getAttribute('data-theme') === 'light'){
-        $('#bodyContainer').setAttribute('data-theme','dark');
-        $("#modeBtn").innerHTML = '🌕'
-    }else if($('#bodyContainer').getAttribute('data-theme') === 'dark'){
-        $('#bodyContainer').setAttribute('data-theme','light')
-        $("#modeBtn").innerHTML = '🌑'
-    }
-}
-
-$('#modeBtn').addEventListener('click', cambiarModo)
-
-//******************REPORTES******************//
-
-const totalesPorCategoria= (operaciones) => {       
-        let categoriaMayorGanancia= "";
-        let categoriaMayorGasto="";
-        let montoMayorGanancia= 0;
-        let montoMayorGasto=0
-        for (let {nombre} of categoriasLista){
-            let operacionesPorCategoria = operaciones.filter((operacion)=> 
-            operacion.categoria === nombre
-            //console.log(nombre)
-            )
-            let gananciasTotalesPorCategoria= operacionesPorCategoria.filter((operacion) => operacion.tipo !== "gasto")
-            let totalGanancia= gananciasTotalesPorCategoria.reduce((acum, ganancia) => 
-                acum + ganancia.monto
-            , 0)
-
-            if(categoriaMayorGanancia === "" && montoMayorGanancia=== 0){
-                categoriaMayorGanancia = nombre
-                montoMayorGanancia = totalGanancia
-            }else if (totalGanancia > montoMayorGanancia){
-                categoriaMayorGanancia = nombre
-                montoMayorGanancia = totalGanancia
-            }
-
-            let gastosTotalesPorCategoria= operacionesPorCategoria.filter((operacion) => operacion.tipo === "gasto")
-            let totalGasto= gastosTotalesPorCategoria.reduce((acum, gasto) => 
-                acum - gasto.monto
-            , 0)
-
-            if(categoriaMayorGasto === '' && montoMayorGasto=== 0){
-                categoriaMayorGasto = nombre
-                montoMayorGasto = totalGanancia
-            }else if (montoMayorGasto > totalGasto){
-                categoriaMayorGasto = nombre
-                montoMayorGasto = totalGasto
-            }
-
-            console.log(categoriaMayorGanancia)
-        }
-    }
-
-    totalesPorCategoria(operaciones)
 window.onload= actualizarVistas(traerDatos())
 
