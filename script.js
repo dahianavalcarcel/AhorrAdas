@@ -349,9 +349,12 @@ const mostrarOperaciones = (array) => {
         if (elemento.tipo === 'ganancia'){
             monto.innerHTML = `+$${elemento.monto}`
             monto.style.color = "hsl(153, 53%, 53%)"
+            monto.style.margin = "30px";
+            
         } else if (elemento.tipo === "gasto"){
             monto.innerHTML = `-$ ${elemento.monto}`;
             monto.style.color = "hsl(348, 86%, 61%)"
+            monto.style.margin = "25px";
         }
         containerMonto.appendChild(monto);
 
@@ -360,11 +363,17 @@ const mostrarOperaciones = (array) => {
         btnEditar.textContent = "Editar";
         btnEditar.style.border = 'none';
         btnEditar.style.padding = '3px';
+        btnEditar.style.marginTop = '16px';
+        
         
         const btnEliminar = document.createElement("button");
         btnEliminar.onclick = () => eliminarOperacion(elemento.id);
         btnEliminar.textContent = "Eliminar";
         btnEliminar.style.border= 'none';
+        btnEliminar.style.marginBottom = '16px';
+       
+        btnEliminar.style.fontSize = '12px';
+
 
         const divAcciones = document.createElement("div");
         divAcciones.appendChild(btnEditar);
@@ -430,6 +439,7 @@ const eliminarOperacion = (id) => {
 const organizarLista = (div, propiedad) => {
     const element = document.createElement('p');
     element.style.fontWeight= '150';
+    element.style.margin= '30px';
     element.textContent = `${propiedad}`;
     div.appendChild(element);
 }
