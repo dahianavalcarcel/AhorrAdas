@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <script src="https://kit.fontawesome.com/f00683b7b2.js" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="payment_finance_check_banking_cheque_icon_225768 (1).svg">
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,600;1,300&family=Prompt:ital,wght@0,500;1,600&family=Roboto:ital,wght@0,900;1,700&display=swap"
         rel="stylesheet">
@@ -27,8 +28,8 @@
                         </h2>
                     </a>
 
-                    <div role="button" class="navbar-burger has-dropdown" id="menu-hamburguesa" aria-label="menu"
-                        aria-expanded="true" data-target="navMenu">
+                    <div role="button" class="navbar-burger" id="menu-hamburguesa" aria-label="menu"
+                        aria-expanded="false" data-target="navMenu">
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
@@ -36,7 +37,6 @@
                 </div>
 
                 <div id="navMenu" class="navbar-menu">
-
                     <div class="navbar-end">
                         <div class="navbar-item">
                             <div class="buttons nav-bts">
@@ -85,7 +85,7 @@
             </section>
         
             <!-- *****EDITAR CATEGORIAS***** -->
-            <section id="vista-editar-categorias" class="container is-center vista">
+            <section id="vista-editar-categorias" class="container is-center is-hidden">
                 <div class="box categorias-box mb-4">
                     <h2 class="title is-orange">
                         Editar categoria:
@@ -110,7 +110,7 @@
             </section>
         
             <!-- ****VISTA REPORTES**** -->
-            <section class="reportes container is-center" id="vistaReportes">
+            <section class="reportes container is-center is-hidden" id="vistaReportes">
                 <div class="reportes-box box mb-4 is-hidden" id="sinReportes">
                     <h2 class="title is-orange">
                         Reportes:
@@ -119,7 +119,7 @@
                         <figure class="img-reportes">
                             <img src="undraw_key_points_re_u903.svg" alt="Imagen generador de memes" />
                         </figure>
-                        <h2 class="title is-orange">
+                        <h2 class="title is-orange has-text-centered">
                             Operaciones insuficientes
                         </h2>
                         <p>
@@ -135,71 +135,71 @@
                         <div>
                             <h3 class="title">Resumen</h3>
                         </div>
-                        <div class="columns is-flex">
-                            <div class="column is-9">
-                                <p>Categoria con mayor ganancia:</p>
-                                <p>Categoria con mayor gasto:</p>
-                                <p>Categoria con mayor balance:</p>
-                                <p>Mes con mayor ganancia:</p>
-                                <p>Mes con mayor gasto:</p>
-                            </div>
-                            <div class="column">
-                                <div id="categoriaMayorGanancia">
+                        <div class="is-categoria">
+                            <div class="columns is-mobile mt-4">
+                                <div class="column is-three-fifths">
+                                    <p>Categoria con mayor ganancia:</p>
                                 </div>
-                                <div id="categoriaMayorGasto">
+                                <div id="categoriaMayorGanancia" class="column" >
                                 </div>
-                                <div id="categoriaMayorBalance">
-                                </div>
-                                <div id="mesMayorGanancia">
-                                </div>
-                                <div id="mesMayorGasto">
+                                <div id="montoMayorGanancia" class="column">
                                 </div>
                             </div>
-                            <div class="column">
-                                <div id="montoMayorGanancia">
+                            <div class="columns is-mobile">
+                                <div class="column is-three-fifths" >
+                                    <p>Categoria con mayor gasto:</p>
                                 </div>
-                                <div id="montoMayorGasto">
+                                <div id="categoriaMayorGasto" class="column">
                                 </div>
-                                <div id="montoMayorBalance">
+                                <div id="montoMayorGasto" class="column">
                                 </div>
-                                <div id="montoMesMayorGanancia">
+                            </div>
+                            <div class="columns is-mobile">
+                                <div class="column is-three-fifths">
+                                    <p>Categoria con mayor balance:</p>
                                 </div>
-                                <div id="montoMesMayorGasto">
+                                <div id="categoriaMayorBalance" class="column">
+                                </div>
+                                <div id="montoMayorBalance" class="column">
+                                </div>
+                            </div>
+                            <div class="columns is-mobile">
+                                <div class="column is-three-fifths">
+                                    <p>Mes con mayor ganancia:</p>
+                                </div>
+                                <div id="mesMayorGanancia" class="column">
+                                </div>
+                                <div id="montoMesMayorGanancia" class="column">
+                                </div>
+                            </div>
+                            <div class="columns is-mobile">
+                                <div class="column is-three-fifths">
+                                    <p>Mes con mayor gasto:</p>
+                                </div>
+                                <div id="mesMayorGasto" class="column">
+                                </div>
+                                <div id="montoMesMayorGasto" class="column">
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="reportes-cargados mt-5">
-                        <h3 class="title">Totales por categorías:</h3>
-                        <div id="listaTotalesPorCategoria">
+                        <h3 class="title mt-5">Totales por categorías:</h3>
+                        <div id="listaTotalesPorCategoria" class="is-categoria">
 
                         </div>
                         
                     </div>
                     <div class="reportes-cargados mt-5">
-                        <div>
-                            <h3 class="title">Totales por mes:</h3>
-                        </div>
-                        <div class="columns is-flex">
-                            <div class="column is-3">
-                                <h4>Mes:</h4>
-                            </div>
-                            <div class="column is-3">
-                                <h4>Ganancias:</h4>
-                            </div>
-                            <div class="column is-3">
-                                <h4>Gastos:</h4>
-                            </div>
-                            <div class="column is-3">
-                                <h4>Balance:</h4>
-                            </div>
+                        <h3 class="title mt-5">Totales por mes:</h3>
+                        <div id="listaTotalesMes" class="is-categoria">
                         </div>
                     </div>
                 </div>
             </section>
         
             <!-- ****VISTA BALANCE**** -->
-            <section class="section mt-5 vista" id="seccion-balance">
+            <section class="section mt-5" id="seccion-balance">
                 <div class="container">
                     <div class="columns">
                         <div class="column is-3 is-offset-1">
@@ -343,7 +343,7 @@
     
             <!-- ***Inicio Nueva Operación***-->
 
-            <section class="section mt-5 " id="Seccion-NuevaOperacion">
+            <section class="section mt-5 is-hidden" id="Seccion-NuevaOperacion">
                 <div class="container">
                     <div>
                         <div class="column is-8-widescreen is-10-desktop  is-offset-2-widescreen is-offset-1-desktop">
@@ -405,7 +405,7 @@
                     </div>
             </section>
 
-            <section class="section mt-5" id="Seccion-EditarOperacion">
+            <section class="section mt-5 is-hidden" id="Seccion-EditarOperacion">
                 <div class="container">
                     <div>
                         <div class="column is-8-widescreen is-10-desktop  is-offset-2-widescreen is-offset-1-desktop">
@@ -461,8 +461,8 @@
                     </div>
             </section>
             
-        
-            <button id="modeBtn" type="button" class="btn-mode">🌑</button>
+        </main>
+        <button id="modeBtn" type="button" class="btn-mode">🌑</button>
         
         <script src="script.js"></script>
         </body>

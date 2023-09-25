@@ -6,6 +6,11 @@
 .body-container{
     min-height: 100vh;
     background-color: var(--background-body);
+    font-family:'Poppins', sans-serif;
+}
+
+main{
+    min-height: 89vh;
 }
 
 /*reutilizables*/
@@ -44,9 +49,8 @@
 
 /*MODOS*/
 .btn-mode {
-    position: absolute;
-    top: 90px;
-    right: 2px;
+    position:sticky;
+    bottom: 10px;
     font-size: 25px;
     margin: 0px 10px;
     background-color:transparent;
@@ -192,11 +196,26 @@
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
 
+.is-categoria{
+    width: 100%;
+    font-family:'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+}
+
+.is-red{
+    color: red
+}
+
+.is-green{
+    color: green;
+}
+
 /*reportes*/
 .reportes-box{ 
     margin-top: 7vh;
     width: 65%;
-    height: 80vh;
+    min-height: 80vh;
 }
 
 .reportes-insuficientes{
@@ -209,7 +228,6 @@
     width: 50vh;
     margin: 5vh;
 }
-
 
 
 /*MEDIAS QUERY*/
@@ -251,5 +269,14 @@
     }
     .img-reportes{
         width: 90%;
+    }
+}
+
+@media (max-width: 500px){
+    .reportes-box{
+        width: 95%;
+    }
+    .is-categoria{
+        font-size: 12px;
     }
 }
