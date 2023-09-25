@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
 
 navbarBurgers.forEach( (element) => {
-    element.addEventListener('mouseenter', () => {
+    element.addEventListener('click', () => {
         const target = element.dataset.target;
         const $target = document.getElementById(target);
         element.classList.toggle('is-active');
@@ -564,7 +564,7 @@ const totalesPorCategoria= (operaciones) => {
 
         if (categoriaMayorGasto === "" && montoMayorGasto === 0) {
             categoriaMayorGasto = nombre
-            montoMayorGasto = totalGanancia
+            montoMayorGasto = totalGasto
         } else if (montoMayorGasto > totalGasto) {
             categoriaMayorGasto = nombre
             montoMayorGasto = totalGasto
