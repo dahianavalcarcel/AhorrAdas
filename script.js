@@ -20,12 +20,12 @@ navbarBurgers.forEach( (element) => {
 
 //******************VISTAS******************
 const openAhorradas = () => {
-    $("#seccion-balance").classList.remove('is-hidden');
+    //$("#seccion-balance").classList.remove('is-hidden');
     $("#seccion-balance").classList.add('is-active');
-    $("#vistaCategorias").classList.add('is-hidden');
-    $("#vistaReportes").classList.add('is-hidden');
-    $("#Seccion-NuevaOperacion").classList.add('is-hidden');
-    $("#vista-editar-categorias").classList.add('is-hidden');
+    // $("#vistaCategorias").classList.add('is-hidden');
+    // $("#vistaReportes").classList.add('is-hidden');
+    // $("#Seccion-NuevaOperacion").classList.add('is-hidden');
+    // $("#vista-editar-categorias").classList.add('is-hidden');
 }
 
 const openCategorias = () => {
@@ -77,7 +77,7 @@ $("#btn-reportes").onclick = openReportes
 $("#btn-nuevaOperacion").onclick = openNuevaOperacion
 $('#btnCancelarEditar').onclick= openCategorias
 $('#boton-cancelar-nueva-operacion').onclick= openBalance
-openAhorradas()
+
 
 const mostrarVistaEditar = () => {
     $$('.btn-editar').forEach((btn) => {
@@ -169,6 +169,7 @@ const llenarSelect = (categorias) =>{
 const inicializar=()=>{
     crearLista(categoriasLista)
     llenarSelect(categoriasLista)
+    openAhorradas()
 }
 
 //FUNCION ***OBTENER CATEGORIA***
