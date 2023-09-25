@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -134,69 +134,64 @@
                         <div>
                             <h3 class="title">Resumen</h3>
                         </div>
-                        <div class="columns is-flex">
-                            <div class="column is-9">
-                                <p>Categoria con mayor ganancia:</p>
-                                <p>Categoria con mayor gasto:</p>
-                                <p>Categoria con mayor balance:</p>
-                                <p>Mes con mayor ganancia:</p>
-                                <p>Mes con mayor gasto:</p>
-                            </div>
-                            <div class="column">
-                                <div id="categoriaMayorGanancia">
+                        <div class="is-categoria">
+                            <div class="columns is-mobile">
+                                <div class="column is-three-fifths">
+                                    <p>Categoria con mayor ganancia:</p>
                                 </div>
-                                <div id="categoriaMayorGasto">
+                                <div id="categoriaMayorGanancia" class="column" >
                                 </div>
-                                <div id="categoriaMayorBalance">
-                                </div>
-                                <div id="mesMayorGanancia">
-                                </div>
-                                <div id="mesMayorGasto">
+                                <div id="montoMayorGanancia" class="column">
                                 </div>
                             </div>
-                            <div class="column">
-                                <div id="montoMayorGanancia">
+                            <div class="columns is-mobile">
+                                <div class="column is-three-fifths" >
+                                    <p>Categoria con mayor gasto:</p>
                                 </div>
-                                <div id="montoMayorGasto">
+                                <div id="categoriaMayorGasto" class="column">
                                 </div>
-                                <div id="montoMayorBalance">
+                                <div id="montoMayorGasto" class="column">
                                 </div>
-                                <div id="montoMesMayorGanancia">
+                            </div>
+                            <div class="columns is-mobile">
+                                <div class="column is-three-fifths">
+                                    <p>Categoria con mayor balance:</p>
                                 </div>
-                                <div id="montoMesMayorGasto">
+                                <div id="categoriaMayorBalance" class="column">
+                                </div>
+                                <div id="montoMayorBalance" class="column">
+                                </div>
+                            </div>
+                            <div class="columns is-mobile">
+                                <div class="column is-three-fifths">
+                                    <p>Mes con mayor ganancia:</p>
+                                </div>
+                                <div id="mesMayorGanancia" class="column">
+                                </div>
+                                <div id="montoMesMayorGanancia" class="column">
+                                </div>
+                            </div>
+                            <div class="columns is-mobile">
+                                <div class="column is-three-fifths">
+                                    <p>Mes con mayor gasto:</p>
+                                </div>
+                                <div id="mesMayorGasto" class="column">
+                                </div>
+                                <div id="montoMesMayorGasto" class="column">
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="reportes-cargados mt-5">
-                        <h3 class="title">Totales por categorías:</h3>
-                        <div id="listaTotalesPorCategoria">
-                            <div class="columns lista is-flex">
-                                <h3 class="column is-3">Categoría:</h3>
-                                <h3 class="column is-3">Ganancias:</h3>
-                                <h3 class="column is-3">Gastos:</h3>
-                                <h3 class="column is-3">Balance:</h3>
-                            </div>
+                        <h3 class="title mt-5">Totales por categorías:</h3>
+                        <div id="listaTotalesPorCategoria" class="is-categoria">
+
                         </div>
                         
                     </div>
                     <div class="reportes-cargados mt-5">
-                        <div>
-                            <h3 class="title">Totales por mes:</h3>
-                        </div>
-                        <div class="columns is-flex">
-                            <div class="column is-3">
-                                <h4>Mes:</h4>
-                            </div>
-                            <div class="column is-3">
-                                <h4>Ganancias:</h4>
-                            </div>
-                            <div class="column is-3">
-                                <h4>Gastos:</h4>
-                            </div>
-                            <div class="column is-3">
-                                <h4>Balance:</h4>
-                            </div>
+                        <h3 class="title mt-5">Totales por mes:</h3>
+                        <div id="listaTotalesMes" class="is-categoria">
                         </div>
                     </div>
                 </div>
