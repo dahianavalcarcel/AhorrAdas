@@ -196,6 +196,21 @@ main{
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
 
+.is-categoria{
+    width: 100%;
+    font-family:'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+}
+
+.is-red{
+    color: red
+}
+
+.is-green{
+    color: green;
+}
+
 /*reportes*/
 .reportes-box{ 
     margin-top: 7vh;
@@ -214,20 +229,7 @@ main{
     margin: 5vh;
 }
 
-.is-categoria{
-    width: 100%;
-    font-family:'Poppins', sans-serif;
-    font-weight: 400;
-    font-size: 15px;
-}
 
-.is-red{
-    color: red
-}
-
-.is-green{
-    color: green;
-}
 /*MEDIAS QUERY*/
 
 @media (max-width: 1200px){
