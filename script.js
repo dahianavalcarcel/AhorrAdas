@@ -196,8 +196,8 @@ const mostrarEdicionDeCategoria=(id)=>{
     mostrarVistaEditar()
     let categoriaAEditar= obtenerCategoria(id, categoriasLista)
     $('#editar-categoria-input').value = categoriaAEditar.nombre
-    $('#btnEditarCategoria').addEventListener('click', ()=>
-    edicionDeCategoria(categoriaAEditar.nombre, categoriaAEditar.id))
+    $('#btnEditarCategoria').addEventListener('click', ()=>edicionDeCategoria
+    (categoriaAEditar.nombre, categoriaAEditar.id))
 }
 
 const edicionDeCategoria=(nombre, id)=>{
@@ -279,28 +279,21 @@ btnFiltros.onclick = openFiltros
 
  // Llama a la función para mostrar las operaciones al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
-    mostrarOperaciones(operaciones);
+        mostrarOperaciones(operaciones);
 });
-
-
-$("#btn-editar-op").addEventListener('click', () => guardarCambiosOperacion())
-$('#btn-cancelar-edicion').addEventListener('click', () => openBalance())
-
 // Operaciones almacenadas en localStorage o inicializar un array vacío
 let operaciones = JSON.parse(localStorage.getItem("operaciones")) || [];
 
 // Función para guardar las operaciones en localStorage
-const guardarOperacionesEnLocalStorage = () => {
-    localStorage.setItem("operaciones", JSON.stringify(operaciones));
+const guardarOperacionesEnLocalStorage = (array) => {
+    localStorage.setItem("operaciones", JSON.stringify(array));
 };
-
-
+let operacionIdAEditar = null;
 const btnAgregarOperacion = document.getElementById("boton-agregar-operacion");
-
 
 // Obtener valores del formulario y agregar una nueva operación
 const agregarOperacion = () => {
-    const descripcion = document.getElementById("input-descripción").value;
+    const descripcion = document.getElementById("input-descripcion").value;
     const monto = parseFloat(document.getElementById("input-monto").value);
     const tipo = document.getElementById("select-tipo-op").value;
     const fecha = document.getElementById("input-fecha").value;
@@ -317,17 +310,16 @@ const agregarOperacion = () => {
     };
 
     operaciones.push(nuevaOperacion); 
-    guardarOperacionesEnLocalStorage(); // Guardar en localStorage
+    guardarOperacionesEnLocalStorage(operaciones); // Guardar en localStorage
 
-    document.getElementById("input-descripción").value = "";
+    document.getElementById("input-descripcion").value = "";
     document.getElementById("input-monto").value = "";
     document.getElementById("select-tipo-op").value = "gasto";
     document.getElementById("select-categorias-op").value = "";
-    document.getElementById("input-fecha").valueAsDate = new Date();
+    document.getElementById("input-fecha").value = "";
 
     mostrarOperaciones(operaciones);
 };
-
 
 btnAgregarOperacion.onclick = agregarOperacion;
 
@@ -335,23 +327,21 @@ btnAgregarOperacion.onclick = agregarOperacion;
 // Función para mostrar las operaciones en el HTML
 const mostrarOperaciones = (array) => {
     const containerDescripcion = document.getElementById("valor-descripcion");
-    containerDescripcion.innerHTML = ""
-    const containerMonto = document.getElementById("valor-monto");
-    containerMonto.innerHTML = ""
-    const containerFecha = document.getElementById("valor-fecha");
-    containerFecha.innerHTML = ""
     const containerCategoria = document.getElementById("valor-categoria");
-    containerCategoria.innerHTML = ""
     const containerAcciones =  document.getElementById("valor-acciones");
-    containerAcciones.innerHTML = ""
-    
+    const containerMonto = document.getElementById("valor-monto");
+    const containerFecha = document.getElementById("valor-fecha");
+    containerDescripcion.innerHTML = "";
+    containerCategoria.innerHTML = "";
+    containerAcciones.innerHTML = "";
+    containerMonto.innerHTML = "";
+    containerFecha.innerHTML = "";
 
     array.forEach((elemento) => {
         organizarLista(containerDescripcion, elemento.descripcion);
-        organizarLista(containerFecha, elemento.fecha);
         organizarLista(containerCategoria, elemento.categoria);
+        organizarLista(containerFecha, elemento.fecha);
 
-        // Formato especial para monto. 
         const monto = document.createElement("p");
         if (elemento.tipo === 'ganancia'){
             monto.innerHTML = `+$${elemento.monto}`
@@ -360,32 +350,33 @@ const mostrarOperaciones = (array) => {
             monto.innerHTML = `-$ ${elemento.monto}`;
             monto.style.color = "hsl(348, 86%, 61%)"
         }
-        containerMonto.appendChild(monto)
-        //
-        
+        containerMonto.appendChild(monto);
+
         const btnEditar = document.createElement("button");
-        btnEditar.textContent = "Editar";
         btnEditar.onclick = () => editarOperacion(elemento.id);
+        btnEditar.textContent = "Editar";
         btnEditar.style.border = 'none';
         btnEditar.style.padding = '3px';
         
         const btnEliminar = document.createElement("button");
+        btnEliminar.onclick = () => eliminarOperacion(elemento.id);
         btnEliminar.textContent = "Eliminar";
         btnEliminar.style.border= 'none';
 
-        btnEliminar.onclick = () => eliminarOperacion(elemento.id);
-
-        // Agregar los botones al div de acciones
         const divAcciones = document.createElement("div");
         divAcciones.appendChild(btnEditar);
         divAcciones.appendChild(btnEliminar);
-
         containerAcciones.appendChild(divAcciones);
     });
-
+    actualizarBalance(array)
+    actualizarVistaOperaciones()
+    balanceTotalCondicion()
     openBalance()
 };
-let operacionIdAEditar = null;
+
+
+$("#btn-editar-op").addEventListener('click', () => guardarCambiosOperacion())
+$('#btn-cancelar-edicion').addEventListener('click', () => openBalance())
 
 const editarOperacion = (id) => {
     balance.style.display = "none";
@@ -393,7 +384,7 @@ const editarOperacion = (id) => {
     
     const opAEditar = operaciones.find(op => op.id === id);
 
-    document.getElementById("input-editar-descripción").value = opAEditar.descripcion;
+    document.getElementById("input-editar-descripcion").value = opAEditar.descripcion;
     document.getElementById("input-editar-monto").value = opAEditar.monto;
     document.getElementById("select-tipo-editar-op").value = opAEditar.tipo;
     document.getElementById("input-editar-fecha").value = opAEditar.fecha;
@@ -411,8 +402,8 @@ const guardarCambiosOperacion = () => {
     const fecha = document.getElementById("input-editar-fecha").value;
     const select = document.getElementById("select-categorias-editar-op");
     const categoria = select.options[select.selectedIndex].text;
-  
-    const operacionEditada = operaciones.find(op => op.id === operacionIdAEditar);
+    
+    const operacionEditada = operaciones.find(op => op.id === operacionIdAEditar)
 
     if (operacionEditada) {
         operacionEditada.descripcion = descripcion;
@@ -421,31 +412,15 @@ const guardarCambiosOperacion = () => {
         operacionEditada.fecha = fecha;
         operacionEditada.categoria = categoria;
 
-        guardarOperacionesEnLocalStorage();
+        guardarOperacionesEnLocalStorage(operaciones);
     }
-
-const operacionesGuardadas = localStorage.getItem("operaciones");
-if (operacionesGuardadas) {
-    operaciones = JSON.parse(operacionesGuardadas);
-   mostrarOperaciones(operaciones);
-}
-
-    document.getElementById("input-editar-descripcion").value = "";
-    document.getElementById("input-editar-monto").value = "";
-    document.getElementById("select-tipo-editar-op").value = "gasto";
-    document.getElementById("select-categorias-editar-op").value = "";
-    document.getElementById("input-editar-fecha").value = "";
-
     operacionIdAEditar = null;
-
-
-    // Vuelve a mostrar la lista actualizada de operaciones
-//    mostrarOperaciones();
+    mostrarOperaciones(operaciones);
 };
 
 const eliminarOperacion = (id) => {
     operaciones = operaciones.filter(elemento => elemento.id !== id);
-    guardarOperacionesEnLocalStorage();
+    guardarOperacionesEnLocalStorage(operaciones);
     mostrarOperaciones(operaciones);
 }
 
@@ -456,19 +431,20 @@ const organizarLista = (div, propiedad) => {
     div.appendChild(element);
 }
 
-
-
-
 const seccionSinOperaciones = document.getElementById("sin-operaciones");
 const listadoOperaciones = document.getElementById("listado-operaciones");
 
-if (operaciones.length > 0 ) {
-    seccionSinOperaciones.style.display = "none";
-}
-else  {
-    listadoOperaciones.style.display = "none";
-}
 
+const actualizarVistaOperaciones = () => {
+    if (operaciones.length > 0 ) {
+        seccionSinOperaciones.style.display = "none";
+        listadoOperaciones.style.display = "block"
+    }
+    else  {
+        listadoOperaciones.style.display = "none";
+        seccionSinOperaciones.style.display = "block"
+    }
+}
 
 
 //******************BALANCE******************
@@ -478,32 +454,48 @@ const balanceTotalesOperables = document.getElementById("balance-totales-operabl
 const balanceGastosTotales = document.getElementById("balance-gastos-totales");
 
 const balanceGastosGanancias = (array, tipo) => {
-
+    
     const filtroOp = array.filter((elemento) => {
       return elemento.tipo === tipo && elemento
-    })
-    
+    })    
     const reduceGastos = filtroOp.reduce((acc, elemento) => {
       return acc + Number(elemento.monto)
     }, 0)
     
     return reduceGastos  
   }
-  const balanceTotal = balanceGastosGanancias(operaciones, "ganancia") - balanceGastosGanancias(operaciones, "gasto")
+  let balanceTotal;
+
+  const actualizarBalance = () => {
+    if (!operaciones || !operaciones[0]){
+        return "No hay Operaciones"
+    }
+    else{
+        balanceTotal = balanceGastosGanancias(operaciones, "ganancia") - balanceGastosGanancias(operaciones, "gasto");
+        return balanceTotal
+    }
+  }
+
   
   const balancesActualizados = () => {
     balanceGananciasTotales.innerHTML = `+$${balanceGastosGanancias(operaciones, "ganancia")}`
     balanceGastosTotales.innerHTML = `-$${balanceGastosGanancias(operaciones, "gasto")}`
 
-    if(balanceTotal > 0 ) {
+    if (balanceTotal > 0) {
         balanceTotalesOperables.innerHTML = `+$${balanceTotal}`
         balanceTotalesOperables.style.color = "hsl(153, 53%, 53%)"
     }
-    else if (balanceTotal < 0 ) {
-        balanceTotalesOperables.innerHTML = `-$${balanceTotal}`
-        balanceTotalesOperables.style.color ="hsl(348, 86%, 61%)"
+    else if (balanceTotal < 0) {
+        balanceTotalesOperables.innerHTML = `-$${Math.abs(balanceTotal)}`
+        balanceTotalesOperables.style.color = "hsl(348, 86%, 61%)"
     }
-  }
+    else {
+        // Manejo para el caso de balanceTotal igual a 0
+        balanceTotalesOperables.innerHTML = `$${balanceTotal}`
+        balanceTotalesOperables.style.color = "inherit" // Restaurar el color predeterminado
+    }
+}
+
   
   const balanceEnCero = () => {
     balanceGananciasTotales.innerHTML = `+$${0}`
@@ -513,9 +505,6 @@ const balanceGastosGanancias = (array, tipo) => {
   
   balanceTotalCondicion = () => localStorage.getItem("operaciones") === "[]" ? balanceEnCero() : balancesActualizados()
   balanceTotalCondicion()
-
-
-
 
 
 //***MODOS****
@@ -647,10 +636,7 @@ totalesPorMes(operaciones)
 
 //******************Filtros******************//
 
-
-const formularioFiltros = document.getElementById("formulario-filtros");
 const inputDateFiltro = document.getElementById("input-date");
-const botonOcultarFiltros = document.getElementById("boton-cambiar-filtros");
 const contenedorFiltros = document.getElementById("cambiar-filtros");
 const filtrosTipo = document.getElementById("filtros-tipo");
 const selectOrdenarPor = document.getElementById("ordenar-por");
@@ -681,15 +667,13 @@ const filtrosPorCategoria = () => {
 }
 
 filtrosTipo.onchange = () => {
-  const arrayFiltradoTipo = filtrosPorTipo()
-  console.log(arrayFiltradoTipo);
+    const arrayFiltradoTipo = filtrosPorTipo()
     mostrarOperaciones(arrayFiltradoTipo)
 }
 
 selectCategoriasDeFiltros.onchange = () => {
-  const arrayFiltradoCategoria = filtrosPorCategoria()
-    mostrarOperaciones(arrayFiltradoCategoria)
-
+    const arrayFiltradoCategoria = filtrosPorCategoria()
+    mostrarOperaciones(arrayFiltradoCategoria);
 }
 
 // FILTRO POR FECHA
@@ -721,8 +705,6 @@ const ordenarMenosRecientes = (array) => {
   })
   return fechasOrdenadas
 }
-
-mostrarOperaciones(ordenarMasRecientes(operaciones))
 
 const masYMenosRecientes = () => {
   if (selectOrdenarPor.value === "mas-reciente") {
@@ -788,4 +770,5 @@ const selectOrdenarPorAHTML = () => {
 selectOrdenarPorAHTML()
 
 
-window.onload= ()=> inicializar()
+window.onload= actualizarVistas(traerDatos())
+
